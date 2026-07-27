@@ -28,12 +28,12 @@
       "emoji": "",
       "tipo": "comida",
       "tile": {
-        "pt": ""
+        "pt": "ENTRADAS"
       },
       "grupos": [
         {
           "summary": {
-            "pt": ""
+            "pt": "ENTRADAS"
           },
           "itens": []
         }
