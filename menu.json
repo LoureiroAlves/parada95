@@ -1,0 +1,28 @@
+{
+  "restaurante": "Parada95",
+  "categorias": [
+    {
+      "id": "entradas",
+      "emoji": "🥖",
+      "tipo": "comida",
+      "tile": {
+        "pt": "Entradas"
+      },
+      "grupos": [
+        {
+          "summary": {
+            "pt": "Entradas"
+          },
+          "itens": [
+            {
+              "nome": {
+                "pt": "Exemplo — prato"
+              },
+              "preco": "0,00€"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
