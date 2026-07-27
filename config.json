@@ -5,7 +5,9 @@
     "cor": "#ffffff",
     "realce": true,
     "fotosAtivas": false,
-    "fotos": [],
+    "fotos": [
+      "imagens/1785159850508-img-1573.jpg"
+    ],
     "tituloTamanho": 1.7,
     "subtituloTamanho": 0.82
   },
