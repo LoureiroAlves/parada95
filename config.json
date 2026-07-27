@@ -84,7 +84,7 @@
     "premio": ""
   },
   "layout": "12",
-  "modelo": "grelha",
+  "modelo": "lista",
   "fonte": "auto",
   "fonteTexto": "auto",
   "tileTamanho": "normal",
