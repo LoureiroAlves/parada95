@@ -58,7 +58,7 @@
     "morada": "",
     "telefone": "",
     "cor": "#ffffff",
-    "fotosAtivas": false,
+    "fotosAtivas": true,
     "fotos": [
       "imagens/1785159763443-gemini-generated-image-h2pookh2pookh2po.png"
     ],
