@@ -1,11 +1,13 @@
 {
   "header": {
     "titulo": "Parada95",
-    "subtitulo": "",
+    "subtitulo": "A tua frase de motivação",
     "cor": "#ffffff",
     "realce": true,
     "fotosAtivas": false,
-    "fotos": []
+    "fotos": [],
+    "tituloTamanho": 1.7,
+    "subtituloTamanho": 0.82
   },
   "rodape": {
     "linha1": "Bem-vindos!",
@@ -15,7 +17,39 @@
     "cor": "#ffffff",
     "realce": true,
     "fotosAtivas": false,
-    "fotos": []
+    "fotos": [],
+    "especial": {
+      "ativo": false,
+      "inicio": "",
+      "fim": "",
+      "l1": "",
+      "l2": "",
+      "l3": "",
+      "l4": ""
+    },
+    "carrossel": {
+      "ativo": false,
+      "intervalo": 5,
+      "inicio": "",
+      "fim": "",
+      "slides": [
+        {
+          "titulo": "Prato do Dia",
+          "linhas": [],
+          "ocultarDomingo": true
+        },
+        {
+          "titulo": "Na Brasa",
+          "linhas": [],
+          "ocultarDomingo": false
+        },
+        {
+          "titulo": "Sugestão",
+          "linhas": [],
+          "ocultarDomingo": false
+        }
+      ]
+    }
   },
   "footer": {
     "nome": "Parada95",
@@ -23,11 +57,50 @@
     "telefone": "",
     "cor": "#ffffff",
     "fotosAtivas": false,
-    "fotos": []
+    "fotos": [],
+    "fotoZoom": 100,
+    "fotoPanX": 0,
+    "fotoPanY": 0,
+    "textoX": 50,
+    "textoY": 50
+  },
+  "adJogos": {
+    "ativo": false,
+    "foto": "",
+    "fotoZoom": 100,
+    "fotoPanX": 0,
+    "fotoPanY": 0,
+    "texto": "",
+    "textoX": 50,
+    "textoY": 80,
+    "cor": "#ffffff",
+    "duracao": 5
+  },
+  "sazonal": true,
+  "fidelidade": {
+    "ativo": false,
+    "codigo": "",
+    "total": 8,
+    "premio": ""
   },
   "layout": "1",
   "modelo": "lista",
   "fonte": "auto",
   "jogos": true,
-  "sazonal": true
+  "redes": {
+    "instagram": "",
+    "facebook": ""
+  },
+  "intro": {
+    "ativo": false,
+    "duracao": 7,
+    "fundo": "foto",
+    "tamanho": 2.7,
+    "subTamanho": 1.1,
+    "titulo": "",
+    "subtitulo": "",
+    "botao": "",
+    "reveal": "slide",
+    "foto": ""
+  }
 }
