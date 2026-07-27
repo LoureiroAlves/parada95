@@ -44,12 +44,12 @@
       "emoji": "",
       "tipo": "comida",
       "tile": {
-        "pt": ""
+        "pt": "CARNE"
       },
       "grupos": [
         {
           "summary": {
-            "pt": ""
+            "pt": "CARNE"
           },
           "itens": []
         }
