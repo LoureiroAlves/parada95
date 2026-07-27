@@ -76,7 +76,7 @@
     "cor": "#ffffff",
     "duracao": 5
   },
-  "sazonal": true,
+  "sazonal": false,
   "fidelidade": {
     "ativo": false,
     "codigo": "",
@@ -86,7 +86,7 @@
   "layout": "2",
   "modelo": "grelha",
   "fonte": "auto",
-  "jogos": true,
+  "jogos": false,
   "redes": {
     "instagram": "",
     "facebook": ""
