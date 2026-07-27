@@ -89,9 +89,9 @@
   "fonteTexto": "auto",
   "tileTamanho": "normal",
   "cores": {
-    "castanho": "#9ba50e",
-    "dourado": "#4e8d3f",
-    "bege": "#e9f2e4"
+    "castanho": "#c3cd37",
+    "dourado": "#1f5a11",
+    "bege": "#0b1e01"
   },
   "fundo": {
     "tipo": "liso",
