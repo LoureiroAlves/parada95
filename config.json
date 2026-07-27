@@ -92,7 +92,7 @@
     "facebook": ""
   },
   "intro": {
-    "ativo": false,
+    "ativo": true,
     "duracao": 7,
     "fundo": "foto",
     "tamanho": 2.7,
