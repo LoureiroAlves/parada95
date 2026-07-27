@@ -57,12 +57,14 @@
     "telefone": "",
     "cor": "#ffffff",
     "fotosAtivas": false,
-    "fotos": [],
-    "fotoZoom": 100,
-    "fotoPanX": 0,
-    "fotoPanY": 0,
-    "textoX": 50,
-    "textoY": 50
+    "fotos": [
+      "imagens/1785159763443-gemini-generated-image-h2pookh2pookh2po.png"
+    ],
+    "fotoZoom": 135,
+    "fotoPanX": 0.25634765625000006,
+    "fotoPanY": 13.929833556113014,
+    "textoX": 19.786376953125,
+    "textoY": 83.47920824712065
   },
   "adJogos": {
     "ativo": false,
