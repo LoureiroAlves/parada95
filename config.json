@@ -1,0 +1,33 @@
+{
+  "header": {
+    "titulo": "Parada95",
+    "subtitulo": "",
+    "cor": "#ffffff",
+    "realce": true,
+    "fotosAtivas": false,
+    "fotos": []
+  },
+  "rodape": {
+    "linha1": "Bem-vindos!",
+    "linha2": "",
+    "linha3": "",
+    "linha4": "",
+    "cor": "#ffffff",
+    "realce": true,
+    "fotosAtivas": false,
+    "fotos": []
+  },
+  "footer": {
+    "nome": "Parada95",
+    "morada": "",
+    "telefone": "",
+    "cor": "#ffffff",
+    "fotosAtivas": false,
+    "fotos": []
+  },
+  "layout": "1",
+  "modelo": "lista",
+  "fonte": "auto",
+  "jogos": true,
+  "sazonal": true
+}
