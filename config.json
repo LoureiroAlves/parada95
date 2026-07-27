@@ -89,7 +89,7 @@
   "fonteTexto": "auto",
   "tileTamanho": "normal",
   "cores": {
-    "castanho": "#d3b93c",
+    "castanho": "#72860e",
     "dourado": "#bac610",
     "bege": "#f0f0f0"
   },
@@ -106,13 +106,13 @@
     "ativo": true,
     "duracao": 7,
     "fundo": "foto",
-    "tamanho": 2.7,
+    "tamanho": 4,
     "subTamanho": 1.1,
     "titulo": "",
     "subtitulo": "",
-    "cor": "#9e3cb9",
+    "cor": "#ec2213",
     "botao": "",
-    "reveal": "stripes",
+    "reveal": "cortina",
     "foto": ""
   }
 }
