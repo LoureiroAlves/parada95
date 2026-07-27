@@ -23,6 +23,86 @@
           ]
         }
       ]
+    },
+    {
+      "emoji": "",
+      "tipo": "comida",
+      "tile": {
+        "pt": ""
+      },
+      "grupos": [
+        {
+          "summary": {
+            "pt": ""
+          },
+          "itens": []
+        }
+      ],
+      "id": "seccao"
+    },
+    {
+      "emoji": "",
+      "tipo": "comida",
+      "tile": {
+        "pt": ""
+      },
+      "grupos": [
+        {
+          "summary": {
+            "pt": ""
+          },
+          "itens": []
+        }
+      ],
+      "id": "seccao-2"
+    },
+    {
+      "emoji": "",
+      "tipo": "comida",
+      "tile": {
+        "pt": ""
+      },
+      "grupos": [
+        {
+          "summary": {
+            "pt": ""
+          },
+          "itens": []
+        }
+      ],
+      "id": "seccao-3"
+    },
+    {
+      "emoji": "",
+      "tipo": "comida",
+      "tile": {
+        "pt": ""
+      },
+      "grupos": [
+        {
+          "summary": {
+            "pt": ""
+          },
+          "itens": []
+        }
+      ],
+      "id": "seccao-4"
+    },
+    {
+      "emoji": "",
+      "tipo": "comida",
+      "tile": {
+        "pt": ""
+      },
+      "grupos": [
+        {
+          "summary": {
+            "pt": ""
+          },
+          "itens": []
+        }
+      ],
+      "id": "seccao-5"
     }
   ]
 }
