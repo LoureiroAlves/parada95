@@ -83,8 +83,8 @@
     "total": 8,
     "premio": ""
   },
-  "layout": "1",
-  "modelo": "lista",
+  "layout": "2",
+  "modelo": "grelha",
   "fonte": "auto",
   "jogos": true,
   "redes": {
