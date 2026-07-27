@@ -60,12 +60,12 @@
       "emoji": "",
       "tipo": "comida",
       "tile": {
-        "pt": ""
+        "pt": "PEIXE"
       },
       "grupos": [
         {
           "summary": {
-            "pt": ""
+            "pt": "PEIXE"
           },
           "itens": []
         }
