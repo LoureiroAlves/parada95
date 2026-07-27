@@ -4,7 +4,7 @@
     "subtitulo": "A tua frase de motivação",
     "cor": "#ffffff",
     "realce": true,
-    "fotosAtivas": false,
+    "fotosAtivas": true,
     "fotos": [
       "imagens/1785159850508-img-1573.jpg"
     ],
