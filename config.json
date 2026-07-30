@@ -8,7 +8,7 @@
     "fotos": [
       "imagens/1785159850508-img-1573.jpg"
     ],
-    "tituloTamanho": 2.3,
+    "tituloTamanho": 2.8,
     "subtituloTamanho": 0.82,
     "fixo": true
   },
@@ -192,8 +192,8 @@
   },
   "footer": {
     "nome": "Parada95",
-    "morada": "",
-    "telefone": "",
+    "morada": "agfgafgafg",
+    "telefone": "fgbfbsfbgbs",
     "cor": "#ffffff",
     "fotosAtivas": true,
     "fotos": [
@@ -202,8 +202,8 @@
     "fotoZoom": 135,
     "fotoPanX": 0.25634765625000006,
     "fotoPanY": 13.929833556113014,
-    "textoX": 19.786376953125,
-    "textoY": 83.47920824712065
+    "textoX": 20.711669921875,
+    "textoY": 85.35055755955543
   },
   "adJogos": {
     "ativo": false,
