@@ -2307,6 +2307,17 @@
         const _hdr = document.querySelector('header');
         if(_hdr) _hdr.style.display = (config.header && config.header.mostrar === false) ? 'none' : '';
       }
+      // Blocos da página: ligar/desligar lista(menu), barra fixa e rodapé final (construtor)
+      {
+        const _grid = document.querySelector('.categoria-grid');
+        const _mostrarMenu = config.mostrarMenu !== false;
+        if(_grid) _grid.style.display = _mostrarMenu ? '' : 'none';
+        document.querySelectorAll('main > section.categoria').forEach(function(s){ if(s.id !== 'jogos') s.style.display = _mostrarMenu ? '' : 'none'; });
+        const _bf = document.querySelector('.info-fixa');
+        if(_bf) _bf.style.display = (config.rodape && config.rodape.mostrar === false) ? 'none' : '';
+        const _rf = document.getElementById('rodapeFinal');
+        if(_rf) _rf.style.display = (config.footer && config.footer.mostrar === false) ? 'none' : '';
+      }
       // Texto livre posicionável (sobre o fundo) — útil quando o cabeçalho está desligado
       (function(){
         const tl = config.textoLivre || {};
@@ -2328,6 +2339,43 @@
           if(tl.titulo && tl.titulo.trim()){ const h = document.createElement('div'); h.textContent = tl.titulo; h.style.cssText = 'font-family:var(--fonte-titulo); font-weight:800; line-height:1.1; font-size:' + tam + 'rem;'; bloco.appendChild(h); }
           if(tl.subtitulo && tl.subtitulo.trim()){ const s = document.createElement('div'); s.textContent = tl.subtitulo; s.style.cssText = 'margin-top:8px; font-size:' + (tam*0.42) + 'rem; opacity:.9;'; bloco.appendChild(s); }
           el.appendChild(bloco);
+          // Em pré-visualização: arrastar diretamente para posicionar
+          if(window.__PREVIEW){
+            bloco.style.cursor = 'move'; bloco.style.userSelect = 'none';
+            bloco.style.outline = '2px dashed rgba(0,0,0,0.25)'; bloco.style.outlineOffset = '6px';
+            let arr = false;
+            const mover = function(ev){
+              if(!arr) return;
+              const rect = el.getBoundingClientRect();
+              const px = ev.touches ? ev.touches[0].clientX : ev.clientX;
+              const py = ev.touches ? ev.touches[0].clientY : ev.clientY;
+              const nx = Math.max(0, Math.min(100, ((px - rect.left) / rect.width) * 100));
+              const ny = Math.max(0, Math.min(100, ((py - rect.top) / rect.height) * 100));
+              bloco.style.left = nx + '%'; bloco.style.top = ny + '%';
+              bloco._nx = Math.round(nx); bloco._ny = Math.round(ny);
+              if(ev.cancelable) ev.preventDefault();
+            };
+            const largar = function(){ if(!arr) return; arr = false; document.removeEventListener('pointermove', mover); document.removeEventListener('pointerup', largar); try{ parent.postMessage({ type:'preview-pos', target:'textoLivre', x:bloco._nx, y:bloco._ny }, '*'); }catch(e){} };
+            bloco.addEventListener('pointerdown', function(ev){ arr = true; bloco._nx = x; bloco._ny = y; document.addEventListener('pointermove', mover); document.addEventListener('pointerup', largar); if(ev.cancelable) ev.preventDefault(); });
+            // Puxador para redimensionar (canto inferior direito)
+            const tituloEl = bloco.children[0];
+            const subEl = (tl.subtitulo && tl.subtitulo.trim()) ? bloco.children[1] : null;
+            const puxador = document.createElement('div');
+            puxador.style.cssText = 'position:absolute; right:-16px; bottom:-16px; width:24px; height:24px; border-radius:50%; background:rgba(0,0,0,0.4); border:2px solid #fff; cursor:nwse-resize; touch-action:none;';
+            bloco.appendChild(puxador);
+            let red = false, sy0 = 0, tam0 = tam;
+            const redim = function(ev){
+              if(!red) return;
+              const py = ev.touches ? ev.touches[0].clientY : ev.clientY;
+              const nt = Math.max(1.2, Math.min(6, tam0 + (py - sy0) / 45));
+              bloco._nt = Math.round(nt * 10) / 10;
+              if(tituloEl) tituloEl.style.fontSize = bloco._nt + 'rem';
+              if(subEl) subEl.style.fontSize = (bloco._nt * 0.42) + 'rem';
+              if(ev.cancelable) ev.preventDefault();
+            };
+            const largarR = function(){ if(!red) return; red = false; document.removeEventListener('pointermove', redim); document.removeEventListener('pointerup', largarR); try{ parent.postMessage({ type:'preview-size', target:'textoLivre', tamanho:bloco._nt }, '*'); }catch(e){} };
+            puxador.addEventListener('pointerdown', function(ev){ ev.stopPropagation(); red = true; sy0 = ev.touches ? ev.touches[0].clientY : ev.clientY; tam0 = tam; document.addEventListener('pointermove', redim); document.addEventListener('pointerup', largarR); if(ev.cancelable) ev.preventDefault(); });
+          }
         } else if(el){ el.style.display = 'none'; el.innerHTML = ''; }
       })();
       window._jogosAtivos = config.jogos !== false;
