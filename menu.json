@@ -103,6 +103,54 @@
         }
       ],
       "id": "seccao-5"
+    },
+    {
+      "emoji": "",
+      "tipo": "comida",
+      "tile": {
+        "pt": ""
+      },
+      "grupos": [
+        {
+          "summary": {
+            "pt": ""
+          },
+          "itens": []
+        }
+      ],
+      "id": "seccao-6"
+    },
+    {
+      "emoji": "",
+      "tipo": "comida",
+      "tile": {
+        "pt": ""
+      },
+      "grupos": [
+        {
+          "summary": {
+            "pt": ""
+          },
+          "itens": []
+        }
+      ],
+      "id": "seccao-7"
+    },
+    {
+      "emoji": "",
+      "tipo": "comida",
+      "tile": {
+        "pt": ""
+      },
+      "grupos": [
+        {
+          "summary": {
+            "pt": ""
+          },
+          "itens": []
+        }
+      ],
+      "id": "seccao-8"
     }
   ]
 }
