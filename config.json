@@ -9,10 +9,11 @@
       "imagens/1785159850508-img-1573.jpg"
     ],
     "tituloTamanho": 2.3,
-    "subtituloTamanho": 0.82
+    "subtituloTamanho": 0.82,
+    "fixo": false
   },
   "rodape": {
-    "linha1": "RESERVAS",
+    "linha1": "RESERVA",
     "linha2": "AVPADNBPWRJHPWERIHJ",
     "linha3": "EPFIJWPEIGJ",
     "linha4": "EPGFOJWEGP",
@@ -31,6 +32,7 @@
     },
     "carrossel": {
       "ativo": false,
+      "modo": "fixo",
       "intervalo": 5,
       "inicio": "",
       "fim": "",
@@ -50,7 +52,142 @@
           "linhas": [],
           "ocultarDomingo": false
         }
-      ]
+      ],
+      "dias": {
+        "0": {
+          "slides": [
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            },
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            },
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            }
+          ]
+        },
+        "1": {
+          "slides": [
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            },
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            },
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            }
+          ]
+        },
+        "2": {
+          "slides": [
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            },
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            },
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            }
+          ]
+        },
+        "3": {
+          "slides": [
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            },
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            },
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            }
+          ]
+        },
+        "4": {
+          "slides": [
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            },
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            },
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            }
+          ]
+        },
+        "5": {
+          "slides": [
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            },
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            },
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            }
+          ]
+        },
+        "6": {
+          "slides": [
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            },
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            },
+            {
+              "ativo": false,
+              "titulo": "",
+              "linhas": []
+            }
+          ]
+        }
+      }
     }
   },
   "footer": {
