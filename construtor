@@ -1,1 +1,424 @@
 
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Construtor de Página</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --castanho:#4a3820; --castanho-suave:#8a7350; --dourado:#a8712f; --dourado-escuro:#8a5a24; --bege:#f5efe2; --bege-claro:#fbf8f2; --linha:#e6dcc8; --branco:#fff; --vermelho:#c0392b; --verde:#2e7d32; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:'Nunito',sans-serif; background:var(--bege-claro); color:var(--castanho); padding:20px 16px 40px; line-height:1.5; }
+  .wrap{ max-width:640px; margin:0 auto; }
+  h1{ font-family:'Fredoka',sans-serif; font-size:1.6rem; color:var(--castanho); }
+  .subtitulo{ color:var(--castanho-suave); font-size:0.9rem; margin:4px 0 14px; }
+  .voltar{ color:var(--dourado-escuro); text-decoration:none; font-size:0.85rem; font-weight:700; }
+  label{ display:block; font-size:0.82rem; font-weight:700; color:var(--castanho); margin:12px 0 4px; }
+  input[type=text], input[type=password], textarea, select{ width:100%; padding:9px 11px; border-radius:9px; border:1.5px solid var(--linha); font-family:inherit; font-size:0.95rem; color:var(--castanho); background:var(--branco); }
+  textarea{ resize:vertical; }
+  .campo-token{ display:flex; gap:8px; }
+  .campo-token input{ flex:1; }
+  .btn{ padding:10px 14px; border-radius:9px; border:1.5px solid var(--linha); background:var(--branco); color:var(--castanho); cursor:pointer; font-family:inherit; font-weight:700; font-size:0.92rem; }
+  .btn-forte{ background:var(--castanho); color:#fff; border:none; width:100%; padding:13px; font-size:1rem; }
+  .estado{ display:none; margin:10px 0; padding:10px 12px; border-radius:9px; font-size:0.9rem; }
+  .estado.info{ display:block; background:#eef4fb; color:#2c5d8f; }
+  .estado.ok{ display:block; background:#eaf6ec; color:var(--verde); }
+  .estado.erro{ display:block; background:#fdecea; color:var(--vermelho); }
+  .bloco{ border:1.5px solid var(--linha); border-radius:14px; margin-top:12px; background:var(--branco); overflow:hidden; }
+  .bloco-cab{ display:flex; align-items:center; gap:10px; padding:12px 14px; cursor:pointer; }
+  .bloco-cab .tit{ font-weight:800; color:var(--castanho); font-size:1rem; flex:1; }
+  .bloco-cab .sw{ position:relative; width:44px; height:26px; flex:0 0 44px; }
+  .bloco-cab .sw input{ opacity:0; width:0; height:0; position:absolute; }
+  .bloco-cab .sw .track{ position:absolute; inset:0; background:#d9d2c2; border-radius:20px; transition:.2s; }
+  .bloco-cab .sw .track::before{ content:''; position:absolute; width:20px; height:20px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 3px rgba(0,0,0,.2); }
+  .bloco-cab .sw input:checked + .track{ background:var(--dourado); }
+  .bloco-cab .sw input:checked + .track::before{ transform:translateX(18px); }
+  .bloco-corpo{ padding:0 14px 14px; display:none; }
+  .bloco.aberto .bloco-corpo{ display:block; }
+  .campo-cor{ display:flex; align-items:center; gap:10px; }
+  .campo-cor input[type=color]{ width:52px; height:34px; padding:0; border:none; background:none; cursor:pointer; }
+  .ajuda{ font-size:0.8rem; color:var(--castanho-suave); }
+  .lin{ display:flex; align-items:center; gap:10px; }
+  .lin input[type=range]{ flex:1; }
+  .lin .val{ font-family:monospace; font-size:0.8rem; color:var(--castanho-suave); min-width:38px; }
+  /* Painel fixo de pré-visualização */
+  .preview-dock{ position:fixed; right:14px; bottom:14px; width:290px; z-index:900; background:#1f2530; border-radius:16px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.28); }
+  .preview-dock-bar{ display:flex; align-items:center; justify-content:space-between; padding:7px 8px 7px 12px; color:#fff; font-size:0.8rem; font-weight:700; }
+  .preview-dock-btn{ background:rgba(255,255,255,0.16); border:none; color:#fff; width:26px; height:26px; border-radius:7px; cursor:pointer; margin-left:5px; }
+  .preview-dock-corpo{ height:500px; background:#fff; }
+  .preview-dock-corpo iframe{ width:100%; height:100%; border:0; display:block; }
+  .preview-dock.min{ width:190px; }
+  .preview-dock.min .preview-dock-corpo{ display:none; }
+  @media(max-width:820px){ .preview-dock{ right:8px; bottom:8px; width:46vw; max-width:230px; } .preview-dock-corpo{ height:52vh; } .preview-dock.min{ width:150px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="voltar" href="cardapio.html">← Ver página</a>
+  <h1>Construtor de Página</h1>
+  <div class="subtitulo">Começa numa folha em branco e liga só os blocos que quiseres. Vê o resultado em tempo real no canto.</div>
+
+  <label for="token">Token do GitHub</label>
+  <div class="campo-token">
+    <input type="password" id="token" placeholder="github_pat_...">
+    <button type="button" class="btn" id="mostrarToken">Ver</button>
+  </div>
+  <div style="margin-top:6px;"><label style="display:inline; font-weight:400;"><input type="checkbox" id="lembrar" checked style="width:auto;"> Lembrar neste aparelho</label></div>
+
+  <button type="button" class="btn btn-forte" id="btnCarregar" style="margin-top:12px; background:var(--castanho-suave);">📥 Carregar página atual</button>
+  <div class="estado" id="estado"></div>
+
+  <!-- BLOCO: CRIAR PÁGINA NOVA -->
+  <div class="bloco" id="blk-criar">
+    <div class="bloco-cab"><span class="tit">➕ Criar página nova (do zero)</span></div>
+    <div class="bloco-corpo">
+      <div class="ajuda">Cria um site novo, à parte. Precisa do <strong>token clássico</strong> (âmbito <code>repo</code>). Copia o código desta página como modelo, incluindo o próprio construtor.</div>
+      <label for="novoNome">Nome da página</label>
+      <input type="text" id="novoNome" placeholder="Ex: Barbearia Central">
+      <label for="novoRepo">Endereço (repositório)</label>
+      <input type="text" id="novoRepo" placeholder="ex: barbearia-central">
+      <button type="button" class="btn btn-forte" id="btnCriar" style="margin-top:10px; background:var(--dourado-escuro);">Criar página</button>
+      <div class="estado" id="estadoCriar"></div>
+    </div>
+  </div>
+
+  <!-- BLOCO: TEMA & FUNDO -->
+  <div class="bloco aberto" id="blk-tema">
+    <div class="bloco-cab" data-toggle>
+      <span class="tit">🎨 Tema & Fundo</span>
+    </div>
+    <div class="bloco-corpo">
+      <label for="layout">Tema (cores)</label>
+      <select id="layout">
+        <option value="1">1 — Rústico</option><option value="2">2 — Verde</option><option value="3">3 — Vinho</option><option value="4">4 — Azul</option>
+        <option value="5">5 — Preto & Dourado</option><option value="6">6 — Terracota</option><option value="7">7 — Petróleo</option><option value="8">8 — Roxo</option>
+        <option value="9">9 — Laranja</option><option value="10">10 — Cinza</option><option value="11">11 — Rosa</option><option value="12">12 — Azeitona</option>
+      </select>
+      <label for="fundoTipo">Fundo</label>
+      <select id="fundoTipo">
+        <option value="liso">Liso</option><option value="gradiente">Degradê</option><option value="textura">Textura</option>
+      </select>
+      <div id="fundoTexturaBox" style="display:none;">
+        <label for="fundoTextura">Textura</label>
+        <select id="fundoTextura">
+          <option value="pontos">Pontos</option><option value="grelha">Grelha</option><option value="diagonal">Diagonais</option>
+          <option value="linho">Linho</option><option value="xadrez">Xadrez</option><option value="favo">Favo</option>
+          <option value="relevo">Relevo 3D</option><option value="almofada">Almofada 3D</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCO: CABEÇALHO -->
+  <div class="bloco" id="blk-header">
+    <div class="bloco-cab">
+      <span class="tit">🔖 Cabeçalho</span>
+      <label class="sw"><input type="checkbox" id="on-header"><span class="track"></span></label>
+    </div>
+    <div class="bloco-corpo">
+      <label for="hTitulo">Título</label>
+      <input type="text" id="hTitulo" placeholder="Nome do negócio">
+      <label for="hSubtitulo">Subtítulo</label>
+      <input type="text" id="hSubtitulo" placeholder="Uma frase curta">
+      <label for="hCor">Cor do texto</label>
+      <div class="campo-cor"><input type="color" id="hCor" value="#ffffff"><span class="ajuda" id="hCorVal">#ffffff</span></div>
+    </div>
+  </div>
+
+  <!-- BLOCO: TEXTO LIVRE -->
+  <div class="bloco" id="blk-texto">
+    <div class="bloco-cab">
+      <span class="tit">✍️ Texto livre</span>
+      <label class="sw"><input type="checkbox" id="on-texto"><span class="track"></span></label>
+    </div>
+    <div class="bloco-corpo">
+      <div class="ajuda">Um título/subtítulo que posicionas onde quiseres no topo.</div>
+      <label for="tlTitulo">Título</label>
+      <input type="text" id="tlTitulo" placeholder="Ex: Bem-vindo">
+      <label for="tlSubtitulo">Subtítulo</label>
+      <input type="text" id="tlSubtitulo">
+      <label for="tlCor">Cor</label>
+      <div class="campo-cor"><input type="color" id="tlCor" value="#4a3820"><span class="ajuda" id="tlCorVal">#4a3820</span></div>
+      <label>Tamanho <span class="val" id="tlTamanhoVal">2.4</span></label>
+      <div class="lin"><input type="range" id="tlTamanho" min="1.2" max="5" step="0.1" value="2.4"></div>
+      <label>Posição horizontal <span class="val" id="tlXVal">50</span></label>
+      <div class="lin"><input type="range" id="tlX" min="0" max="100" step="1" value="50"></div>
+      <label>Posição vertical <span class="val" id="tlYVal">50</span></label>
+      <div class="lin"><input type="range" id="tlY" min="0" max="100" step="1" value="50"></div>
+    </div>
+  </div>
+
+  <!-- BLOCO: LISTA / MENU -->
+  <div class="bloco" id="blk-menu">
+    <div class="bloco-cab">
+      <span class="tit">🍽️ Lista / Menu</span>
+      <label class="sw"><input type="checkbox" id="on-menu"><span class="track"></span></label>
+    </div>
+    <div class="bloco-corpo">
+      <div class="ajuda">A lista de separadores e itens. Importa um ficheiro <code>menu.json</code> e guarda-o.</div>
+      <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
+        <button type="button" class="btn" id="btnImportarMenu">Importar menu.json</button>
+        <button type="button" class="btn" id="btnGuardarMenu">Guardar menu</button>
+      </div>
+      <input type="file" id="fileMenu" accept="application/json" style="display:none;">
+      <div class="ajuda" id="menuEstado" style="margin-top:8px;">Sem menu carregado.</div>
+    </div>
+  </div>
+
+  <!-- BLOCO: BARRA FIXA -->
+  <div class="bloco" id="blk-barra">
+    <div class="bloco-cab">
+      <span class="tit">📌 Barra fixa (fundo)</span>
+      <label class="sw"><input type="checkbox" id="on-barra"><span class="track"></span></label>
+    </div>
+    <div class="bloco-corpo">
+      <label for="bL1">Linha 1 (negrito)</label><input type="text" id="bL1">
+      <label for="bL2">Linha 2</label><input type="text" id="bL2">
+      <label for="bL3">Linha 3</label><input type="text" id="bL3">
+      <label for="bL4">Linha 4</label><input type="text" id="bL4">
+      <label for="bCor">Cor do texto</label>
+      <div class="campo-cor"><input type="color" id="bCor" value="#ffffff"><span class="ajuda" id="bCorVal">#ffffff</span></div>
+    </div>
+  </div>
+
+  <!-- BLOCO: RODAPÉ -->
+  <div class="bloco" id="blk-footer">
+    <div class="bloco-cab">
+      <span class="tit">📄 Rodapé final</span>
+      <label class="sw"><input type="checkbox" id="on-footer"><span class="track"></span></label>
+    </div>
+    <div class="bloco-corpo">
+      <label for="fNome">Nome</label><input type="text" id="fNome">
+      <label for="fMorada">Morada</label><input type="text" id="fMorada">
+      <label for="fTelefone">Telefone</label><input type="text" id="fTelefone">
+      <label for="fCor">Cor do texto</label>
+      <div class="campo-cor"><input type="color" id="fCor" value="#ffffff"><span class="ajuda" id="fCorVal">#ffffff</span></div>
+    </div>
+  </div>
+
+  <!-- BLOCO: ABERTURA -->
+  <div class="bloco" id="blk-intro">
+    <div class="bloco-cab">
+      <span class="tit">🎬 Ecrã de abertura</span>
+      <label class="sw"><input type="checkbox" id="on-intro"><span class="track"></span></label>
+    </div>
+    <div class="bloco-corpo">
+      <label for="iTitulo">Título (vazio = nome do cabeçalho)</label><input type="text" id="iTitulo">
+      <label for="iSubtitulo">Subtítulo</label><input type="text" id="iSubtitulo">
+      <label for="iBotao">Texto do botão</label><input type="text" id="iBotao" placeholder="Ver menu ▸">
+      <label for="iReveal">Efeito de entrada</label>
+      <select id="iReveal">
+        <option value="slide">Slide</option><option value="cortina">Cortina horizontal</option><option value="cortina-v">Cortina vertical</option><option value="zoom">Zoom + dissolve</option>
+      </select>
+    </div>
+  </div>
+
+  <button type="button" class="btn btn-forte" id="btnGuardar" style="margin-top:20px;">💾 Guardar página</button>
+  <div class="estado" id="estado2"></div>
+</div>
+
+<!-- PRÉ-VISUALIZAÇÃO -->
+<div id="previewDock" class="preview-dock">
+  <div class="preview-dock-bar">
+    <span>👁️ Pré-visualização</span>
+    <span style="display:flex;">
+      <button type="button" id="btnAtualizarPreview" title="Atualizar" class="preview-dock-btn">↻</button>
+      <button type="button" id="previewMin" title="Minimizar" class="preview-dock-btn">—</button>
+    </span>
+  </div>
+  <div class="preview-dock-corpo"><iframe id="previewFrame" title="Pré-visualização"></iframe></div>
+</div>
+
+<script>
+  const REPO = (function(){ try{ const h=location.hostname, seg=location.pathname.split('/').filter(Boolean); if(h.endsWith('github.io') && seg.length) return h.split('.')[0]+'/'+seg[0]; }catch(e){} return ''; })();
+  const CONFIG_API = 'https://api.github.com/repos/'+REPO+'/contents/config.json';
+  const MENU_API = 'https://api.github.com/repos/'+REPO+'/contents/menu.json';
+  const $ = id => document.getElementById(id);
+  function b64e(s){ return btoa(unescape(encodeURIComponent(s))); }
+  function b64d(s){ return decodeURIComponent(escape(atob(String(s).replace(/\n/g,'')))); }
+  function setEstado(m,t){ const e=$('estado'); e.className='estado '+(t||'info'); e.textContent=m; }
+  function setEstado2(m,t){ const e=$('estado2'); e.className='estado '+(t||'info'); e.textContent=m; }
+
+  let cfg = {}, configSha = null, menuData = null, menuSha = null;
+
+  const tok = localStorage.getItem('cardapioEditorToken');
+  if(tok) $('token').value = tok; else $('lembrar').checked = false;
+  $('mostrarToken').addEventListener('click', ()=>{ const t=$('token'); t.type = t.type==='password'?'text':'password'; });
+
+  // Abrir/fechar blocos ao tocar no cabeçalho; ligar/desligar abre automaticamente
+  document.querySelectorAll('.bloco').forEach(function(bl){
+    const cab = bl.querySelector('.bloco-cab');
+    const chk = bl.querySelector('input[type=checkbox]');
+    cab.addEventListener('click', function(e){
+      if(e.target.closest('.sw')) return;
+      bl.classList.toggle('aberto');
+    });
+    if(chk) chk.addEventListener('change', function(){ if(chk.checked) bl.classList.add('aberto'); enviar(); });
+  });
+
+  // Mostradores
+  [['tlTamanho','tlTamanhoVal'],['tlX','tlXVal'],['tlY','tlYVal']].forEach(function(p){ const el=$(p[0]); el.addEventListener('input', ()=> $(p[1]).textContent = el.value ); });
+  [['hCor','hCorVal'],['tlCor','tlCorVal'],['bCor','bCorVal'],['fCor','fCorVal']].forEach(function(p){ const el=$(p[0]); el.addEventListener('input', ()=> $(p[1]).textContent = el.value ); });
+  $('fundoTipo').addEventListener('change', ()=>{ $('fundoTexturaBox').style.display = $('fundoTipo').value==='textura'?'block':'none'; });
+
+  // ---- Ler o formulário para o cfg (mantendo campos não expostos) ----
+  function lerForm(){
+    cfg.layout = $('layout').value;
+    cfg.fundo = Object.assign({}, cfg.fundo, { tipo:$('fundoTipo').value, textura:$('fundoTextura').value });
+    cfg.header = Object.assign({ cor:'#ffffff', realce:true, fotos:[], fotosAtivas:true }, cfg.header, {
+      mostrar: $('on-header').checked, titulo:$('hTitulo').value.trim(), subtitulo:$('hSubtitulo').value.trim(), cor:$('hCor').value
+    });
+    cfg.textoLivre = Object.assign({}, cfg.textoLivre, {
+      ativo:$('on-texto').checked, titulo:$('tlTitulo').value.trim(), subtitulo:$('tlSubtitulo').value.trim(),
+      cor:$('tlCor').value, tamanho:parseFloat($('tlTamanho').value)||2.4, altura:42, x:parseInt($('tlX').value,10), y:parseInt($('tlY').value,10)
+    });
+    cfg.mostrarMenu = $('on-menu').checked;
+    cfg.rodape = Object.assign({ cor:'#ffffff', realce:true, fotos:[], fotosAtivas:true }, cfg.rodape, {
+      mostrar:$('on-barra').checked, linha1:$('bL1').value.trim(), linha2:$('bL2').value.trim(), linha3:$('bL3').value.trim(), linha4:$('bL4').value.trim(), cor:$('bCor').value
+    });
+    cfg.footer = Object.assign({ fotos:[], fotosAtivas:false }, cfg.footer, {
+      mostrar:$('on-footer').checked, nome:$('fNome').value.trim(), morada:$('fMorada').value.trim(), telefone:$('fTelefone').value.trim(), cor:$('fCor').value
+    });
+    cfg.intro = Object.assign({ duracao:7, fundo:'gradiente', tamanho:2.7, subTamanho:1.08, cor:'#ffffff' }, cfg.intro, {
+      ativo:$('on-intro').checked, titulo:$('iTitulo').value.trim(), subtitulo:$('iSubtitulo').value.trim(), botao:$('iBotao').value.trim(), reveal:$('iReveal').value
+    });
+    return cfg;
+  }
+
+  function preencherForm(){
+    $('layout').value = cfg.layout || '1';
+    const fundo = cfg.fundo || {}; $('fundoTipo').value = fundo.tipo || 'liso'; $('fundoTextura').value = fundo.textura || 'pontos';
+    $('fundoTexturaBox').style.display = (fundo.tipo==='textura')?'block':'none';
+    const h = cfg.header || {}; $('on-header').checked = h.mostrar !== false; $('hTitulo').value=h.titulo||''; $('hSubtitulo').value=h.subtitulo||''; $('hCor').value=h.cor||'#ffffff'; $('hCorVal').textContent=h.cor||'#ffffff';
+    const tl = cfg.textoLivre || {}; $('on-texto').checked=!!tl.ativo; $('tlTitulo').value=tl.titulo||''; $('tlSubtitulo').value=tl.subtitulo||''; $('tlCor').value=tl.cor||'#4a3820'; $('tlCorVal').textContent=tl.cor||'#4a3820';
+    $('tlTamanho').value=tl.tamanho||2.4; $('tlTamanhoVal').textContent=tl.tamanho||2.4; $('tlX').value=(tl.x!=null?tl.x:50); $('tlXVal').textContent=(tl.x!=null?tl.x:50); $('tlY').value=(tl.y!=null?tl.y:50); $('tlYVal').textContent=(tl.y!=null?tl.y:50);
+    $('on-menu').checked = cfg.mostrarMenu !== false;
+    const r = cfg.rodape || {}; $('on-barra').checked = r.mostrar !== false; $('bL1').value=r.linha1||''; $('bL2').value=r.linha2||''; $('bL3').value=r.linha3||''; $('bL4').value=r.linha4||''; $('bCor').value=r.cor||'#ffffff'; $('bCorVal').textContent=r.cor||'#ffffff';
+    const f = cfg.footer || {}; $('on-footer').checked = f.mostrar !== false && !!(f.nome||f.morada||f.telefone); $('fNome').value=f.nome||''; $('fMorada').value=f.morada||''; $('fTelefone').value=f.telefone||''; $('fCor').value=f.cor||'#ffffff'; $('fCorVal').textContent=f.cor||'#ffffff';
+    const i = cfg.intro || {}; $('on-intro').checked=!!i.ativo; $('iTitulo').value=i.titulo||''; $('iSubtitulo').value=i.subtitulo||''; $('iBotao').value=i.botao||''; $('iReveal').value=i.reveal||'slide';
+    document.querySelectorAll('.bloco input[type=checkbox]:checked').forEach(function(c){ c.closest('.bloco').classList.add('aberto'); });
+  }
+
+  // ---- Carregar ----
+  $('btnCarregar').addEventListener('click', async function(){
+    const token = $('token').value.trim();
+    if(!token){ setEstado('Cola primeiro o token.', 'erro'); return; }
+    if($('lembrar').checked) localStorage.setItem('cardapioEditorToken', token); else localStorage.removeItem('cardapioEditorToken');
+    setEstado('A carregar…','info');
+    try{
+      const r = await fetch(CONFIG_API+'?t='+Date.now(), { headers:{ Authorization:'Bearer '+token, Accept:'application/vnd.github+json' } });
+      if(r.status===404){ configSha=null; cfg={}; setEstado('Página em branco — liga blocos e guarda para criar.','info'); }
+      else if(r.ok){ const d=await r.json(); configSha=d.sha; cfg=JSON.parse(b64d(d.content)); setEstado('Página carregada ✓','ok'); }
+      else throw new Error('HTTP '+r.status+' — verifica o token.');
+      // menu (opcional)
+      try{ const rm=await fetch(MENU_API+'?t='+Date.now(), { headers:{ Authorization:'Bearer '+token, Accept:'application/vnd.github+json' } });
+        if(rm.ok){ const dm=await rm.json(); menuSha=dm.sha; menuData=JSON.parse(b64d(dm.content)); $('menuEstado').textContent='Menu carregado ('+((menuData.categorias||[]).length)+' separadores).'; }
+      }catch(e){}
+      preencherForm(); enviar();
+    }catch(err){ setEstado('Erro: '+err.message, 'erro'); }
+  });
+
+  // ---- Importar/guardar menu ----
+  $('btnImportarMenu').addEventListener('click', ()=> $('fileMenu').click());
+  $('fileMenu').addEventListener('change', function(e){
+    const f=e.target.files&&e.target.files[0]; if(!f) return;
+    const rd=new FileReader(); rd.onload=function(){ try{ const d=JSON.parse(rd.result); if(!Array.isArray(d.categorias)) throw new Error('Falta "categorias".'); menuData=d; $('menuEstado').textContent='Menu importado ('+d.categorias.length+' separadores) — guarda para publicar.'; $('on-menu').checked=true; enviar(); }catch(err){ $('menuEstado').textContent='Erro a importar: '+err.message; } };
+    rd.readAsText(f);
+  });
+  $('btnGuardarMenu').addEventListener('click', async function(){
+    const token=$('token').value.trim(); if(!token){ setEstado2('Cola o token.','erro'); return; }
+    if(!menuData){ setEstado2('Importa um menu primeiro.','erro'); return; }
+    setEstado2('A guardar menu…','info');
+    try{
+      if(!menuSha){ try{ const c=await fetch(MENU_API+'?t='+Date.now(),{headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json'}}); if(c.ok){ menuSha=(await c.json()).sha; } }catch(e){} }
+      const corpo={ message:'Atualizar menu.json via construtor', content:b64e(JSON.stringify(menuData,null,2)) }; if(menuSha) corpo.sha=menuSha;
+      const r=await fetch(MENU_API,{ method:'PUT', headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json','Content-Type':'application/json'}, body:JSON.stringify(corpo) });
+      if(!r.ok){ const e=await r.json().catch(()=>({})); throw new Error(e.message||('HTTP '+r.status)); }
+      menuSha=(await r.json()).content.sha; setEstado2('Menu guardado ✓','ok');
+    }catch(err){ setEstado2('Erro ao guardar menu: '+err.message,'erro'); }
+  });
+
+  // ---- Guardar página (config) ----
+  $('btnGuardar').addEventListener('click', async function(){
+    const token=$('token').value.trim(); if(!token){ setEstado2('Cola o token.','erro'); return; }
+    lerForm();
+    setEstado2('A guardar…','info');
+    try{
+      if(!configSha){ try{ const c=await fetch(CONFIG_API+'?t='+Date.now(),{headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json'}}); if(c.ok){ configSha=(await c.json()).sha; } }catch(e){} }
+      const corpo={ message:'Atualizar config.json via construtor', content:b64e(JSON.stringify(cfg,null,2)) }; if(configSha) corpo.sha=configSha;
+      const r=await fetch(CONFIG_API,{ method:'PUT', headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json','Content-Type':'application/json'}, body:JSON.stringify(corpo) });
+      if(!r.ok){ const e=await r.json().catch(()=>({})); throw new Error(e.message||('HTTP '+r.status)); }
+      configSha=(await r.json()).content.sha; setEstado2('✅ Guardado! Aparece na página em 1-2 minutos.','ok');
+    }catch(err){ setEstado2('Erro ao guardar: '+err.message,'erro'); }
+  });
+
+  // ---- Criar página nova (repositório + código + alojamento) ----
+  function RAWown(file){ return 'https://raw.githubusercontent.com/'+REPO+'/main/'+file; }
+  async function ghPUT(owner, repo, path, contentB64, token, msg){
+    const r = await fetch('https://api.github.com/repos/'+owner+'/'+repo+'/contents/'+path, { method:'PUT', headers:{ Authorization:'Bearer '+token, Accept:'application/vnd.github+json', 'Content-Type':'application/json' }, body: JSON.stringify({ message: msg||('add '+path), content: contentB64 }) });
+    if(!r.ok){ const e=await r.json().catch(()=>({})); throw new Error('PUT '+path+': '+(e.message||r.status)); }
+  }
+  $('btnCriar').addEventListener('click', async function(){
+    const token = $('token').value.trim();
+    const nome = $('novoNome').value.trim();
+    let repo = $('novoRepo').value.trim().toLowerCase().replace(/[^a-z0-9-]+/g,'-').replace(/^-+|-+$/g,'');
+    const est = $('estadoCriar'); const se = (m,t)=>{ est.className='estado '+(t||'info'); est.textContent=m; };
+    if(!token){ se('Cola o token clássico (âmbito repo).','erro'); return; }
+    if(!nome || !repo){ se('Preenche o nome e o endereço.','erro'); return; }
+    const btn=$('btnCriar'); btn.disabled=true;
+    try{
+      se('1/5 A criar o repositório…','info');
+      const cr = await fetch('https://api.github.com/user/repos', { method:'POST', headers:{ Authorization:'Bearer '+token, Accept:'application/vnd.github+json', 'Content-Type':'application/json' }, body: JSON.stringify({ name:repo, private:false, description:'Página — '+nome, auto_init:false }) });
+      if(!cr.ok){ const e=await cr.json().catch(()=>({})); throw new Error('Criar repo: '+(e.message||cr.status)); }
+      const owner = (await cr.json()).owner.login;
+      se('2/5 A copiar o código…','info');
+      for(const file of ['cardapio.html','editar.html','construtor.html']){
+        let txt=''; try{ txt = await (await fetch(RAWown(file)+'?t='+Date.now())).text(); }catch(e){}
+        if(txt && txt.indexOf('<') !== -1) await ghPUT(owner, repo, file, b64e(txt), token, file);
+      }
+      se('4/5 A adicionar definições…','info');
+      const configBase = { layout:'1', header:{ mostrar:true, titulo:nome, subtitulo:'', cor:'#ffffff', realce:true }, mostrarMenu:true, rodape:{ mostrar:true, linha1:'', cor:'#ffffff' }, footer:{ mostrar:false, nome:nome, cor:'#ffffff' } };
+      const menuBase = { restaurante:nome, categorias:[ { id:'seccao', emoji:'', tipo:'comida', tile:{pt:'Secção'}, grupos:[ { summary:{pt:'Secção'}, itens:[ { nome:{pt:'Exemplo'}, preco:'' } ] } ] } ] };
+      await ghPUT(owner, repo, 'config.json', b64e(JSON.stringify(configBase,null,2)), token, 'config.json');
+      await ghPUT(owner, repo, 'menu.json', b64e(JSON.stringify(menuBase,null,2)), token, 'menu.json');
+      se('5/5 A ativar o site…','info');
+      await fetch('https://api.github.com/repos/'+owner+'/'+repo+'/pages', { method:'POST', headers:{ Authorization:'Bearer '+token, Accept:'application/vnd.github+json', 'Content-Type':'application/json' }, body: JSON.stringify({ source:{ branch:'main', path:'/' } }) }).catch(()=>{});
+      const base = 'https://'+owner.toLowerCase()+'.github.io/'+repo+'/';
+      est.className='estado ok';
+      est.innerHTML = '✅ Criada! Fica online em 1-2 min. <a href="'+base+'construtor.html" target="_blank" style="color:inherit;font-weight:700;">Abrir o construtor desta página ▸</a>';
+      $('novoNome').value=''; $('novoRepo').value='';
+    }catch(err){ se('Erro: '+err.message,'erro'); }
+    finally{ btn.disabled=false; }
+  });
+
+  // ---- Pré-visualização ----
+  let pronto=false, temporizador=null;
+  function enviar(){
+    const frame=$('previewFrame'); if(!pronto || !frame.contentWindow) return;
+    const msg={ type:'cardapio-preview' };
+    try{ msg.config=JSON.parse(JSON.stringify(lerForm())); }catch(e){ msg.config=cfg; }
+    if(menuData){ try{ msg.menu=JSON.parse(JSON.stringify(menuData)); }catch(e){ msg.menu=menuData; } }
+    frame.contentWindow.postMessage(msg,'*');
+  }
+  function agendar(){ clearTimeout(temporizador); temporizador=setTimeout(enviar,400); }
+  window.addEventListener('message', function(e){
+    const d = e.data || {};
+    if(d.type==='cardapio-preview-ready'){ pronto=true; enviar(); }
+    else if(d.type==='preview-pos' && d.target==='textoLivre'){
+      if(d.x!=null){ $('tlX').value=d.x; $('tlXVal').textContent=d.x; }
+      if(d.y!=null){ $('tlY').value=d.y; $('tlYVal').textContent=d.y; }
+      cfg.textoLivre = cfg.textoLivre || {}; cfg.textoLivre.x=d.x; cfg.textoLivre.y=d.y;
+    }
+    else if(d.type==='preview-size' && d.target==='textoLivre'){
+      if(d.tamanho!=null){ $('tlTamanho').value=d.tamanho; $('tlTamanhoVal').textContent=d.tamanho; cfg.textoLivre=cfg.textoLivre||{}; cfg.textoLivre.tamanho=d.tamanho; }
+    }
+  });
+  document.addEventListener('input', agendar);
+  document.addEventListener('change', agendar);
+  $('btnAtualizarPreview').addEventListener('click', enviar);
+  $('previewMin').addEventListener('click', function(){ const d=$('previewDock'); d.classList.toggle('min'); this.textContent=d.classList.contains('min')?'▢':'—'; });
+  $('previewFrame').src = 'cardapio.html?preview=1&t=' + Date.now();
+</script>
+</body>
+</html>
