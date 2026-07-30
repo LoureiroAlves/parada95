@@ -135,6 +135,23 @@
   .layout-card .nome{ font-weight:700; font-size:0.82rem; margin-bottom:6px; color:var(--castanho); }
   .layout-card .sws{ display:flex; gap:5px; }
   .layout-card .sw{ width:24px; height:24px; border-radius:6px; border:1px solid rgba(0,0,0,0.08); }
+  /* Blocos (grupos) de secções */
+  .grupo{ margin:20px 0 0; }
+  .grupo > .grupo-sum{ list-style:none; cursor:pointer; font-size:1.05rem; font-weight:800; color:var(--castanho); padding:11px 14px; background:var(--bege); border-radius:12px; border:1.5px solid var(--linha); display:flex; align-items:center; gap:8px; }
+  .grupo > .grupo-sum::-webkit-details-marker{ display:none; }
+  .grupo > .grupo-sum::after{ content:'▸'; margin-left:auto; transition:transform .2s ease; opacity:.6; }
+  .grupo[open] > .grupo-sum::after{ transform:rotate(90deg); }
+  .grupo[open] > .grupo-sum{ margin-bottom:6px; }
+  .grupo > details{ margin-left:4px; }
+  /* Painel fixo de pré-visualização */
+  .preview-dock{ position:fixed; right:14px; bottom:14px; width:290px; z-index:900; background:#1f2530; border-radius:16px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.28); }
+  .preview-dock-bar{ display:flex; align-items:center; justify-content:space-between; padding:7px 8px 7px 12px; color:#fff; font-size:0.8rem; font-weight:700; }
+  .preview-dock-btn{ background:rgba(255,255,255,0.16); border:none; color:#fff; width:26px; height:26px; border-radius:7px; cursor:pointer; margin-left:5px; font-size:0.9rem; line-height:1; }
+  .preview-dock-corpo{ height:500px; background:#fff; }
+  .preview-dock-corpo iframe{ width:100%; height:100%; border:0; display:block; background:#fff; }
+  .preview-dock.min{ width:190px; }
+  .preview-dock.min .preview-dock-corpo{ display:none; }
+  @media(max-width:820px){ .preview-dock{ right:8px; bottom:8px; width:46vw; max-width:230px; } .preview-dock-corpo{ height:52vh; } .preview-dock.min{ width:150px; } }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
@@ -187,21 +204,21 @@
     </div>
   </details>
 
-  <!-- PRÉ-VISUALIZAÇÃO AO VIVO -->
-  <details id="secPreview">
-    <summary>👁️ Pré-visualização ao vivo</summary>
-    <div class="bloco-conteudo">
-      <div class="subtitulo" style="margin-top:6px;">Vê o cardápio a atualizar enquanto editas — sem publicar. (Carrega o menu primeiro para veres os pratos.)</div>
-      <div style="display:flex; justify-content:flex-end; margin:6px 0;">
-        <button type="button" id="btnAtualizarPreview" style="padding:8px 12px; border-radius:8px; border:1.5px solid var(--linha); background:var(--branco); color:var(--castanho); cursor:pointer;">↻ Atualizar</button>
-      </div>
-      <div style="display:flex; justify-content:center;">
-        <div style="width:100%; max-width:390px; border:8px solid #1f2530; border-radius:28px; overflow:hidden; background:#000; box-shadow:0 8px 24px rgba(0,0,0,0.2);">
-          <iframe id="previewFrame" title="Pré-visualização do cardápio" style="width:100%; height:640px; border:0; display:block; background:#fff;"></iframe>
-        </div>
-      </div>
+  <!-- PRÉ-VISUALIZAÇÃO AO VIVO (painel fixo, acompanha sempre) -->
+  <div id="previewDock" class="preview-dock">
+    <div class="preview-dock-bar">
+      <span>👁️ Pré-visualização</span>
+      <span style="display:flex;">
+        <button type="button" id="btnAtualizarPreview" title="Atualizar" class="preview-dock-btn">↻</button>
+        <button type="button" id="previewMin" title="Minimizar" class="preview-dock-btn">—</button>
+      </span>
     </div>
-  </details>
+    <div class="preview-dock-corpo">
+      <iframe id="previewFrame" title="Pré-visualização do cardápio"></iframe>
+    </div>
+  </div>
+
+  <details class="grupo" open><summary class="grupo-sum">🎨 Aparência</summary>
 
   <!-- LAYOUT / ASPETO -->
   <details id="secLayout">
@@ -453,6 +470,10 @@
     </div>
   </details>
 
+  </details>
+
+  <details class="grupo"><summary class="grupo-sum">📋 Conteúdo</summary>
+
   <!-- BARRA FIXA -->
   <details id="secRodape">
     <summary>Barra fixa (fundo da página)</summary>
@@ -618,6 +639,10 @@
     </div>
   </details>
 
+  </details>
+
+  <details class="grupo"><summary class="grupo-sum">⚙️ Avançado</summary>
+
   <!-- PUBLICIDADE NOS JOGOS -->
   <details id="secAdJogos">
     <summary>Publicidade nos jogos</summary>
@@ -696,6 +721,8 @@
       <label for="redeFacebook">Facebook (endereço)</label>
       <input type="text" id="redeFacebook" placeholder="https://www.facebook.com/oteurestaurante">
     </div>
+  </details>
+
   </details>
 
   <button type="button" class="acao" id="btnGuardar">💾 Guardar tudo</button>
@@ -2218,11 +2245,11 @@
   document.getElementById('btnCarregar').addEventListener('click', carregarConfig);
   document.getElementById('btnGuardar').addEventListener('click', guardarTudo);
 
-  // ---- Pré-visualização ao vivo ----
+  // ---- Pré-visualização ao vivo (painel fixo, sempre visível) ----
   (function(){
-    const sec = document.getElementById('secPreview');
+    const dock = document.getElementById('previewDock');
     const frame = document.getElementById('previewFrame');
-    if(!sec || !frame) return;
+    if(!dock || !frame) return;
     let pronto = false, temporizador = null;
     function enviar(){
       if(!pronto || !frame.contentWindow) return;
@@ -2234,17 +2261,28 @@
       if(menu){ try{ msg.menu = JSON.parse(JSON.stringify(menu)); }catch(e){ msg.menu = menu; } }
       frame.contentWindow.postMessage(msg, '*');
     }
-    function agendarEnvio(){ if(!sec.open) return; clearTimeout(temporizador); temporizador = setTimeout(enviar, 400); }
+    function agendarEnvio(){ clearTimeout(temporizador); temporizador = setTimeout(enviar, 400); }
     window.addEventListener('message', function(e){
-      if(e.data && e.data.type === 'cardapio-preview-ready'){ pronto = true; enviar(); }
-    });
-    sec.addEventListener('toggle', function(){
-      if(sec.open){ pronto = false; frame.src = 'cardapio.html?preview=1&t=' + Date.now(); }
+      const d = e.data || {};
+      if(d.type === 'cardapio-preview-ready'){ pronto = true; enviar(); }
+      else if(d.type === 'preview-pos' && d.target === 'textoLivre'){
+        const ex = document.getElementById('tlX'), ey = document.getElementById('tlY');
+        if(ex && d.x!=null){ ex.value = d.x; const v=document.getElementById('tlXVal'); if(v) v.textContent = d.x; }
+        if(ey && d.y!=null){ ey.value = d.y; const v=document.getElementById('tlYVal'); if(v) v.textContent = d.y; }
+      }
+      else if(d.type === 'preview-size' && d.target === 'textoLivre'){
+        const et = document.getElementById('tlTamanho');
+        if(et && d.tamanho!=null){ et.value = d.tamanho; const v=document.getElementById('tlTamanhoVal'); if(v) v.textContent = d.tamanho; }
+      }
     });
     document.addEventListener('input', agendarEnvio);
     document.addEventListener('change', agendarEnvio);
     const btn = document.getElementById('btnAtualizarPreview');
     if(btn) btn.addEventListener('click', enviar);
+    const min = document.getElementById('previewMin');
+    if(min) min.addEventListener('click', function(){ dock.classList.toggle('min'); min.textContent = dock.classList.contains('min') ? '▢' : '—'; });
+    // Arranca a pré-visualização logo
+    frame.src = 'cardapio.html?preview=1&t=' + Date.now();
   })();
 
   // Guardar começa desativado até carregar (evita apagar dados sem querer)
