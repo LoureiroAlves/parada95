@@ -10,7 +10,7 @@
     ],
     "tituloTamanho": 2.3,
     "subtituloTamanho": 0.82,
-    "fixo": false
+    "fixo": true
   },
   "rodape": {
     "linha1": "RESERVA",
