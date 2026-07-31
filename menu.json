@@ -6,19 +6,25 @@
       "emoji": "🥖",
       "tipo": "comida",
       "tile": {
-        "pt": "Entradas"
+        "pt": "ENTRADAS"
       },
       "grupos": [
         {
           "summary": {
-            "pt": "Entradas"
+            "pt": "ENTRADAS"
           },
           "itens": [
             {
               "nome": {
-                "pt": "Exemplo — prato"
+                "pt": "Pão"
               },
-              "preco": "0,00€"
+              "preco": "2,00€"
+            },
+            {
+              "nome": {
+                "pt": "Azeitonas"
+              },
+              "preco": "2,50€"
             }
           ]
         }
@@ -35,7 +41,20 @@
           "summary": {
             "pt": "CARNE"
           },
-          "itens": []
+          "itens": [
+            {
+              "nome": {
+                "pt": "Prego em prato"
+              },
+              "preco": "10,99€"
+            },
+            {
+              "nome": {
+                "pt": "Bife da vazia"
+              },
+              "preco": "15,00€"
+            }
+          ]
         }
       ],
       "id": "seccao-2"
@@ -51,23 +70,49 @@
           "summary": {
             "pt": "PEIXE"
           },
-          "itens": []
+          "itens": [
+            {
+              "nome": {
+                "pt": "Dourada"
+              },
+              "preco": "15,00€"
+            },
+            {
+              "nome": {
+                "pt": "Carapaus fritos"
+              },
+              "preco": "7,50€"
+            }
+          ]
         }
       ],
       "id": "seccao-3"
     },
     {
-      "emoji": "   ",
+      "emoji": " 🍽️  ",
       "tipo": "comida",
       "tile": {
-        "pt": ""
+        "pt": "SNACKS"
       },
       "grupos": [
         {
           "summary": {
-            "pt": ""
+            "pt": "SNACKS"
           },
-          "itens": []
+          "itens": [
+            {
+              "nome": {
+                "pt": "Prego em pão"
+              },
+              "preco": "5,70€"
+            },
+            {
+              "nome": {
+                "pt": "Cachorro"
+              },
+              "preco": "9,00€"
+            }
+          ]
         }
       ],
       "id": "seccao-4"
@@ -76,25 +121,50 @@
       "emoji": "",
       "tipo": "comida",
       "tile": {
-        "pt": ""
+        "pt": "SOBREMESAS"
       },
       "grupos": [
         {
           "summary": {
-            "pt": ""
+            "pt": "SOBREMESAS"
           },
-          "itens": []
+          "itens": [
+            {
+              "nome": {
+                "pt": "Bolo de Bolacha"
+              },
+              "preco": "2,50€"
+            },
+            {
+              "nome": {
+                "pt": "Mousse de chocolate"
+              },
+              "preco": "3,00€"
+            }
+          ]
         }
       ],
       "id": "seccao-5"
     },
     {
       "emoji": "",
-      "tipo": "comida",
+      "tipo": "vinhos",
       "tile": {
         "pt": ""
       },
       "grupos": [
+        {
+          "summary": {
+            "pt": "SECÇÃO DE  VINHOS"
+          },
+          "itens": []
+        },
+        {
+          "summary": {
+            "pt": "Vinho da casa"
+          },
+          "itens": []
+        },
         {
           "summary": {
             "pt": ""
