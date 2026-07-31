@@ -1865,6 +1865,42 @@
     det.appendChild(lista);
     return det;
   }
+  // Renderiza os blocos de conteúdo da página (construtor): título, parágrafo, imagem, botão, separador, espaço
+  window.construirBlocos = function(blocos){
+    const main = document.querySelector('main');
+    let cont = document.getElementById('blocosPagina');
+    if(!Array.isArray(blocos) || blocos.length === 0){ if(cont) cont.innerHTML = ''; return; }
+    if(!cont){ cont = document.createElement('div'); cont.id = 'blocosPagina'; cont.style.cssText = 'max-width:640px; margin:0 auto; padding:6px 14px;'; if(main) main.insertBefore(cont, main.firstChild); else document.body.appendChild(cont); }
+    cont.innerHTML = '';
+    blocos.forEach(function(b){
+      if(!b || !b.tipo) return;
+      const align = b.align || 'center';
+      let el = null;
+      if(b.tipo === 'titulo'){
+        el = document.createElement('div'); el.textContent = b.texto || '';
+        el.style.cssText = 'font-family:var(--fonte-titulo); font-weight:800; color:' + (b.cor || '') + '; text-align:' + align + '; font-size:' + (b.tamanho || 2) + 'rem; line-height:1.15; margin:16px 0 6px;';
+        if(!b.cor) el.style.color = 'var(--castanho)';
+      } else if(b.tipo === 'paragrafo'){
+        el = document.createElement('div'); el.textContent = b.texto || '';
+        el.style.cssText = 'text-align:' + align + '; font-size:' + (b.tamanho || 1) + 'rem; line-height:1.6; margin:6px 0; white-space:pre-wrap; color:' + (b.cor || '') + ';';
+        if(!b.cor) el.style.color = 'var(--castanho-suave)';
+      } else if(b.tipo === 'imagem'){
+        el = document.createElement('div'); el.style.cssText = 'text-align:' + align + '; margin:10px 0;';
+        if(b.url){ const img = document.createElement('img'); img.src = (String(b.url).indexOf('http') === 0) ? b.url : (RAW_BASE + b.url); img.style.cssText = 'max-width:' + (b.largura || 100) + '%; border-radius:' + (b.radius != null ? b.radius : 12) + 'px; display:inline-block;'; el.appendChild(img); }
+      } else if(b.tipo === 'botao'){
+        el = document.createElement('div'); el.style.cssText = 'text-align:' + align + '; margin:12px 0;';
+        const a = document.createElement('a'); a.textContent = b.texto || 'Botão'; a.href = b.link || '#'; if(!window.__PREVIEW) a.target = '_blank';
+        a.style.cssText = 'display:inline-block; background:' + (b.cor || 'var(--dourado)') + '; color:' + (b.corTexto || '#fff') + '; padding:11px 24px; border-radius:24px; font-weight:700; text-decoration:none;';
+        el.appendChild(a);
+      } else if(b.tipo === 'separador'){
+        el = document.createElement('hr'); el.style.cssText = 'border:none; border-top:1.5px solid var(--linha); margin:16px 0;';
+      } else if(b.tipo === 'espaco'){
+        el = document.createElement('div'); el.style.height = (b.altura || 24) + 'px';
+      }
+      if(el) cont.appendChild(el);
+    });
+  };
+
   function construirMenu(menu){
     if(!menu || !Array.isArray(menu.categorias)) return;
     const grid = document.getElementById('categoriaGrid');
@@ -2378,6 +2414,8 @@
           }
         } else if(el){ el.style.display = 'none'; el.innerHTML = ''; }
       })();
+      // Blocos de conteúdo da página (construtor)
+      if(window.construirBlocos) window.construirBlocos(config.blocos);
       window._jogosAtivos = config.jogos !== false;
       if(window.aplicarJogos) window.aplicarJogos(window._jogosAtivos);
 
