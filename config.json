@@ -231,7 +231,7 @@
     "linhaEstilos": [
       {
         "fonte": "auto",
-        "tamanho": 0.7,
+        "tamanho": 2,
         "cor": "#c9c5c5",
         "negrito": true,
         "italico": false,
