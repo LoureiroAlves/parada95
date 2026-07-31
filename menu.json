@@ -28,22 +28,6 @@
       "emoji": "",
       "tipo": "comida",
       "tile": {
-        "pt": "ENTRADAS"
-      },
-      "grupos": [
-        {
-          "summary": {
-            "pt": "ENTRADAS"
-          },
-          "itens": []
-        }
-      ],
-      "id": "seccao"
-    },
-    {
-      "emoji": "",
-      "tipo": "comida",
-      "tile": {
         "pt": "CARNE"
       },
       "grupos": [
