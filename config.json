@@ -339,7 +339,7 @@
   },
   "layout": "12",
   "modelo": "caderno",
-  "abrirEfeito": "cortina-v",
+  "abrirEfeito": "zoom",
   "fonte": "fredoka",
   "fonteTexto": "auto",
   "tileTamanho": "normal",
