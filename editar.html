@@ -349,41 +349,13 @@
       <div class="subtitulo" style="margin:-4px 0 10px;">Desliga para remover o cabeçalho do topo (útil para outros tipos de página).</div>
       <label for="titulo">Título</label>
       <input type="text" id="titulo" placeholder="Rest & Bar Parque São Caetano">
+      <div id="estiloHTit"></div>
 
       <label for="subtitulo">Subtítulo</label>
       <input type="text" id="subtitulo" placeholder="Tradição, sabor e conforto à mesa">
+      <div id="estiloHSub"></div>
 
-      <label style="margin-top:14px;">Tamanho do título</label>
-      <div style="display:flex; align-items:center; gap:10px;">
-        <input type="range" id="tituloTamanho" min="1.2" max="2.8" step="0.05" value="1.7" style="flex:1;">
-        <span id="tituloTamanhoVal" style="font-size:0.82rem; color:var(--castanho-suave); font-family:monospace; min-width:44px;">1.70</span>
-      </div>
 
-      <label style="margin-top:10px;">Tamanho do subtítulo</label>
-      <div style="display:flex; align-items:center; gap:10px;">
-        <input type="range" id="subtituloTamanho" min="0.7" max="1.4" step="0.02" value="0.82" style="flex:1;">
-        <span id="subtituloTamanhoVal" style="font-size:0.82rem; color:var(--castanho-suave); font-family:monospace; min-width:44px;">0.82</span>
-      </div>
-
-      <label for="corHeader">Cor do texto</label>
-      <div class="campo-cor">
-        <input type="color" id="corHeader" value="#ffffff">
-        <span id="corHeaderVal">#ffffff</span>
-      </div>
-      <div style="margin-top:12px; padding:10px; border:1.5px solid var(--linha); border-radius:10px;">
-        <label style="margin-top:0;">Estilo do texto</label>
-        <select id="hdrFonte" style="width:100%; padding:8px 10px; border-radius:8px; border:1.5px solid var(--linha); background:var(--branco); font-family:inherit; color:var(--castanho); font-size:0.95rem;">
-          <option value="auto">Tipo de letra (automático)</option>
-          <option value="fredoka">Fredoka</option><option value="poppins">Poppins</option><option value="quicksand">Quicksand</option><option value="montserrat">Montserrat</option><option value="playfair">Playfair Display</option><option value="bebas">Bebas Neue</option><option value="lobster">Lobster</option><option value="pacifico">Pacifico</option>
-        </select>
-        <div style="display:flex; gap:14px; align-items:center; margin-top:8px; flex-wrap:wrap;">
-          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="hdrNegrito" style="width:auto;"> Negrito</label>
-          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="hdrItalico" style="width:auto;"> Itálico</label>
-          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="hdrSombra" style="width:auto;"> Sombra</label>
-          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="hdrContorno" style="width:auto;"> Contorno</label>
-          <input type="color" id="hdrContornoCor" value="#000000" style="width:40px; height:28px; padding:0; border:none; background:none; cursor:pointer;" title="Cor do contorno">
-        </div>
-      </div>
 
 
       <div class="lembrar" style="margin-top:16px;">
@@ -640,33 +612,16 @@
     <div class="bloco-conteudo">
       <label for="footerNome">Nome do restaurante</label>
       <input type="text" id="footerNome" placeholder="Rest & Bar Parque São Caetano">
+      <div id="estiloFNome"></div>
 
       <label for="footerMorada">Morada</label>
       <input type="text" id="footerMorada" placeholder="Avenida de São Caetano, nº17">
+      <div id="estiloFMor"></div>
 
       <label for="footerTelefone">Telefone</label>
       <input type="text" id="footerTelefone" placeholder="📞 962 202 622 / 227 130 614">
-
-      <label for="corFooter">Cor do texto</label>
-      <div class="campo-cor">
-        <input type="color" id="corFooter" value="#ffffff">
-        <span id="corFooterVal">#ffffff</span>
-      </div>
-      <div style="margin-top:12px; padding:10px; border:1.5px solid var(--linha); border-radius:10px;">
-        <label style="margin-top:0;">Estilo do texto</label>
-        <select id="rodFonte" style="width:100%; padding:8px 10px; border-radius:8px; border:1.5px solid var(--linha); background:var(--branco); font-family:inherit; color:var(--castanho); font-size:0.95rem;">
-          <option value="auto">Tipo de letra (automático)</option>
-          <option value="fredoka">Fredoka</option><option value="poppins">Poppins</option><option value="quicksand">Quicksand</option><option value="montserrat">Montserrat</option><option value="playfair">Playfair Display</option><option value="bebas">Bebas Neue</option><option value="lobster">Lobster</option><option value="pacifico">Pacifico</option>
-        </select>
-        <div style="display:flex; align-items:center; gap:8px; margin-top:8px;"><span style="font-size:0.85rem; color:var(--castanho-suave);">Tamanho (rem, vazio = automático)</span><input type="number" id="rodTamanho" min="0.6" max="4" step="0.05" style="width:80px; padding:7px; border-radius:8px; border:1.5px solid var(--linha); font-family:inherit;"></div>
-        <div style="display:flex; gap:14px; align-items:center; margin-top:8px; flex-wrap:wrap;">
-          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="rodNegrito" style="width:auto;"> Negrito</label>
-          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="rodItalico" style="width:auto;"> Itálico</label>
-          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="rodSombra" style="width:auto;"> Sombra</label>
-          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="rodContorno" style="width:auto;"> Contorno</label>
-          <input type="color" id="rodContornoCor" value="#000000" style="width:40px; height:28px; padding:0; border:none; background:none; cursor:pointer;" title="Cor do contorno">
-        </div>
-      </div>
+      <div id="estiloFTel"></div>
+      <div class="subtitulo" style="margin-top:2px;">O estilo (letra, tamanho, cor, negrito, itálico, sombra, contorno) é por linha, no "Aa estilo" de cada uma.</div>
 
       <div class="lembrar" style="margin-top:16px;">
         <input type="checkbox" id="fotosFooterAtivas">
@@ -972,18 +927,20 @@
     g('Contorno').checked = !!est.contorno;
     g('ContornoCor').value = est.contornoCor || '#000000';
   }
-  // Cria uma mini-barra de estilo (para usar por linha)
-  function criarToolbarEstilo(P){
+  // Cria uma mini-barra de estilo (para usar por linha/campo)
+  function criarToolbarEstilo(P, opts){
+    opts = opts || {};
+    const campoTam = opts.semTamanho ? '' : ('<span style="font-size:0.82rem; color:var(--castanho-suave);">Tam</span><input type="number" id="'+P+'Tamanho" min="0.6" max="4" step="0.05" style="width:66px; padding:6px; border-radius:8px; border:1.5px solid var(--linha); font-family:inherit;">');
     const d = document.createElement('details');
     d.style.cssText = 'margin:2px 0 10px; border:1px solid var(--linha); border-radius:8px; background:var(--bege);';
     d.innerHTML =
-      '<summary style="cursor:pointer; padding:6px 10px; font-size:0.8rem; font-weight:700; color:var(--dourado-escuro);">Aa estilo desta linha</summary>' +
+      '<summary style="cursor:pointer; padding:6px 10px; font-size:0.8rem; font-weight:700; color:var(--dourado-escuro);">Aa estilo</summary>' +
       '<div style="padding:0 10px 10px;">' +
         '<select id="'+P+'Fonte" style="width:100%; padding:7px 9px; border-radius:8px; border:1.5px solid var(--linha); font-family:inherit; background:var(--branco); color:var(--castanho); font-size:0.9rem;">' +
           '<option value="auto">Tipo de letra (automático)</option><option value="fredoka">Fredoka</option><option value="poppins">Poppins</option><option value="quicksand">Quicksand</option><option value="montserrat">Montserrat</option><option value="playfair">Playfair Display</option><option value="bebas">Bebas Neue</option><option value="lobster">Lobster</option><option value="pacifico">Pacifico</option>' +
         '</select>' +
         '<div style="display:flex; align-items:center; gap:8px; margin-top:6px; flex-wrap:wrap;">' +
-          '<span style="font-size:0.82rem; color:var(--castanho-suave);">Tam</span><input type="number" id="'+P+'Tamanho" min="0.6" max="4" step="0.05" style="width:66px; padding:6px; border-radius:8px; border:1.5px solid var(--linha); font-family:inherit;">' +
+          campoTam +
           '<span style="font-size:0.82rem; color:var(--castanho-suave);">Cor</span><input type="color" id="'+P+'Cor" value="#ffffff" style="width:34px; height:26px; padding:0; border:none; background:none; cursor:pointer;">' +
         '</div>' +
         '<div style="display:flex; gap:12px; align-items:center; margin-top:6px; flex-wrap:wrap;">' +
@@ -1128,12 +1085,6 @@
   function preencherFormulario(){
     document.getElementById('titulo').value = config.header.titulo || '';
     document.getElementById('subtitulo').value = config.header.subtitulo || '';
-    const _tt = config.header.tituloTamanho || 1.7;
-    const _st = config.header.subtituloTamanho || 0.82;
-    document.getElementById('tituloTamanho').value = _tt;
-    document.getElementById('tituloTamanhoVal').textContent = Number(_tt).toFixed(2);
-    document.getElementById('subtituloTamanho').value = _st;
-    document.getElementById('subtituloTamanhoVal').textContent = Number(_st).toFixed(2);
     document.getElementById('introAtivo').checked = !!(config.intro && config.intro.ativo);
     document.getElementById('introDuracao').value = (config.intro && config.intro.duracao) || 7;
     document.getElementById('introFundo').value = (config.intro && config.intro.fundo) || 'foto';
@@ -1164,10 +1115,10 @@
     document.getElementById('fotosRodapeAtivas').checked = config.rodape.fotosAtivas !== false;
     const ch = config.header.cor || '#ffffff';
     const cr = config.rodape.cor || '#ffffff';
-    document.getElementById('corHeader').value = ch;
-    document.getElementById('corHeaderVal').textContent = ch;
     document.getElementById('headerMostrar').checked = config.header.mostrar !== false;
-    preencherEstilo('hdr', config.header.estilo);
+    // Cabeçalho: estilo do título e do subtítulo (individuais)
+    preencherEstilo('hTit', config.header.estiloTitulo || { cor: ch, negrito: (config.header.realce !== false), tamanho: config.header.tituloTamanho || 1.7 });
+    preencherEstilo('hSub', config.header.estiloSub || { cor: ch, italico: true, tamanho: config.header.subtituloTamanho || 0.82 });
     // Barra fixa: estilo por linha
     (function(){
       const les = Array.isArray(config.rodape.linhaEstilos) ? config.rodape.linhaEstilos : [];
@@ -1175,7 +1126,14 @@
         preencherEstilo('l'+i, les[i-1] || { cor: cr, negrito: (i===1) });
       }
     })();
-    preencherEstilo('rod', config.footer.estilo);
+    // Rodapé: estilo por linha (nome / morada / telefone)
+    (function(){
+      const les = Array.isArray(config.footer.linhaEstilos) ? config.footer.linhaEstilos : [];
+      const cf = config.footer.cor || '#ffffff';
+      preencherEstilo('fNom', les[0] || { cor: cf, negrito: true });
+      preencherEstilo('fMor', les[1] || { cor: cf });
+      preencherEstilo('fTel', les[2] || { cor: cf });
+    })();
     preencherEstilo('tlEst', (config.textoLivre || {}).estilo);
     // Texto livre
     const tl = config.textoLivre || {};
@@ -1219,9 +1177,6 @@
     document.getElementById('footerNome').value = config.footer.nome || '';
     document.getElementById('footerMorada').value = config.footer.morada || '';
     document.getElementById('footerTelefone').value = config.footer.telefone || '';
-    const cf = config.footer.cor || '#ffffff';
-    document.getElementById('corFooter').value = cf;
-    document.getElementById('corFooterVal').textContent = cf;
     document.getElementById('fotosFooterAtivas').checked = config.footer.fotosAtivas === true;
     document.getElementById('fpZoom').value = config.footer.fotoZoom || 100;
     // Publicidade dos jogos
@@ -1505,18 +1460,20 @@
   function lerFormularioConfig(){
       config.header.titulo = document.getElementById('titulo').value.trim();
       config.header.subtitulo = document.getElementById('subtitulo').value.trim();
-      config.header.tituloTamanho = parseFloat(document.getElementById('tituloTamanho').value) || 1.7;
-      config.header.subtituloTamanho = parseFloat(document.getElementById('subtituloTamanho').value) || 0.82;
+      { const _et = lerEstilo('hTit'), _es = lerEstilo('hSub');
+        if(_et.tamanho) config.header.tituloTamanho = _et.tamanho;
+        if(_es.tamanho) config.header.subtituloTamanho = _es.tamanho; }
       config.rodape.linha1 = document.getElementById('linha1').value.trim();
       config.rodape.linha2 = document.getElementById('linha2').value.trim();
       config.rodape.linha3 = document.getElementById('linha3').value.trim();
       config.rodape.linha4 = document.getElementById('linha4').value.trim();
       config.header.fotosAtivas = document.getElementById('fotosHeaderAtivas').checked;
       config.rodape.fotosAtivas = document.getElementById('fotosRodapeAtivas').checked;
-      config.header.cor = document.getElementById('corHeader').value;
+      config.header.cor = (document.getElementById('hTitCor') ? document.getElementById('hTitCor').value : (config.header.cor || '#ffffff'));
+      config.header.estiloTitulo = lerEstilo('hTit');
+      config.header.estiloSub = lerEstilo('hSub');
       config.header.realce = false;
       config.header.mostrar = document.getElementById('headerMostrar').checked;
-      config.header.estilo = lerEstilo('hdr');
       config.textoLivre = {
         ativo: document.getElementById('tlAtivo').checked,
         titulo: document.getElementById('tlTitulo').value.trim(),
@@ -1559,7 +1516,7 @@
         nome: document.getElementById('footerNome').value.trim(),
         morada: document.getElementById('footerMorada').value.trim(),
         telefone: document.getElementById('footerTelefone').value.trim(),
-        cor: document.getElementById('corFooter').value,
+        cor: (document.getElementById('fNomCor') ? document.getElementById('fNomCor').value : (config.footer.cor || '#ffffff')),
         fotosAtivas: document.getElementById('fotosFooterAtivas').checked,
         fotos: config.footer.fotos,
         fotoZoom: config.footer.fotoZoom || 100,
@@ -1568,7 +1525,7 @@
         textoX: config.footer.textoX ?? 50,
         textoY: config.footer.textoY ?? 50,
         mostrar: config.footer.mostrar,
-        estilo: lerEstilo('rod')
+        linhaEstilos: [lerEstilo('fNom'), lerEstilo('fMor'), lerEstilo('fTel')]
       };
       config.adJogos = {
         ativo: document.getElementById('adjAtivo').checked,
@@ -1759,12 +1716,6 @@
   document.getElementById('introSubTamanho').addEventListener('input', e => {
     document.getElementById('introSubTamanhoVal').textContent = Number(e.target.value).toFixed(2);
   });
-  document.getElementById('tituloTamanho').addEventListener('input', e => {
-    document.getElementById('tituloTamanhoVal').textContent = Number(e.target.value).toFixed(2);
-  });
-  document.getElementById('subtituloTamanho').addEventListener('input', e => {
-    document.getElementById('subtituloTamanhoVal').textContent = Number(e.target.value).toFixed(2);
-  });
 
   document.getElementById('corIntro').addEventListener('input', e => {
     document.getElementById('corIntroVal').textContent = e.target.value;
@@ -1798,17 +1749,15 @@
   }
   document.getElementById('introReveal').addEventListener('change', renderZoomChips);
   document.getElementById('introTitulo').addEventListener('input', () => { if(document.getElementById('introReveal').value === 'zoom') renderZoomChips(); });
-  document.getElementById('corHeader').addEventListener('input', e => {
-    document.getElementById('corHeaderVal').textContent = e.target.value;
-  });
-  // Injetar as mini-barras de estilo por linha na barra fixa
+  // Injetar as mini-barras de estilo por linha/campo
   ['estiloLinha1','estiloLinha2','estiloLinha3','estiloLinha4'].forEach(function(cid, i){
     const c = document.getElementById(cid);
     if(c) c.appendChild(criarToolbarEstilo('l' + (i+1)));
   });
-  document.getElementById('corFooter').addEventListener('input', e => {
-    document.getElementById('corFooterVal').textContent = e.target.value;
-  });
+  (function(){
+    const mapa = [['estiloHTit','hTit',false],['estiloHSub','hSub',false],['estiloFNome','fNom',false],['estiloFMor','fMor',false],['estiloFTel','fTel',false]];
+    mapa.forEach(function(m){ const c = document.getElementById(m[0]); if(c) c.appendChild(criarToolbarEstilo(m[1], { semTamanho:m[2] })); });
+  })();
 
   // ---- Interação da pré-visualização do rodapé (arrastar foto/texto + zoom) ----
   (function(){
@@ -1859,9 +1808,6 @@
 
     ['footerNome','footerMorada','footerTelefone'].forEach(id => {
       document.getElementById(id).addEventListener('input', atualizarPreviewFooter);
-    });
-    document.getElementById('corFooter').addEventListener('input', () => {
-      txt.style.color = document.getElementById('corFooter').value;
     });
   })();
 
