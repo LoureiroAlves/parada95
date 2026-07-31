@@ -232,8 +232,8 @@
   "fonteTexto": "auto",
   "tileTamanho": "pequeno",
   "cores": {
-    "castanho": "#72860e",
-    "dourado": "#bac610",
+    "castanho": "#85810f",
+    "dourado": "#46491d",
     "bege": "#f0f0f0"
   },
   "fundo": {
@@ -271,7 +271,7 @@
   },
   "caderno": {
     "folha": "quadriculado",
-    "corLetra": "#4a3820",
+    "corLetra": "#edebe8",
     "corFolha": "#836934",
     "corLinha": "#d0b058"
   }
