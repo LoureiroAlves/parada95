@@ -10,7 +10,8 @@
     ],
     "tituloTamanho": 2.8,
     "subtituloTamanho": 0.82,
-    "fixo": true
+    "fixo": true,
+    "mostrar": true
   },
   "rodape": {
     "linha1": "RESERVA",
@@ -229,15 +230,26 @@
   "abrirEfeito": "zoom",
   "fonte": "fredoka",
   "fonteTexto": "auto",
-  "tileTamanho": "normal",
+  "tileTamanho": "pequeno",
   "cores": {
     "castanho": "#72860e",
     "dourado": "#bac610",
     "bege": "#f0f0f0"
   },
   "fundo": {
-    "tipo": "liso",
-    "imagem": ""
+    "tipo": "textura",
+    "imagem": "",
+    "textura": "grelha"
+  },
+  "textoLivre": {
+    "ativo": false,
+    "titulo": "",
+    "subtitulo": "",
+    "cor": "#4a3820",
+    "tamanho": 2.4,
+    "altura": 42,
+    "x": 50,
+    "y": 50
   },
   "jogos": false,
   "redes": {
