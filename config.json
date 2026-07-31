@@ -43,7 +43,7 @@
     }
   },
   "rodape": {
-    "linha1": "RESERVA",
+    "linha1": "RESERVAS",
     "linha2": "De Terça a Domingo — Almoço e Jantar",
     "linha3": "Esperamos por ti!",
     "linha4": "",
@@ -231,7 +231,7 @@
     "linhaEstilos": [
       {
         "fonte": "auto",
-        "tamanho": null,
+        "tamanho": 0.7,
         "cor": "#c9c5c5",
         "negrito": true,
         "italico": false,
