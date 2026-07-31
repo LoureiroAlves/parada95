@@ -291,6 +291,10 @@
   body.modelo-caderno .tile .tile-emoji{ display:none; }
   body.modelo-caderno .tile .tile-label{ display:inline-block; max-width:100%; font-family:'Caveat', cursive; font-weight:700; font-size:2.1rem; line-height:1.4; color:var(--cad-letra, var(--castanho)) !important; text-transform:none; letter-spacing:0; text-align:left; text-shadow:none !important; background-image:linear-gradient(transparent 80%, var(--dourado) 80%, var(--dourado) 92%, transparent 92%); }
   body.modelo-caderno .tile:active .tile-label{ opacity:.7; }
+  body.modelo-caderno .tile{ -webkit-tap-highlight-color:transparent; }
+  body.modelo-caderno .tile.active{ outline:none !important; }
+  body.modelo-caderno .tile:active{ transform:none !important; box-shadow:none !important; }
+  body.modelo-caderno .tile:hover{ filter:none; }
   /* Sem barra superior; volta e título escritos na folha */
   body.modelo-caderno .categoria-painel-header{ background:transparent; border:none; box-shadow:none; }
   body.modelo-caderno .categoria-painel-header .voltar{ background:transparent !important; border:none !important; color:var(--cad-letra, var(--castanho)) !important; font-family:'Caveat', cursive; font-size:1.9rem; box-shadow:none !important; text-transform:none !important; letter-spacing:0 !important; padding:0 !important; }
