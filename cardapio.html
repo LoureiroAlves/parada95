@@ -291,7 +291,7 @@
   body.modelo-caderno .tile:active .tile-label{ opacity:.7; }
   /* Sem barra superior; volta e título escritos na folha */
   body.modelo-caderno .categoria-painel-header{ position:static; background:transparent; border:none; box-shadow:none; padding:14px 22px 2px; }
-  body.modelo-caderno .categoria-painel-header .voltar{ background:transparent !important; border:none !important; color:var(--cad-letra, var(--castanho)) !important; font-family:'Caveat', cursive; font-size:1.9rem; box-shadow:none !important; }
+  body.modelo-caderno .categoria-painel-header .voltar{ background:transparent !important; border:none !important; color:var(--cad-letra, var(--castanho)) !important; font-family:'Caveat', cursive; font-size:1.9rem; box-shadow:none !important; text-transform:none !important; letter-spacing:0 !important; padding:0 !important; }
   body.modelo-caderno #painelTitulo{ font-family:'Caveat', cursive; color:var(--cad-letra, var(--castanho)); font-size:2.4rem; font-weight:700; }
   /* Interior da secção: pratos escritos à mão na folha */
   body.modelo-caderno .categoria-painel-conteudo .item{ background:transparent !important; border:none !important; box-shadow:none !important; padding:3px 22px; }
@@ -306,6 +306,7 @@
   body.modelo-caderno .categoria-painel-conteudo details,
   body.modelo-caderno .categoria-painel-conteudo .grupo-prato,
   body.modelo-caderno .categoria-painel-conteudo .grupo-vinho,
+  body.modelo-caderno .categoria-painel-conteudo .card-lista,
   body.modelo-caderno .categoria-painel-conteudo .grupo-prato > summary,
   body.modelo-caderno .categoria-painel-conteudo .item,
   body.modelo-caderno .categoria-painel-conteudo table,
@@ -382,10 +383,12 @@
   .categoria-painel-header .voltar{
     background:var(--bege);
     border:1px solid var(--linha);
-    border-radius:50%;
-    width:34px; height:34px;
-    display:flex; align-items:center; justify-content:center;
-    font-size:1.1rem;
+    border-radius:20px;
+    width:auto; height:auto;
+    padding:7px 15px;
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:0.9rem; font-weight:700;
+    letter-spacing:0.5px; text-transform:uppercase;
     color:var(--castanho);
     cursor:pointer;
     flex:0 0 auto;
@@ -1245,7 +1248,7 @@
 
 <div class="categoria-painel" id="categoriaPainel">
   <div class="categoria-painel-header">
-    <button type="button" id="fecharPainel" class="voltar" aria-label="Voltar">←</button>
+    <button type="button" id="fecharPainel" class="voltar" aria-label="Voltar ao menu">‹ menu</button>
     <div class="titulo" id="painelTitulo"></div>
   </div>
   <div class="categoria-painel-conteudo" id="painelConteudo"></div>
