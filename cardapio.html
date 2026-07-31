@@ -2535,7 +2535,8 @@
           });
           if(t && config.header.tituloTamanho) t.style.fontSize = config.header.tituloTamanho + 'rem';
           if(s && config.header.subtituloTamanho) s.style.fontSize = config.header.subtituloTamanho + 'rem';
-          aplicarEstiloTexto([t, s], config.header.estilo);
+          aplicarEstiloTexto([t], config.header.estiloTitulo || config.header.estilo);
+          aplicarEstiloTexto([s], config.header.estiloSub || config.header.estilo);
         }
         if(config.header.fotosAtivas !== false){
           preencherFotos(document.querySelector('#headerFotos'), config.header.fotos);
@@ -2781,7 +2782,12 @@
             });
           }
         }
-        aplicarEstiloTexto([document.getElementById('footerNome'), document.getElementById('footerMorada'), document.getElementById('footerTelefone')], config.footer.estilo);
+        {
+          const _fe = Array.isArray(config.footer.linhaEstilos) ? config.footer.linhaEstilos : [];
+          aplicarEstiloTexto([document.getElementById('footerNome')], _fe[0] || config.footer.estilo);
+          aplicarEstiloTexto([document.getElementById('footerMorada')], _fe[1] || config.footer.estilo);
+          aplicarEstiloTexto([document.getElementById('footerTelefone')], _fe[2] || config.footer.estilo);
+        }
         // Posição do bloco de texto (arrastável no editor)
         const ft = document.querySelector('#rodapeFinal .footer-texto');
         if(ft){
