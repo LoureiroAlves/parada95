@@ -1679,14 +1679,18 @@
         '<div class="linha" id="rodapeLinha4"></div>';
     }
     const sombraR = cfg.realce !== false ? '0 1px 3px rgba(0,0,0,0.55), 0 0 8px rgba(0,0,0,0.35)' : 'none';
-    ['rodapeLinha1','rodapeLinha2','rodapeLinha3','rodapeLinha4'].forEach(id => {
+    const _linhaEst = Array.isArray(cfg.linhaEstilos) ? cfg.linhaEstilos : null;
+    ['rodapeLinha1','rodapeLinha2','rodapeLinha3','rodapeLinha4'].forEach(function(id, i){
       const el = document.getElementById(id);
       if(!el) return;
       if(cfg.cor) el.style.color = cfg.cor;
       el.style.textShadow = sombraR;
       if(cfg.realce !== false) el.style.fontWeight = '700';
+      if(typeof aplicarEstiloTexto === 'function'){
+        if(_linhaEst && _linhaEst[i]) aplicarEstiloTexto([el], _linhaEst[i]);
+        else if(cfg.estilo) aplicarEstiloTexto([el], cfg.estilo);
+      }
     });
-    if(typeof aplicarEstiloTexto === 'function') aplicarEstiloTexto(['rodapeLinha1','rodapeLinha2','rodapeLinha3','rodapeLinha4'].map(function(id){ return document.getElementById(id); }), cfg.estilo);
     const normal = { 1:cfg.linha1||'', 2:cfg.linha2||'', 3:cfg.linha3||'', 4:cfg.linha4||'' };
     if(window.aplicarEspecialRodape) window.aplicarEspecialRodape(cfg.especial, normal);
   }
@@ -2337,6 +2341,7 @@
     if(!est) return;
     (els || []).forEach(function(el){
       if(!el) return;
+      if(est.cor) el.style.color = est.cor;
       el.style.fontFamily = (est.fonte && est.fonte !== 'auto' && FONTES_TITULO[est.fonte]) ? FONTES_TITULO[est.fonte] : '';
       if(est.tamanho) el.style.fontSize = est.tamanho + 'rem';
       el.style.fontWeight = est.negrito ? '800' : '';
