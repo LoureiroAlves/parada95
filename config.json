@@ -270,7 +270,7 @@
     "foto": ""
   },
   "caderno": {
-    "folha": "quadriculado",
+    "folha": "liso",
     "corLetra": "#edebe8",
     "corFolha": "#836934",
     "corLinha": "#d0b058"
