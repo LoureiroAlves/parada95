@@ -339,10 +339,10 @@
   },
   "layout": "12",
   "modelo": "caderno",
-  "abrirEfeito": "zoom",
+  "abrirEfeito": "cortina-v",
   "fonte": "fredoka",
   "fonteTexto": "auto",
-  "tileTamanho": "pequeno",
+  "tileTamanho": "normal",
   "cores": {
     "castanho": "#85810f",
     "dourado": "#46491d",
