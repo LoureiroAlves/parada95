@@ -2337,13 +2337,17 @@
     if(!est) return;
     (els || []).forEach(function(el){
       if(!el) return;
-      if(est.fonte && est.fonte !== 'auto' && FONTES_TITULO[est.fonte]) el.style.fontFamily = FONTES_TITULO[est.fonte];
-      if(est.negrito) el.style.fontWeight = '800';
-      if(est.italico) el.style.fontStyle = 'italic';
+      el.style.fontFamily = (est.fonte && est.fonte !== 'auto' && FONTES_TITULO[est.fonte]) ? FONTES_TITULO[est.fonte] : '';
+      if(est.tamanho) el.style.fontSize = est.tamanho + 'rem';
+      el.style.fontWeight = est.negrito ? '800' : '';
+      el.style.fontStyle = est.italico ? 'italic' : '';
+      el.style.textShadow = est.sombra ? '0 1px 3px rgba(0,0,0,0.55), 0 0 8px rgba(0,0,0,0.35)' : '';
       if(est.contorno){
-        const c = est.contornoCor || '#000000';
-        el.style.setProperty('-webkit-text-stroke', (est.contornoLargura || 1) + 'px ' + c);
+        el.style.setProperty('-webkit-text-stroke', (est.contornoLargura || 1) + 'px ' + (est.contornoCor || '#000000'));
         el.style.paintOrder = 'stroke fill';
+      } else {
+        el.style.setProperty('-webkit-text-stroke', '0px');
+        el.style.paintOrder = '';
       }
     });
   }
