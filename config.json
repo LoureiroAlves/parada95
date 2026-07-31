@@ -268,5 +268,11 @@
     "botao": "",
     "reveal": "cortina",
     "foto": ""
+  },
+  "caderno": {
+    "folha": "quadriculado",
+    "corLetra": "#4a3820",
+    "corFolha": "#836934",
+    "corLinha": "#d0b058"
   }
 }
