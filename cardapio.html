@@ -543,6 +543,7 @@
   .grupo-vinho[open] summary::after{content:" ▴";}
   .grupo-vinho .card-lista{margin-top:6px;}
 
+  .vinho-tab-nome{ font-family:var(--fonte-titulo); font-weight:700; color:var(--castanho); margin:10px 0 0; text-align:center; }
   .tabela-doses{width:100%; border-collapse:collapse; text-align:center; margin:4px 0;}
   .tabela-doses td{padding:6px 4px; font-size:0.85rem;}
   .tabela-doses .dose{color:var(--castanho-suave); font-size:0.78rem;}
@@ -1909,7 +1910,14 @@
     if(g.subtitulo){ const s=document.createElement('div'); s.className='subtitulo'; _mLang(s, g.subtitulo); det.appendChild(s); }
     const lista = document.createElement('div');
     lista.className = 'card-lista';
-    (g.itens||[]).forEach(it => { lista.appendChild(it.tabela ? _mTabela(it.tabela) : _mItem(it)); });
+    (g.itens||[]).forEach(it => {
+      if(it.tabela){
+        if(it.nome && (it.nome.pt || it.nome.en || it.nome.fr || it.nome.es)){ const h = document.createElement('div'); h.className = 'vinho-tab-nome'; _mLang(h, it.nome); lista.appendChild(h); }
+        lista.appendChild(_mTabela(it.tabela));
+      } else {
+        lista.appendChild(_mItem(it));
+      }
+    });
     det.appendChild(lista);
     return det;
   }
