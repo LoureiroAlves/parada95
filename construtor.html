@@ -149,6 +149,23 @@
     </div>
   </div>
 
+  <!-- BLOCO: CONTEÚDO (blocos livres) -->
+  <div class="bloco aberto" id="blk-conteudo">
+    <div class="bloco-cab"><span class="tit">🧩 Blocos de conteúdo</span></div>
+    <div class="bloco-corpo">
+      <div class="ajuda">Adiciona blocos e monta a página. Reordena com ▲▼, apaga com 🗑.</div>
+      <div style="display:flex; flex-wrap:wrap; gap:6px; margin:10px 0;">
+        <button type="button" class="btn" data-add="titulo">+ Título</button>
+        <button type="button" class="btn" data-add="paragrafo">+ Texto</button>
+        <button type="button" class="btn" data-add="imagem">+ Imagem</button>
+        <button type="button" class="btn" data-add="botao">+ Botão</button>
+        <button type="button" class="btn" data-add="separador">+ Linha</button>
+        <button type="button" class="btn" data-add="espaco">+ Espaço</button>
+      </div>
+      <div id="listaBlocos"></div>
+    </div>
+  </div>
+
   <!-- BLOCO: LISTA / MENU -->
   <div class="bloco" id="blk-menu">
     <div class="bloco-cab">
@@ -262,6 +279,81 @@
   [['hCor','hCorVal'],['tlCor','tlCorVal'],['bCor','bCorVal'],['fCor','fCorVal']].forEach(function(p){ const el=$(p[0]); el.addEventListener('input', ()=> $(p[1]).textContent = el.value ); });
   $('fundoTipo').addEventListener('change', ()=>{ $('fundoTexturaBox').style.display = $('fundoTipo').value==='textura'?'block':'none'; });
 
+  // ---- Blocos de conteúdo ----
+  const TIPOS_LABEL = { titulo:'Título', paragrafo:'Texto', imagem:'Imagem', botao:'Botão', separador:'Linha', espaco:'Espaço' };
+  function novoBloco(tipo){
+    const id = 'b'+Date.now()+Math.floor(Math.random()*1000);
+    const base = { id:id, tipo:tipo, align:'center' };
+    if(tipo==='titulo') return Object.assign(base,{ texto:'Título', tamanho:2, cor:'' });
+    if(tipo==='paragrafo') return Object.assign(base,{ texto:'Escreve aqui…', tamanho:1, cor:'' });
+    if(tipo==='imagem') return Object.assign(base,{ url:'', largura:100, radius:12 });
+    if(tipo==='botao') return Object.assign(base,{ texto:'Clica aqui', link:'', cor:'', corTexto:'#ffffff' });
+    if(tipo==='espaco') return Object.assign(base,{ altura:24 });
+    return base;
+  }
+  function mkCampo(label, tipo, valor, onInput, attrs){
+    attrs = attrs || {};
+    const wrap = document.createElement('div'); wrap.style.margin = '6px 0';
+    if(label){ const l=document.createElement('label'); l.textContent=label; l.style.margin='4px 0 2px'; wrap.appendChild(l); }
+    let inp;
+    if(tipo==='textarea'){ inp=document.createElement('textarea'); inp.rows=3; }
+    else if(tipo==='select'){ inp=document.createElement('select'); (attrs.opcoes||[]).forEach(function(o){ const op=document.createElement('option'); op.value=o[0]; op.textContent=o[1]; inp.appendChild(op); }); }
+    else { inp=document.createElement('input'); inp.type=tipo; }
+    if(attrs.min!=null) inp.min=attrs.min; if(attrs.max!=null) inp.max=attrs.max; if(attrs.step!=null) inp.step=attrs.step; if(attrs.placeholder) inp.placeholder=attrs.placeholder;
+    if(tipo==='color') inp.style.cssText='width:52px; height:34px; padding:0; border:none; background:none; cursor:pointer;';
+    inp.value = (valor!=null?valor:'');
+    inp.addEventListener('input', function(){ onInput(inp.value); });
+    if(attrs.inline && label){ wrap.style.display='flex'; wrap.style.alignItems='center'; wrap.style.justifyContent='space-between'; wrap.querySelector('label').style.margin='0'; }
+    wrap.appendChild(inp); return wrap;
+  }
+  const OPC_ALIGN = [['left','Esquerda'],['center','Centro'],['right','Direita']];
+  function renderBlocos(){
+    const lista = $('listaBlocos'); if(!lista) return;
+    cfg.blocos = Array.isArray(cfg.blocos) ? cfg.blocos : [];
+    lista.innerHTML='';
+    cfg.blocos.forEach(function(b, i){
+      const card=document.createElement('div'); card.style.cssText='border:1.5px solid var(--linha); border-radius:10px; padding:8px 10px; margin-top:8px; background:var(--bege-claro);';
+      const cab=document.createElement('div'); cab.style.cssText='display:flex; align-items:center; gap:5px;';
+      const t=document.createElement('span'); t.textContent=TIPOS_LABEL[b.tipo]||b.tipo; t.style.cssText='font-weight:800; flex:1; color:var(--castanho);';
+      const mkBtn=function(txt,fn){ const x=document.createElement('button'); x.className='btn'; x.textContent=txt; x.style.padding='4px 8px'; x.onclick=fn; return x; };
+      cab.appendChild(t);
+      cab.appendChild(mkBtn('▲', function(){ if(i>0){ cfg.blocos.splice(i-1,0,cfg.blocos.splice(i,1)[0]); renderBlocos(); enviar(); } }));
+      cab.appendChild(mkBtn('▼', function(){ if(i<cfg.blocos.length-1){ cfg.blocos.splice(i+1,0,cfg.blocos.splice(i,1)[0]); renderBlocos(); enviar(); } }));
+      cab.appendChild(mkBtn('🗑', function(){ cfg.blocos.splice(i,1); renderBlocos(); enviar(); }));
+      card.appendChild(cab);
+      const set=function(k){ return function(v){ b[k]=v; enviar(); }; };
+      const setN=function(k){ return function(v){ b[k]=parseFloat(v); enviar(); }; };
+      if(b.tipo==='titulo'){
+        card.appendChild(mkCampo('','text',b.texto,set('texto'),{placeholder:'Texto do título'}));
+        card.appendChild(mkCampo('Tamanho','range',b.tamanho,setN('tamanho'),{min:1,max:4,step:0.1,inline:true}));
+        card.appendChild(mkCampo('Cor','color',b.cor||'#4a3820',set('cor'),{inline:true}));
+        card.appendChild(mkCampo('Alinhamento','select',b.align,set('align'),{opcoes:OPC_ALIGN,inline:true}));
+      } else if(b.tipo==='paragrafo'){
+        card.appendChild(mkCampo('','textarea',b.texto,set('texto'),{placeholder:'Escreve o texto…'}));
+        card.appendChild(mkCampo('Tamanho','range',b.tamanho,setN('tamanho'),{min:0.8,max:2,step:0.05,inline:true}));
+        card.appendChild(mkCampo('Cor','color',b.cor||'#8a7350',set('cor'),{inline:true}));
+        card.appendChild(mkCampo('Alinhamento','select',b.align,set('align'),{opcoes:OPC_ALIGN,inline:true}));
+      } else if(b.tipo==='imagem'){
+        card.appendChild(mkCampo('Endereço da imagem (URL ou imagens/…)','text',b.url,set('url'),{placeholder:'https://… ou imagens/foto.jpg'}));
+        card.appendChild(mkCampo('Largura %','range',b.largura,setN('largura'),{min:20,max:100,step:1,inline:true}));
+        card.appendChild(mkCampo('Cantos','range',b.radius,setN('radius'),{min:0,max:40,step:1,inline:true}));
+        card.appendChild(mkCampo('Alinhamento','select',b.align,set('align'),{opcoes:OPC_ALIGN,inline:true}));
+      } else if(b.tipo==='botao'){
+        card.appendChild(mkCampo('Texto','text',b.texto,set('texto'),{placeholder:'Ex: Reservar'}));
+        card.appendChild(mkCampo('Link','text',b.link,set('link'),{placeholder:'https://…'}));
+        card.appendChild(mkCampo('Cor do botão','color',b.cor||'#a8712f',set('cor'),{inline:true}));
+        card.appendChild(mkCampo('Cor do texto','color',b.corTexto||'#ffffff',set('corTexto'),{inline:true}));
+        card.appendChild(mkCampo('Alinhamento','select',b.align,set('align'),{opcoes:OPC_ALIGN,inline:true}));
+      } else if(b.tipo==='espaco'){
+        card.appendChild(mkCampo('Altura (px)','range',b.altura,setN('altura'),{min:8,max:120,step:2,inline:true}));
+      }
+      lista.appendChild(card);
+    });
+  }
+  document.querySelectorAll('[data-add]').forEach(function(btn){
+    btn.addEventListener('click', function(){ cfg.blocos = Array.isArray(cfg.blocos)?cfg.blocos:[]; cfg.blocos.push(novoBloco(btn.dataset.add)); renderBlocos(); enviar(); });
+  });
+
   // ---- Ler o formulário para o cfg (mantendo campos não expostos) ----
   function lerForm(){
     cfg.layout = $('layout').value;
@@ -283,6 +375,7 @@
     cfg.intro = Object.assign({ duracao:7, fundo:'gradiente', tamanho:2.7, subTamanho:1.08, cor:'#ffffff' }, cfg.intro, {
       ativo:$('on-intro').checked, titulo:$('iTitulo').value.trim(), subtitulo:$('iSubtitulo').value.trim(), botao:$('iBotao').value.trim(), reveal:$('iReveal').value
     });
+    cfg.blocos = Array.isArray(cfg.blocos) ? cfg.blocos : [];
     return cfg;
   }
 
@@ -298,6 +391,7 @@
     const f = cfg.footer || {}; $('on-footer').checked = f.mostrar !== false && !!(f.nome||f.morada||f.telefone); $('fNome').value=f.nome||''; $('fMorada').value=f.morada||''; $('fTelefone').value=f.telefone||''; $('fCor').value=f.cor||'#ffffff'; $('fCorVal').textContent=f.cor||'#ffffff';
     const i = cfg.intro || {}; $('on-intro').checked=!!i.ativo; $('iTitulo').value=i.titulo||''; $('iSubtitulo').value=i.subtitulo||''; $('iBotao').value=i.botao||''; $('iReveal').value=i.reveal||'slide';
     document.querySelectorAll('.bloco input[type=checkbox]:checked').forEach(function(c){ c.closest('.bloco').classList.add('aberto'); });
+    renderBlocos();
   }
 
   // ---- Carregar ----
