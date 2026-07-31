@@ -1687,6 +1687,7 @@
       el.style.textShadow = sombraR;
       if(cfg.realce !== false) el.style.fontWeight = '700';
     });
+    if(typeof aplicarEstiloTexto === 'function') aplicarEstiloTexto(['rodapeLinha1','rodapeLinha2','rodapeLinha3','rodapeLinha4'].map(function(id){ return document.getElementById(id); }), cfg.estilo);
     const normal = { 1:cfg.linha1||'', 2:cfg.linha2||'', 3:cfg.linha3||'', 4:cfg.linha4||'' };
     if(window.aplicarEspecialRodape) window.aplicarEspecialRodape(cfg.especial, normal);
   }
@@ -2332,6 +2333,21 @@
       document.documentElement.style.setProperty('--fonte-titulo', FONTES_TITULO[nome]);
     }
   }
+  // Estilo de texto por secção: tipo de letra, negrito, itálico e contorno na letra
+  function aplicarEstiloTexto(els, est){
+    if(!est) return;
+    (els || []).forEach(function(el){
+      if(!el) return;
+      if(est.fonte && est.fonte !== 'auto' && FONTES_TITULO[est.fonte]) el.style.fontFamily = FONTES_TITULO[est.fonte];
+      if(est.negrito) el.style.fontWeight = '800';
+      if(est.italico) el.style.fontStyle = 'italic';
+      if(est.contorno){
+        const c = est.contornoCor || '#000000';
+        el.style.setProperty('-webkit-text-stroke', (est.contornoLargura || 1) + 'px ' + c);
+        el.style.paintOrder = 'stroke fill';
+      }
+    });
+  }
 
   // Mostrar/esconder a secção de Jogos consoante o restaurante
   window._jogosAtivos = true;
@@ -2432,6 +2448,7 @@
           if(tl.titulo && tl.titulo.trim()){ const h = document.createElement('div'); h.textContent = tl.titulo; h.style.cssText = 'font-family:var(--fonte-titulo); font-weight:800; line-height:1.1; font-size:' + tam + 'rem;'; bloco.appendChild(h); }
           if(tl.subtitulo && tl.subtitulo.trim()){ const s = document.createElement('div'); s.textContent = tl.subtitulo; s.style.cssText = 'margin-top:8px; font-size:' + (tam*0.42) + 'rem; opacity:.9;'; bloco.appendChild(s); }
           el.appendChild(bloco);
+          aplicarEstiloTexto(Array.prototype.slice.call(bloco.children), tl.estilo);
           // Em pré-visualização: arrastar diretamente para posicionar
           if(window.__PREVIEW){
             bloco.style.cursor = 'move'; bloco.style.userSelect = 'none';
@@ -2510,6 +2527,7 @@
           });
           if(t && config.header.tituloTamanho) t.style.fontSize = config.header.tituloTamanho + 'rem';
           if(s && config.header.subtituloTamanho) s.style.fontSize = config.header.subtituloTamanho + 'rem';
+          aplicarEstiloTexto([t, s], config.header.estilo);
         }
         if(config.header.fotosAtivas !== false){
           preencherFotos(document.querySelector('#headerFotos'), config.header.fotos);
@@ -2756,6 +2774,7 @@
             });
           }
         }
+        aplicarEstiloTexto([document.getElementById('footerNome'), document.getElementById('footerMorada'), document.getElementById('footerTelefone')], config.footer.estilo);
         // Posição do bloco de texto (arrastável no editor)
         const ft = document.querySelector('#rodapeFinal .footer-texto');
         if(ft){
