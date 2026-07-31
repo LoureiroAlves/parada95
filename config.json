@@ -20,6 +20,26 @@
       "sombra": false,
       "contorno": false,
       "contornoCor": "#000000"
+    },
+    "estiloTitulo": {
+      "fonte": "auto",
+      "tamanho": 2.8,
+      "cor": "#ffffff",
+      "negrito": false,
+      "italico": false,
+      "sombra": false,
+      "contorno": false,
+      "contornoCor": "#000000"
+    },
+    "estiloSub": {
+      "fonte": "auto",
+      "tamanho": 0.82,
+      "cor": "#ffffff",
+      "negrito": false,
+      "italico": true,
+      "sombra": false,
+      "contorno": false,
+      "contornoCor": "#000000"
     }
   },
   "rodape": {
@@ -207,7 +227,49 @@
       "sombra": false,
       "contorno": true,
       "contornoCor": "#000000"
-    }
+    },
+    "linhaEstilos": [
+      {
+        "fonte": "auto",
+        "tamanho": null,
+        "cor": "#c9c5c5",
+        "negrito": true,
+        "italico": false,
+        "sombra": false,
+        "contorno": false,
+        "contornoCor": "#000000"
+      },
+      {
+        "fonte": "auto",
+        "tamanho": null,
+        "cor": "#c9c5c5",
+        "negrito": false,
+        "italico": false,
+        "sombra": false,
+        "contorno": false,
+        "contornoCor": "#000000"
+      },
+      {
+        "fonte": "auto",
+        "tamanho": null,
+        "cor": "#c9c5c5",
+        "negrito": false,
+        "italico": false,
+        "sombra": false,
+        "contorno": false,
+        "contornoCor": "#000000"
+      },
+      {
+        "fonte": "auto",
+        "tamanho": null,
+        "cor": "#c9c5c5",
+        "negrito": false,
+        "italico": false,
+        "sombra": false,
+        "contorno": false,
+        "contornoCor": "#000000"
+      }
+    ]
   },
   "footer": {
     "nome": "Parada95",
@@ -223,15 +285,38 @@
     "fotoPanY": 11.733470052917808,
     "textoX": 20.711669921875,
     "textoY": 85.35055755955543,
-    "estilo": {
-      "fonte": "auto",
-      "tamanho": null,
-      "negrito": false,
-      "italico": false,
-      "sombra": false,
-      "contorno": false,
-      "contornoCor": "#000000"
-    }
+    "linhaEstilos": [
+      {
+        "fonte": "auto",
+        "tamanho": null,
+        "cor": "#ffffff",
+        "negrito": true,
+        "italico": false,
+        "sombra": false,
+        "contorno": false,
+        "contornoCor": "#000000"
+      },
+      {
+        "fonte": "auto",
+        "tamanho": null,
+        "cor": "#ffffff",
+        "negrito": false,
+        "italico": false,
+        "sombra": false,
+        "contorno": false,
+        "contornoCor": "#000000"
+      },
+      {
+        "fonte": "auto",
+        "tamanho": null,
+        "cor": "#ffffff",
+        "negrito": false,
+        "italico": false,
+        "sombra": false,
+        "contorno": false,
+        "contornoCor": "#000000"
+      }
+    ]
   },
   "adJogos": {
     "ativo": false,
@@ -306,7 +391,7 @@
     "foto": ""
   },
   "caderno": {
-    "folha": "liso",
+    "folha": "quadriculado",
     "corLetra": "#edebe8",
     "corFolha": "#836934",
     "corLinha": "#d0b058"
