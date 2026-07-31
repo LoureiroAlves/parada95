@@ -280,8 +280,10 @@
   body.modelo-caderno{ background-color:var(--cad-folha, #fbf8f2); }
   body.modelo-caderno .categoria-painel{ background-color:var(--cad-folha, #fbf8f2); }
   /* Tipos de folha */
-  body.modelo-caderno.folha-quadriculado, body.modelo-caderno.folha-quadriculado .categoria-painel{ background-image:linear-gradient(var(--cad-linha,#d9d2bf) 1px, transparent 1px), linear-gradient(90deg, var(--cad-linha,#d9d2bf) 1px, transparent 1px); background-size:28px 28px; background-attachment:fixed; }
-  body.modelo-caderno.folha-linhas, body.modelo-caderno.folha-linhas .categoria-painel{ background-image:linear-gradient(var(--cad-linha,#d9d2bf) 1px, transparent 1px); background-size:100% 30px; background-attachment:fixed; }
+  body.modelo-caderno.folha-quadriculado{ background-image:linear-gradient(var(--cad-linha,#d9d2bf) 1px, transparent 1px), linear-gradient(90deg, var(--cad-linha,#d9d2bf) 1px, transparent 1px); background-size:28px 28px; background-attachment:scroll; }
+  body.modelo-caderno.folha-quadriculado .categoria-painel{ background-image:linear-gradient(var(--cad-linha,#d9d2bf) 1px, transparent 1px), linear-gradient(90deg, var(--cad-linha,#d9d2bf) 1px, transparent 1px); background-size:28px 28px; background-attachment:local; }
+  body.modelo-caderno.folha-linhas{ background-image:linear-gradient(var(--cad-linha,#d9d2bf) 1px, transparent 1px); background-size:100% 30px; background-attachment:scroll; }
+  body.modelo-caderno.folha-linhas .categoria-painel{ background-image:linear-gradient(var(--cad-linha,#d9d2bf) 1px, transparent 1px); background-size:100% 30px; background-attachment:local; }
   body.modelo-caderno.folha-liso, body.modelo-caderno.folha-liso .categoria-painel{ background-image:none; }
   /* Lista de separadores escrita à mão */
   body.modelo-caderno .categoria-grid{ background:transparent; border:none; display:block; padding:18px 22px 26px; }
