@@ -370,11 +370,21 @@
         <input type="color" id="corHeader" value="#ffffff">
         <span id="corHeaderVal">#ffffff</span>
       </div>
-
-      <div class="lembrar" style="margin-top:12px;">
-        <input type="checkbox" id="realceHeader" checked>
-        <label for="realceHeader" style="margin:0; font-weight:700; color:var(--dourado-escuro); display:inline;">Realçar texto (negrito + sombra)</label>
+      <div style="margin-top:12px; padding:10px; border:1.5px solid var(--linha); border-radius:10px;">
+        <label style="margin-top:0;">Estilo do texto</label>
+        <select id="hdrFonte" style="width:100%; padding:8px 10px; border-radius:8px; border:1.5px solid var(--linha); background:var(--branco); font-family:inherit; color:var(--castanho); font-size:0.95rem;">
+          <option value="auto">Tipo de letra (automático)</option>
+          <option value="fredoka">Fredoka</option><option value="poppins">Poppins</option><option value="quicksand">Quicksand</option><option value="montserrat">Montserrat</option><option value="playfair">Playfair Display</option><option value="bebas">Bebas Neue</option><option value="lobster">Lobster</option><option value="pacifico">Pacifico</option>
+        </select>
+        <div style="display:flex; gap:14px; align-items:center; margin-top:8px; flex-wrap:wrap;">
+          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="hdrNegrito" style="width:auto;"> Negrito</label>
+          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="hdrItalico" style="width:auto;"> Itálico</label>
+          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="hdrSombra" style="width:auto;"> Sombra</label>
+          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="hdrContorno" style="width:auto;"> Contorno</label>
+          <input type="color" id="hdrContornoCor" value="#000000" style="width:40px; height:28px; padding:0; border:none; background:none; cursor:pointer;" title="Cor do contorno">
+        </div>
       </div>
+
 
       <div class="lembrar" style="margin-top:16px;">
         <input type="checkbox" id="fotosHeaderAtivas" checked>
@@ -409,6 +419,20 @@
       <div class="campo-cor">
         <input type="color" id="tlCor" value="#4a3820">
         <span id="tlCorVal">#4a3820</span>
+      </div>
+      <div style="margin-top:12px; padding:10px; border:1.5px solid var(--linha); border-radius:10px;">
+        <label style="margin-top:0;">Estilo do texto</label>
+        <select id="tlEstFonte" style="width:100%; padding:8px 10px; border-radius:8px; border:1.5px solid var(--linha); background:var(--branco); font-family:inherit; color:var(--castanho); font-size:0.95rem;">
+          <option value="auto">Tipo de letra (automático)</option>
+          <option value="fredoka">Fredoka</option><option value="poppins">Poppins</option><option value="quicksand">Quicksand</option><option value="montserrat">Montserrat</option><option value="playfair">Playfair Display</option><option value="bebas">Bebas Neue</option><option value="lobster">Lobster</option><option value="pacifico">Pacifico</option>
+        </select>
+        <div style="display:flex; gap:14px; align-items:center; margin-top:8px; flex-wrap:wrap;">
+          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="tlEstNegrito" style="width:auto;"> Negrito</label>
+          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="tlEstItalico" style="width:auto;"> Itálico</label>
+          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="tlEstSombra" style="width:auto;"> Sombra</label>
+          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="tlEstContorno" style="width:auto;"> Contorno</label>
+          <input type="color" id="tlEstContornoCor" value="#000000" style="width:40px; height:28px; padding:0; border:none; background:none; cursor:pointer;" title="Cor do contorno">
+        </div>
       </div>
       <label style="margin-top:12px;">Tamanho do título</label>
       <div style="display:flex; align-items:center; gap:10px;">
@@ -597,11 +621,22 @@
         <input type="color" id="corRodape" value="#ffffff">
         <span id="corRodapeVal">#ffffff</span>
       </div>
-
-      <div class="lembrar" style="margin-top:12px;">
-        <input type="checkbox" id="realceRodape" checked>
-        <label for="realceRodape" style="margin:0; font-weight:700; color:var(--dourado-escuro); display:inline;">Realçar texto (negrito + sombra)</label>
+      <div style="margin-top:12px; padding:10px; border:1.5px solid var(--linha); border-radius:10px;">
+        <label style="margin-top:0;">Estilo do texto</label>
+        <select id="barFonte" style="width:100%; padding:8px 10px; border-radius:8px; border:1.5px solid var(--linha); background:var(--branco); font-family:inherit; color:var(--castanho); font-size:0.95rem;">
+          <option value="auto">Tipo de letra (automático)</option>
+          <option value="fredoka">Fredoka</option><option value="poppins">Poppins</option><option value="quicksand">Quicksand</option><option value="montserrat">Montserrat</option><option value="playfair">Playfair Display</option><option value="bebas">Bebas Neue</option><option value="lobster">Lobster</option><option value="pacifico">Pacifico</option>
+        </select>
+        <div style="display:flex; align-items:center; gap:8px; margin-top:8px;"><span style="font-size:0.85rem; color:var(--castanho-suave);">Tamanho (rem, vazio = automático)</span><input type="number" id="barTamanho" min="0.6" max="4" step="0.05" style="width:80px; padding:7px; border-radius:8px; border:1.5px solid var(--linha); font-family:inherit;"></div>
+        <div style="display:flex; gap:14px; align-items:center; margin-top:8px; flex-wrap:wrap;">
+          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="barNegrito" style="width:auto;"> Negrito</label>
+          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="barItalico" style="width:auto;"> Itálico</label>
+          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="barSombra" style="width:auto;"> Sombra</label>
+          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="barContorno" style="width:auto;"> Contorno</label>
+          <input type="color" id="barContornoCor" value="#000000" style="width:40px; height:28px; padding:0; border:none; background:none; cursor:pointer;" title="Cor do contorno">
+        </div>
       </div>
+
 
       <div class="lembrar" style="margin-top:16px;">
         <input type="checkbox" id="fotosRodapeAtivas" checked>
@@ -631,6 +666,21 @@
       <div class="campo-cor">
         <input type="color" id="corFooter" value="#ffffff">
         <span id="corFooterVal">#ffffff</span>
+      </div>
+      <div style="margin-top:12px; padding:10px; border:1.5px solid var(--linha); border-radius:10px;">
+        <label style="margin-top:0;">Estilo do texto</label>
+        <select id="rodFonte" style="width:100%; padding:8px 10px; border-radius:8px; border:1.5px solid var(--linha); background:var(--branco); font-family:inherit; color:var(--castanho); font-size:0.95rem;">
+          <option value="auto">Tipo de letra (automático)</option>
+          <option value="fredoka">Fredoka</option><option value="poppins">Poppins</option><option value="quicksand">Quicksand</option><option value="montserrat">Montserrat</option><option value="playfair">Playfair Display</option><option value="bebas">Bebas Neue</option><option value="lobster">Lobster</option><option value="pacifico">Pacifico</option>
+        </select>
+        <div style="display:flex; align-items:center; gap:8px; margin-top:8px;"><span style="font-size:0.85rem; color:var(--castanho-suave);">Tamanho (rem, vazio = automático)</span><input type="number" id="rodTamanho" min="0.6" max="4" step="0.05" style="width:80px; padding:7px; border-radius:8px; border:1.5px solid var(--linha); font-family:inherit;"></div>
+        <div style="display:flex; gap:14px; align-items:center; margin-top:8px; flex-wrap:wrap;">
+          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="rodNegrito" style="width:auto;"> Negrito</label>
+          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="rodItalico" style="width:auto;"> Itálico</label>
+          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="rodSombra" style="width:auto;"> Sombra</label>
+          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="rodContorno" style="width:auto;"> Contorno</label>
+          <input type="color" id="rodContornoCor" value="#000000" style="width:40px; height:28px; padding:0; border:none; background:none; cursor:pointer;" title="Cor do contorno">
+        </div>
       </div>
 
       <div class="lembrar" style="margin-top:16px;">
@@ -911,6 +961,31 @@
     estadoEl.textContent = msg;
   }
 
+  // ---- Estilo de texto por secção (tipo de letra, negrito, itálico, contorno) ----
+  function lerEstilo(P){
+    const g = id => document.getElementById(P + id);
+    return {
+      fonte:g('Fonte').value,
+      tamanho: g('Tamanho') ? (parseFloat(g('Tamanho').value) || null) : null,
+      negrito:g('Negrito').checked,
+      italico:g('Italico').checked,
+      sombra: g('Sombra') ? g('Sombra').checked : false,
+      contorno:g('Contorno').checked,
+      contornoCor:g('ContornoCor').value
+    };
+  }
+  function preencherEstilo(P, est){
+    est = est || {}; const g = id => document.getElementById(P + id);
+    if(!g('Fonte')) return;
+    g('Fonte').value = est.fonte || 'auto';
+    if(g('Tamanho')) g('Tamanho').value = (est.tamanho != null ? est.tamanho : '');
+    g('Negrito').checked = !!est.negrito;
+    g('Italico').checked = !!est.italico;
+    if(g('Sombra')) g('Sombra').checked = !!est.sombra;
+    g('Contorno').checked = !!est.contorno;
+    g('ContornoCor').value = est.contornoCor || '#000000';
+  }
+
   // ---- Base64 UTF-8 helpers ----
   function utf8ParaBase64(str){
     return btoa(unescape(encodeURIComponent(str)));
@@ -1082,8 +1157,11 @@
     document.getElementById('corHeaderVal').textContent = ch;
     document.getElementById('corRodape').value = cr;
     document.getElementById('corRodapeVal').textContent = cr;
-    document.getElementById('realceHeader').checked = config.header.realce !== false;
     document.getElementById('headerMostrar').checked = config.header.mostrar !== false;
+    preencherEstilo('hdr', config.header.estilo);
+    preencherEstilo('bar', config.rodape.estilo);
+    preencherEstilo('rod', config.footer.estilo);
+    preencherEstilo('tlEst', (config.textoLivre || {}).estilo);
     // Texto livre
     const tl = config.textoLivre || {};
     document.getElementById('tlAtivo').checked = !!tl.ativo;
@@ -1096,7 +1174,6 @@
     document.getElementById('tlX').value = (tl.x != null ? tl.x : 50); document.getElementById('tlXVal').textContent = (tl.x != null ? tl.x : 50);
     document.getElementById('tlY').value = (tl.y != null ? tl.y : 50); document.getElementById('tlYVal').textContent = (tl.y != null ? tl.y : 50);
     document.getElementById('headerEncolher').checked = (config.header.fixo === true) || (config.header.encolher === true);
-    document.getElementById('realceRodape').checked = config.rodape.realce !== false;
     const esp = config.rodape.especial || {};
     document.getElementById('especialAtivo').checked = !!esp.ativo;
     document.getElementById('especialInicio').value = esp.inicio || '';
@@ -1423,8 +1500,9 @@
       config.rodape.fotosAtivas = document.getElementById('fotosRodapeAtivas').checked;
       config.header.cor = document.getElementById('corHeader').value;
       config.rodape.cor = document.getElementById('corRodape').value;
-      config.header.realce = document.getElementById('realceHeader').checked;
+      config.header.realce = false;
       config.header.mostrar = document.getElementById('headerMostrar').checked;
+      config.header.estilo = lerEstilo('hdr');
       config.textoLivre = {
         ativo: document.getElementById('tlAtivo').checked,
         titulo: document.getElementById('tlTitulo').value.trim(),
@@ -1433,11 +1511,13 @@
         tamanho: parseFloat(document.getElementById('tlTamanho').value) || 2.4,
         altura: parseInt(document.getElementById('tlAltura').value, 10) || 42,
         x: parseInt(document.getElementById('tlX').value, 10),
-        y: parseInt(document.getElementById('tlY').value, 10)
+        y: parseInt(document.getElementById('tlY').value, 10),
+        estilo: lerEstilo('tlEst')
       };
       config.header.fixo = document.getElementById('headerEncolher').checked;
       delete config.header.encolher;
-      config.rodape.realce = document.getElementById('realceRodape').checked;
+      config.rodape.realce = false;
+      config.rodape.estilo = lerEstilo('bar');
       config.rodape.especial = {
         ativo: document.getElementById('especialAtivo').checked,
         inicio: document.getElementById('especialInicio').value,
@@ -1472,7 +1552,9 @@
         fotoPanX: config.footer.fotoPanX || 0,
         fotoPanY: config.footer.fotoPanY || 0,
         textoX: config.footer.textoX ?? 50,
-        textoY: config.footer.textoY ?? 50
+        textoY: config.footer.textoY ?? 50,
+        mostrar: config.footer.mostrar,
+        estilo: lerEstilo('rod')
       };
       config.adJogos = {
         ativo: document.getElementById('adjAtivo').checked,
