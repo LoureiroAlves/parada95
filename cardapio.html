@@ -856,15 +856,19 @@
   #cartBtn.escondido{ display:none; }
 
   #cartOverlay{
-    position:fixed; inset:0; z-index:400; background:rgba(0,0,0,0.5);
-    display:none; align-items:flex-end; justify-content:center;
+    position:fixed; inset:0; z-index:400; background:rgba(0,0,0,0);
+    display:flex; align-items:flex-end; justify-content:center;
+    opacity:0; visibility:hidden; pointer-events:none;
+    transition:background .3s ease, opacity .3s ease, visibility .3s ease;
   }
-  #cartOverlay.aberto{ display:flex; }
+  #cartOverlay.aberto{ background:rgba(0,0,0,0.5); opacity:1; visibility:visible; pointer-events:auto; }
   .cart-painel{
     background:var(--branco); width:100%; max-width:520px; max-height:82vh;
     border-radius:18px 18px 0 0; padding:18px 16px 26px; overflow-y:auto;
-    animation:cartSobe .2s ease;
+    transform:translateY(100%);
+    transition:transform .38s cubic-bezier(.22,1,.36,1);
   }
+  #cartOverlay.aberto .cart-painel{ transform:translateY(0); }
   @keyframes cartSobe{ from{ transform:translateY(30px); opacity:0; } to{ transform:translateY(0); opacity:1; } }
   .cart-painel h3{ font-family:var(--fonte-titulo); color:var(--castanho); margin-bottom:8px; font-size:1.2rem; }
   .cart-vazio{ text-align:center; color:var(--castanho-suave); padding:24px 0; font-size:0.9rem; }
@@ -878,6 +882,17 @@
   .cart-acoes button{ flex:1; padding:13px; border:none; border-radius:11px; cursor:pointer; font-weight:700; font-family:var(--fonte-titulo); font-size:0.95rem; }
   .cart-fechar{ background:var(--bege); color:var(--castanho); }
   .cart-limpar{ background:var(--castanho); color:#fff; }
+  /* Dividir a conta */
+  .cart-dividir{ margin-top:14px; border-top:1px dotted var(--linha); padding-top:14px; }
+  .cart-dividir-btn{ width:100%; padding:12px; border:1.5px solid var(--dourado); border-radius:11px; background:var(--branco); color:var(--castanho); font-weight:700; font-family:var(--fonte-titulo); font-size:0.95rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; }
+  .cart-dividir-box{ overflow:hidden; max-height:0; opacity:0; transition:max-height .35s ease, opacity .3s ease, margin .3s ease; margin-top:0; }
+  .cart-dividir-box.aberta{ max-height:220px; opacity:1; margin-top:14px; }
+  .cart-pessoas{ display:flex; align-items:center; justify-content:center; gap:18px; margin:6px 0 12px; }
+  .cart-pessoas button{ width:38px; height:38px; border-radius:50%; border:1px solid var(--linha); background:var(--bege); color:var(--castanho); font-size:1.35rem; cursor:pointer; line-height:1; }
+  .cart-pessoas strong{ font-family:var(--fonte-titulo); font-size:1.5rem; color:var(--castanho); min-width:34px; text-align:center; }
+  .cart-pessoas-label{ text-align:center; font-size:0.85rem; color:var(--castanho-suave); }
+  .cart-porpessoa{ text-align:center; background:var(--bege); border-radius:11px; padding:13px; font-family:var(--fonte-titulo); color:var(--castanho); font-size:1rem; }
+  .cart-porpessoa strong{ color:var(--dourado); font-size:1.35rem; display:block; margin-top:3px; }
 
   /* Escolha de tamanho/dose */
   #escOverlay{ position:fixed; inset:0; z-index:450; background:rgba(0,0,0,0.5); display:none; align-items:flex-end; justify-content:center; }
@@ -4207,6 +4222,7 @@
     const EXPIRA_MS = 3 * 60 * 60 * 1000; // 3 horas
 
     let lista = carregar();
+    let numPessoas = 2, dividirAberto = false;
 
     function carregar(){
       try{
@@ -4285,8 +4301,33 @@
             '</div>';
         });
         html += '<div class="cart-total"><span>Total</span><span>' + total.toFixed(2).replace('.',',') + '€</span></div>';
+        const porPessoa = (total / numPessoas).toFixed(2).replace('.',',');
+        html += '<div class="cart-dividir">' +
+          '<button class="cart-dividir-btn" id="cartDividirBtn">👥 Dividir a conta</button>' +
+          '<div class="cart-dividir-box' + (dividirAberto ? ' aberta' : '') + '" id="cartDividirBox">' +
+            '<div class="cart-pessoas-label">Por quantas pessoas?</div>' +
+            '<div class="cart-pessoas">' +
+              '<button data-d="menos">−</button>' +
+              '<strong id="cartNumPessoas">' + numPessoas + '</strong>' +
+              '<button data-d="mais">+</button>' +
+            '</div>' +
+            '<div class="cart-porpessoa">Cada pessoa paga<strong id="cartPorPessoa">' + porPessoa + '€</strong></div>' +
+          '</div>' +
+        '</div>';
         html += '<div class="cart-acoes"><button class="cart-fechar" id="cartFechar">Fechar</button><button class="cart-limpar" id="cartLimpar">Limpar lista</button></div>';
         p.innerHTML = html;
+        const divBtn = document.getElementById('cartDividirBtn');
+        const divBox = document.getElementById('cartDividirBox');
+        if(divBtn) divBtn.onclick = () => { dividirAberto = !dividirAberto; divBox.classList.toggle('aberta', dividirAberto); };
+        p.querySelectorAll('.cart-pessoas button').forEach(b => {
+          b.onclick = () => {
+            if(b.dataset.d === 'mais') numPessoas++;
+            else if(numPessoas > 1) numPessoas--;
+            const t = lista.reduce((s,i)=>s+i.preco*i.qtd, 0);
+            document.getElementById('cartNumPessoas').textContent = numPessoas;
+            document.getElementById('cartPorPessoa').textContent = (t/numPessoas).toFixed(2).replace('.',',') + '€';
+          };
+        });
       }
       const fechar = document.getElementById('cartFechar');
       if(fechar) fechar.onclick = () => overlay.classList.remove('aberto');
