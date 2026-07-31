@@ -69,7 +69,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Rest & Bar Parque São Caetano — Cardápio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Poppins:wght@500;600;700&family=Playfair+Display:wght@600;700&family=Quicksand:wght@500;600;700&family=Montserrat:wght@500;600;700&family=Bebas+Neue&family=Lobster&family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Poppins:wght@500;600;700&family=Playfair+Display:wght@600;700&family=Quicksand:wght@500;600;700&family=Montserrat:wght@500;600;700&family=Bebas+Neue&family=Lobster&family=Pacifico&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --branco: #ffffff;
@@ -274,6 +274,16 @@
   @keyframes tileEntrar{ from{ opacity:0; transform:translateY(18px); } to{ opacity:1; transform:translateY(0); } }
   .tile.tile-espera{ opacity:0; }
   .tile.tile-entra{ animation:tileEntrar .5s cubic-bezier(.2,.7,.3,1) both; }
+
+  /* ===== Modelo "Caderno de escola" (config.modelo === 'caderno') ===== */
+  body.modelo-caderno{ background-color:var(--bege-claro); background-image:linear-gradient(var(--linha) 1px, transparent 1px), linear-gradient(90deg, var(--linha) 1px, transparent 1px); background-size:28px 28px; background-attachment:fixed; }
+  body.modelo-caderno .categoria-grid{ background:transparent; border:none; display:block; padding:18px 22px 26px; }
+  body.modelo-caderno .tile{ background:none !important; box-shadow:none !important; min-height:0; width:100%; display:block; text-align:left; border-radius:0; padding:3px 0; }
+  body.modelo-caderno .tile .tile-emoji{ display:none; }
+  body.modelo-caderno .tile .tile-label{ display:inline-block; max-width:100%; font-family:'Caveat', cursive; font-weight:700; font-size:2.1rem; line-height:1.32; color:var(--castanho) !important; text-transform:none; letter-spacing:0; text-align:left; text-shadow:none !important; background-image:linear-gradient(transparent 80%, var(--dourado) 80%, var(--dourado) 92%, transparent 92%); }
+  body.modelo-caderno .tile:active .tile-label{ color:var(--dourado-escuro) !important; }
+  body.modelo-caderno .categoria-painel{ background-color:var(--bege-claro); background-image:linear-gradient(var(--linha) 1px, transparent 1px), linear-gradient(90deg, var(--linha) 1px, transparent 1px); background-size:28px 28px; }
+  body.modelo-caderno .categoria-painel h2, body.modelo-caderno #painelTitulo{ font-family:'Caveat', cursive; }
 
   /* Texturas de fundo (usam as cores do tema; com luz+sombra para efeito 3D) */
   body[class*="textura-"]{ background-attachment:fixed; }
@@ -2310,6 +2320,7 @@
       if(config.fonte && config.fonte !== 'auto') aplicarFonte(config.fonte);
       if(config.fonteTexto && FONTES_TITULO[config.fonteTexto]) document.documentElement.style.setProperty('--fonte-texto', FONTES_TITULO[config.fonteTexto]);
       document.body.classList.toggle('modelo-grelha', (config.modelo || 'lista') === 'grelha');
+      document.body.classList.toggle('modelo-caderno', (config.modelo || 'lista') === 'caderno');
       document.body.classList.toggle('abrir-flip', config.abrirEfeito === 'flip');
       document.body.classList.toggle('abrir-cortina-v', config.abrirEfeito === 'cortina-v');
       document.body.classList.toggle('cabecalho-fixo', !!(config.header && (config.header.fixo || config.header.encolher)));
@@ -2320,8 +2331,10 @@
       // Fundo do cardápio (liso / gradiente / imagem / textura)
       document.body.classList.remove('textura-pontos','textura-grelha','textura-diagonal','textura-linho','textura-xadrez','textura-favo','textura-relevo','textura-almofada');
       const _tipoFundo = (config.fundo && config.fundo.tipo) || 'liso';
-      document.body.classList.toggle('fundo-visivel', _tipoFundo !== 'liso');
-      if(config.fundo && config.fundo.tipo){
+      const _isCaderno = (config.modelo || 'lista') === 'caderno';
+      document.body.classList.toggle('fundo-visivel', _tipoFundo !== 'liso' && !_isCaderno);
+      if(_isCaderno){ document.body.style.background = ''; document.body.style.backgroundColor = ''; }
+      else if(config.fundo && config.fundo.tipo){
         const cs = getComputedStyle(document.documentElement);
         const bgClaro = (cs.getPropertyValue('--bege-claro')||'#fbf8f2').trim();
         const bg = (cs.getPropertyValue('--bege')||'#f5efe2').trim();
