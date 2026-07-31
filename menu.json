@@ -155,9 +155,27 @@
       "grupos": [
         {
           "summary": {
-            "pt": "SECÇÃO DE  VINHOS"
+            "pt": "Vinho da casa"
           },
-          "itens": []
+          "itens": [
+            {
+              "nome": {
+                "pt": "Vinho da casa "
+              },
+              "tabela": {
+                "doses": [
+                  "0,50 L",
+                  "0,75 L",
+                  "1 L"
+                ],
+                "precos": [
+                  "7,50€",
+                  "13,00€",
+                  "26,00€"
+                ]
+              }
+            }
+          ]
         },
         {
           "summary": {
