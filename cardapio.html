@@ -2641,9 +2641,8 @@
                   t.style.left = (c*100/cols) + '%'; t.style.top = (r*100/rows) + '%';
                   t.style.width = (100/cols) + '%'; t.style.height = (100/rows) + '%';
                   const inner = document.createElement('div');
-                  inner.style.cssText = 'position:absolute; inset:0; background-repeat:no-repeat; background-size:' + (cols*100) + '% ' + (rows*100) + '%;';
+                  inner.style.cssText = 'position:absolute; width:' + (cols*100) + '%; height:' + (rows*100) + '%; left:' + (-c*100) + '%; top:' + (-r*100) + '%; background-size:cover; background-position:center; background-repeat:no-repeat;';
                   inner.style.backgroundImage = window.__introBgImg;
-                  inner.style.backgroundPosition = (cols>1 ? (c*100/(cols-1)) : 0) + '% ' + (rows>1 ? (r*100/(rows-1)) : 0) + '%';
                   t.appendChild(inner);
                   t.dataset.delay = (Math.random()*0.35).toFixed(2);
                   t.dataset.dir = (Math.random() < 0.5 ? -1 : 1);
