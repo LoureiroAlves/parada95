@@ -524,17 +524,21 @@
   <details id="secRodape">
     <summary>Barra fixa (fundo da página)</summary>
     <div class="bloco-conteudo">
-      <label for="linha1">Linha 1 (a negrito)</label>
+      <label for="linha1">Linha 1</label>
       <input type="text" id="linha1" placeholder="Ex: Contamos contigo!">
+      <div id="estiloLinha1"></div>
 
       <label for="linha2">Linha 2</label>
       <input type="text" id="linha2" placeholder="Ex: Terça a Domingo — Almoço e Jantar">
+      <div id="estiloLinha2"></div>
 
       <label for="linha3">Linha 3</label>
       <input type="text" id="linha3" placeholder="Ex: Reservas: 962 202 622">
+      <div id="estiloLinha3"></div>
 
       <label for="linha4">Linha 4</label>
       <input type="text" id="linha4" placeholder="Ex: Avenida de São Caetano, nº17">
+      <div id="estiloLinha4"></div>
 
       <div class="lembrar" style="margin-top:18px;">
         <input type="checkbox" id="especialAtivo">
@@ -616,26 +620,7 @@
         </div>
       </div>
 
-      <label for="corRodape">Cor do texto</label>
-      <div class="campo-cor">
-        <input type="color" id="corRodape" value="#ffffff">
-        <span id="corRodapeVal">#ffffff</span>
-      </div>
-      <div style="margin-top:12px; padding:10px; border:1.5px solid var(--linha); border-radius:10px;">
-        <label style="margin-top:0;">Estilo do texto</label>
-        <select id="barFonte" style="width:100%; padding:8px 10px; border-radius:8px; border:1.5px solid var(--linha); background:var(--branco); font-family:inherit; color:var(--castanho); font-size:0.95rem;">
-          <option value="auto">Tipo de letra (automático)</option>
-          <option value="fredoka">Fredoka</option><option value="poppins">Poppins</option><option value="quicksand">Quicksand</option><option value="montserrat">Montserrat</option><option value="playfair">Playfair Display</option><option value="bebas">Bebas Neue</option><option value="lobster">Lobster</option><option value="pacifico">Pacifico</option>
-        </select>
-        <div style="display:flex; align-items:center; gap:8px; margin-top:8px;"><span style="font-size:0.85rem; color:var(--castanho-suave);">Tamanho (rem, vazio = automático)</span><input type="number" id="barTamanho" min="0.6" max="4" step="0.05" style="width:80px; padding:7px; border-radius:8px; border:1.5px solid var(--linha); font-family:inherit;"></div>
-        <div style="display:flex; gap:14px; align-items:center; margin-top:8px; flex-wrap:wrap;">
-          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="barNegrito" style="width:auto;"> Negrito</label>
-          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="barItalico" style="width:auto;"> Itálico</label>
-          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="barSombra" style="width:auto;"> Sombra</label>
-          <label style="display:inline-flex; align-items:center; gap:5px; margin:0; font-weight:400;"><input type="checkbox" id="barContorno" style="width:auto;"> Contorno</label>
-          <input type="color" id="barContornoCor" value="#000000" style="width:40px; height:28px; padding:0; border:none; background:none; cursor:pointer;" title="Cor do contorno">
-        </div>
-      </div>
+      <div class="subtitulo" style="margin-top:6px;">O estilo (letra, tamanho, cor, negrito, itálico, sombra, contorno) é definido em <strong>cada linha</strong>, no "Aa estilo desta linha" por baixo de cada uma.</div>
 
 
       <div class="lembrar" style="margin-top:16px;">
@@ -967,6 +952,7 @@
     return {
       fonte:g('Fonte').value,
       tamanho: g('Tamanho') ? (parseFloat(g('Tamanho').value) || null) : null,
+      cor: g('Cor') ? g('Cor').value : undefined,
       negrito:g('Negrito').checked,
       italico:g('Italico').checked,
       sombra: g('Sombra') ? g('Sombra').checked : false,
@@ -979,11 +965,36 @@
     if(!g('Fonte')) return;
     g('Fonte').value = est.fonte || 'auto';
     if(g('Tamanho')) g('Tamanho').value = (est.tamanho != null ? est.tamanho : '');
+    if(g('Cor')) g('Cor').value = est.cor || '#ffffff';
     g('Negrito').checked = !!est.negrito;
     g('Italico').checked = !!est.italico;
     if(g('Sombra')) g('Sombra').checked = !!est.sombra;
     g('Contorno').checked = !!est.contorno;
     g('ContornoCor').value = est.contornoCor || '#000000';
+  }
+  // Cria uma mini-barra de estilo (para usar por linha)
+  function criarToolbarEstilo(P){
+    const d = document.createElement('details');
+    d.style.cssText = 'margin:2px 0 10px; border:1px solid var(--linha); border-radius:8px; background:var(--bege);';
+    d.innerHTML =
+      '<summary style="cursor:pointer; padding:6px 10px; font-size:0.8rem; font-weight:700; color:var(--dourado-escuro);">Aa estilo desta linha</summary>' +
+      '<div style="padding:0 10px 10px;">' +
+        '<select id="'+P+'Fonte" style="width:100%; padding:7px 9px; border-radius:8px; border:1.5px solid var(--linha); font-family:inherit; background:var(--branco); color:var(--castanho); font-size:0.9rem;">' +
+          '<option value="auto">Tipo de letra (automático)</option><option value="fredoka">Fredoka</option><option value="poppins">Poppins</option><option value="quicksand">Quicksand</option><option value="montserrat">Montserrat</option><option value="playfair">Playfair Display</option><option value="bebas">Bebas Neue</option><option value="lobster">Lobster</option><option value="pacifico">Pacifico</option>' +
+        '</select>' +
+        '<div style="display:flex; align-items:center; gap:8px; margin-top:6px; flex-wrap:wrap;">' +
+          '<span style="font-size:0.82rem; color:var(--castanho-suave);">Tam</span><input type="number" id="'+P+'Tamanho" min="0.6" max="4" step="0.05" style="width:66px; padding:6px; border-radius:8px; border:1.5px solid var(--linha); font-family:inherit;">' +
+          '<span style="font-size:0.82rem; color:var(--castanho-suave);">Cor</span><input type="color" id="'+P+'Cor" value="#ffffff" style="width:34px; height:26px; padding:0; border:none; background:none; cursor:pointer;">' +
+        '</div>' +
+        '<div style="display:flex; gap:12px; align-items:center; margin-top:6px; flex-wrap:wrap;">' +
+          '<label style="display:inline-flex; align-items:center; gap:4px; margin:0; font-weight:400;"><input type="checkbox" id="'+P+'Negrito" style="width:auto;"> Negrito</label>' +
+          '<label style="display:inline-flex; align-items:center; gap:4px; margin:0; font-weight:400;"><input type="checkbox" id="'+P+'Italico" style="width:auto;"> Itálico</label>' +
+          '<label style="display:inline-flex; align-items:center; gap:4px; margin:0; font-weight:400;"><input type="checkbox" id="'+P+'Sombra" style="width:auto;"> Sombra</label>' +
+          '<label style="display:inline-flex; align-items:center; gap:4px; margin:0; font-weight:400;"><input type="checkbox" id="'+P+'Contorno" style="width:auto;"> Contorno</label>' +
+          '<input type="color" id="'+P+'ContornoCor" value="#000000" style="width:34px; height:26px; padding:0; border:none; background:none; cursor:pointer;">' +
+        '</div>' +
+      '</div>';
+    return d;
   }
 
   // ---- Base64 UTF-8 helpers ----
@@ -1155,11 +1166,15 @@
     const cr = config.rodape.cor || '#ffffff';
     document.getElementById('corHeader').value = ch;
     document.getElementById('corHeaderVal').textContent = ch;
-    document.getElementById('corRodape').value = cr;
-    document.getElementById('corRodapeVal').textContent = cr;
     document.getElementById('headerMostrar').checked = config.header.mostrar !== false;
     preencherEstilo('hdr', config.header.estilo);
-    preencherEstilo('bar', config.rodape.estilo);
+    // Barra fixa: estilo por linha
+    (function(){
+      const les = Array.isArray(config.rodape.linhaEstilos) ? config.rodape.linhaEstilos : [];
+      for(let i=1;i<=4;i++){
+        preencherEstilo('l'+i, les[i-1] || { cor: cr, negrito: (i===1) });
+      }
+    })();
     preencherEstilo('rod', config.footer.estilo);
     preencherEstilo('tlEst', (config.textoLivre || {}).estilo);
     // Texto livre
@@ -1499,7 +1514,6 @@
       config.header.fotosAtivas = document.getElementById('fotosHeaderAtivas').checked;
       config.rodape.fotosAtivas = document.getElementById('fotosRodapeAtivas').checked;
       config.header.cor = document.getElementById('corHeader').value;
-      config.rodape.cor = document.getElementById('corRodape').value;
       config.header.realce = false;
       config.header.mostrar = document.getElementById('headerMostrar').checked;
       config.header.estilo = lerEstilo('hdr');
@@ -1517,7 +1531,7 @@
       config.header.fixo = document.getElementById('headerEncolher').checked;
       delete config.header.encolher;
       config.rodape.realce = false;
-      config.rodape.estilo = lerEstilo('bar');
+      config.rodape.linhaEstilos = [lerEstilo('l1'), lerEstilo('l2'), lerEstilo('l3'), lerEstilo('l4')];
       config.rodape.especial = {
         ativo: document.getElementById('especialAtivo').checked,
         inicio: document.getElementById('especialInicio').value,
@@ -1787,8 +1801,10 @@
   document.getElementById('corHeader').addEventListener('input', e => {
     document.getElementById('corHeaderVal').textContent = e.target.value;
   });
-  document.getElementById('corRodape').addEventListener('input', e => {
-    document.getElementById('corRodapeVal').textContent = e.target.value;
+  // Injetar as mini-barras de estilo por linha na barra fixa
+  ['estiloLinha1','estiloLinha2','estiloLinha3','estiloLinha4'].forEach(function(cid, i){
+    const c = document.getElementById(cid);
+    if(c) c.appendChild(criarToolbarEstilo('l' + (i+1)));
   });
   document.getElementById('corFooter').addEventListener('input', e => {
     document.getElementById('corFooterVal').textContent = e.target.value;
