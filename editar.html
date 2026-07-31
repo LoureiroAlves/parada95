@@ -2001,14 +2001,40 @@
       const box=document.createElement('div');
 
       if(it.tabela){
-        box.style.cssText='padding:8px 2px;border-bottom:1px dotted var(--linha);';
-        const t=document.createElement('div'); t.style.cssText='font-size:0.8rem;font-weight:700;color:var(--dourado-escuro);margin-bottom:4px;'; t.textContent='Tabela de doses';
-        box.appendChild(t);
-        box.appendChild(mkLabel('Tamanhos (separados por vírgula)'));
-        box.appendChild(mkInput((it.tabela.doses||[]).join(', '),'0,25 L, 0,50 L, 1 L', v=>{ it.tabela.doses=v.split(',').map(s=>s.trim()).filter(Boolean); }));
-        box.appendChild(mkLabel('Preços (pela mesma ordem)'));
-        box.appendChild(mkInput((it.tabela.precos||[]).join(', '),'2,50€, 3,50€, 7,50€', v=>{ it.tabela.precos=v.split(',').map(s=>s.trim()).filter(Boolean); }));
-        const del=mkBtn('🗑 remover tabela','var(--vermelho)',()=>{ g.itens.splice(idx,1); renderEditor(); }); del.style.marginTop='6px';
+        it.tabela.doses = it.tabela.doses || [];
+        it.tabela.precos = it.tabela.precos || [];
+        box.style.cssText='padding:10px;border:1px solid var(--linha);border-radius:9px;margin:6px 0;background:var(--bege-claro);';
+        const rot=document.createElement('div'); rot.style.cssText='font-size:0.78rem;font-weight:700;color:var(--dourado-escuro);margin-bottom:5px;'; rot.textContent='🍷 Vinho com vários tamanhos';
+        box.appendChild(rot);
+        const nome=document.createElement('input'); nome.value=(it.nome && it.nome.pt) || ''; nome.placeholder='Nome (ex: Sangria Frutos Vermelhos, Vinho da Casa)';
+        nome.style.cssText='width:100%;padding:8px 10px;border-radius:8px;border:1.5px solid var(--linha);font-family:inherit;font-weight:600;';
+        nome.addEventListener('input',()=>{ it.nome=it.nome||{pt:''}; it.nome.pt=nome.value; });
+        box.appendChild(nome);
+        // traduções do nome (opcional)
+        const trd=document.createElement('details'); trd.style.cssText='border:none;background:transparent;margin-top:4px;';
+        const trs=document.createElement('summary'); trs.textContent='traduções do nome'; trs.style.cssText='font-size:0.75rem;padding:2px 0;color:var(--castanho-suave);';
+        trd.appendChild(trs); trd.appendChild(campoTraducoes(it.nome)); box.appendChild(trd);
+        const hint=document.createElement('div'); hint.style.cssText='font-size:0.8rem;color:var(--castanho-suave);margin:8px 0 4px;'; hint.textContent='Tamanhos e preços:';
+        box.appendChild(hint);
+        const linhasBox=document.createElement('div');
+        function renderLinhas(){
+          linhasBox.innerHTML='';
+          it.tabela.doses.forEach((dose,ri)=>{
+            const r=document.createElement('div'); r.style.cssText='display:flex;gap:6px;margin-bottom:5px;align-items:center;';
+            const dIn=document.createElement('input'); dIn.value=dose||''; dIn.placeholder='0,5 L'; dIn.style.cssText='flex:1;padding:7px;border-radius:8px;border:1.5px solid var(--linha);font-family:inherit;';
+            dIn.addEventListener('input',()=>{ it.tabela.doses[ri]=dIn.value; });
+            const pIn=document.createElement('input'); pIn.value=(it.tabela.precos[ri]||''); pIn.placeholder='7,50€'; pIn.style.cssText='flex:1;padding:7px;border-radius:8px;border:1.5px solid var(--linha);font-family:inherit;';
+            pIn.addEventListener('input',()=>{ it.tabela.precos[ri]=pIn.value; });
+            const x=mkBtn('🗑','var(--vermelho)',()=>{ it.tabela.doses.splice(ri,1); it.tabela.precos.splice(ri,1); renderLinhas(); }); x.style.padding='6px 9px';
+            r.appendChild(dIn); r.appendChild(pIn); r.appendChild(x);
+            linhasBox.appendChild(r);
+          });
+        }
+        renderLinhas();
+        box.appendChild(linhasBox);
+        const addLinha=mkBtn('＋ tamanho','var(--dourado)',()=>{ it.tabela.doses.push(''); it.tabela.precos.push(''); renderLinhas(); });
+        box.appendChild(addLinha);
+        const del=mkBtn('🗑 remover vinho','var(--vermelho)',()=>{ g.itens.splice(idx,1); renderEditor(); }); del.style.marginTop='8px'; del.style.marginLeft='8px';
         box.appendChild(del);
         return box;
       }
@@ -2073,11 +2099,11 @@
       g.itens.forEach((it,idx)=> itensBox.appendChild(mvItem(g,it,idx)));
       wrap.appendChild(itensBox);
 
-      const addItem=document.createElement('button'); addItem.className='mv-add'; addItem.type='button'; addItem.textContent='＋ prato';
+      const addItem=document.createElement('button'); addItem.className='mv-add'; addItem.type='button'; addItem.textContent='＋ vinho (nome + preço)';
       addItem.addEventListener('click',()=>{ g.itens.push({nome:{pt:''},preco:''}); renderEditor(); });
       wrap.appendChild(addItem);
-      const addTab=document.createElement('button'); addTab.className='mv-add'; addTab.type='button'; addTab.textContent='＋ tabela de doses'; addTab.style.cssText='background:var(--dourado);margin-top:6px;';
-      addTab.addEventListener('click',()=>{ g.itens.push({nome:{pt:''},tabela:{doses:[],precos:[]}}); renderEditor(); });
+      const addTab=document.createElement('button'); addTab.className='mv-add'; addTab.type='button'; addTab.textContent='＋ vinho com tamanhos (ex: sangria, vinho da casa)'; addTab.style.cssText='background:var(--dourado);margin-top:6px;';
+      addTab.addEventListener('click',()=>{ g.itens.push({nome:{pt:''},tabela:{doses:['',''],precos:['','']}}); renderEditor(); });
       wrap.appendChild(addTab);
       return wrap;
     }
@@ -2248,7 +2274,13 @@
             if(it.preco!=null && String(it.preco).trim()==='') delete it.preco;
             if(it.vinho!=null && String(it.vinho).trim()==='') delete it.vinho;
             if(it.foto!=null && String(it.foto).trim()==='') delete it.foto;
-            if(it.tabela){ it.tabela.doses=(it.tabela.doses||[]).filter(Boolean); it.tabela.precos=(it.tabela.precos||[]).filter(Boolean); if(vazioLang(it.nome)) delete it.nome; }
+            if(it.tabela){
+              const ds=it.tabela.doses||[], ps=it.tabela.precos||[], nd=[], np=[];
+              const nmax=Math.max(ds.length, ps.length);
+              for(let k=0;k<nmax;k++){ const d=(ds[k]||'').trim(), p=(ps[k]||'').trim(); if(d||p){ nd.push(d); np.push(p); } }
+              it.tabela.doses=nd; it.tabela.precos=np;
+              if(vazioLang(it.nome)) delete it.nome;
+            }
           });
         });
         if(cat.tipo==='menus'){
