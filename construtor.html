@@ -180,6 +180,13 @@
         <option value="grelha">Grelha de cartões</option>
         <option value="caderno">Caderno (folha quadriculada)</option>
       </select>
+      <div id="cadernoBox" style="display:none; margin-top:8px; padding:10px; border:1.5px solid var(--linha); border-radius:10px;">
+        <label for="cadFolha" style="margin-top:0;">Tipo de folha</label>
+        <select id="cadFolha"><option value="quadriculado">Quadriculado</option><option value="linhas">Linhas horizontais</option><option value="liso">Folha lisa</option></select>
+        <div class="campo-cor" style="justify-content:space-between; margin-top:8px;"><span class="ajuda">Cor da letra</span><input type="color" id="cadCorLetra" value="#4a3820"></div>
+        <div class="campo-cor" style="justify-content:space-between; margin-top:6px;"><span class="ajuda">Cor da folha</span><input type="color" id="cadCorFolha" value="#fbf8f2"></div>
+        <div class="campo-cor" style="justify-content:space-between; margin-top:6px;"><span class="ajuda">Cor das linhas</span><input type="color" id="cadCorLinha" value="#d9d2bf"></div>
+      </div>
       <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
         <button type="button" class="btn" id="btnImportarMenu">Importar menu.json</button>
         <button type="button" class="btn" id="btnGuardarMenu">Guardar menu</button>
@@ -284,6 +291,7 @@
   [['tlTamanho','tlTamanhoVal'],['tlX','tlXVal'],['tlY','tlYVal']].forEach(function(p){ const el=$(p[0]); el.addEventListener('input', ()=> $(p[1]).textContent = el.value ); });
   [['hCor','hCorVal'],['tlCor','tlCorVal'],['bCor','bCorVal'],['fCor','fCorVal']].forEach(function(p){ const el=$(p[0]); el.addEventListener('input', ()=> $(p[1]).textContent = el.value ); });
   $('fundoTipo').addEventListener('change', ()=>{ $('fundoTexturaBox').style.display = $('fundoTipo').value==='textura'?'block':'none'; });
+  $('menuModelo').addEventListener('change', ()=>{ $('cadernoBox').style.display = $('menuModelo').value==='caderno'?'block':'none'; });
 
   // ---- Blocos de conteúdo ----
   const TIPOS_LABEL = { titulo:'Título', paragrafo:'Texto', imagem:'Imagem', botao:'Botão', separador:'Linha', espaco:'Espaço' };
@@ -373,6 +381,7 @@
     });
     cfg.mostrarMenu = $('on-menu').checked;
     cfg.modelo = $('menuModelo').value;
+    cfg.caderno = { folha:$('cadFolha').value, corLetra:$('cadCorLetra').value, corFolha:$('cadCorFolha').value, corLinha:$('cadCorLinha').value };
     cfg.rodape = Object.assign({ cor:'#ffffff', realce:true, fotos:[], fotosAtivas:true }, cfg.rodape, {
       mostrar:$('on-barra').checked, linha1:$('bL1').value.trim(), linha2:$('bL2').value.trim(), linha3:$('bL3').value.trim(), linha4:$('bL4').value.trim(), cor:$('bCor').value
     });
@@ -395,6 +404,7 @@
     $('tlTamanho').value=tl.tamanho||2.4; $('tlTamanhoVal').textContent=tl.tamanho||2.4; $('tlX').value=(tl.x!=null?tl.x:50); $('tlXVal').textContent=(tl.x!=null?tl.x:50); $('tlY').value=(tl.y!=null?tl.y:50); $('tlYVal').textContent=(tl.y!=null?tl.y:50);
     $('on-menu').checked = cfg.mostrarMenu !== false;
     $('menuModelo').value = cfg.modelo || 'lista';
+    { const cad = cfg.caderno || {}; $('cadFolha').value = cad.folha || 'quadriculado'; $('cadCorLetra').value = cad.corLetra || '#4a3820'; $('cadCorFolha').value = cad.corFolha || '#fbf8f2'; $('cadCorLinha').value = cad.corLinha || '#d9d2bf'; $('cadernoBox').style.display = (cfg.modelo === 'caderno') ? 'block' : 'none'; }
     const r = cfg.rodape || {}; $('on-barra').checked = r.mostrar !== false; $('bL1').value=r.linha1||''; $('bL2').value=r.linha2||''; $('bL3').value=r.linha3||''; $('bL4').value=r.linha4||''; $('bCor').value=r.cor||'#ffffff'; $('bCorVal').textContent=r.cor||'#ffffff';
     const f = cfg.footer || {}; $('on-footer').checked = f.mostrar !== false && !!(f.nome||f.morada||f.telefone); $('fNome').value=f.nome||''; $('fMorada').value=f.morada||''; $('fTelefone').value=f.telefone||''; $('fCor').value=f.cor||'#ffffff'; $('fCorVal').textContent=f.cor||'#ffffff';
     const i = cfg.intro || {}; $('on-intro').checked=!!i.ativo; $('iTitulo').value=i.titulo||''; $('iSubtitulo').value=i.subtitulo||''; $('iBotao').value=i.botao||''; $('iReveal').value=i.reveal||'slide';
