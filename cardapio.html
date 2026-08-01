@@ -2196,6 +2196,27 @@
   const modalTipo = document.getElementById('modalTipo');
   const modalGrad = document.getElementById('modalGrad');
 
+  // Tradução automática da INFORMAÇÃO do vinho (não do nome/marca).
+  // Usa a tradução manual (tipo_en/fr/es) se existir; senão traduz na hora e guarda em cache.
+  function traduzirInfoVinho(texto, destino){
+    return fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=pt&tl='+destino+'&dt=t&q='+encodeURIComponent(texto))
+      .then(r => r.ok ? r.json() : null)
+      .then(d => (d && d[0]) ? d[0].map(s=>s[0]).join('') : null)
+      .catch(() => null);
+  }
+  function mostrarCampoVinho(info, campo, destino, elemento){
+    const base = info[campo];
+    if(!base){ elemento.textContent = '—'; return; }
+    if(destino === 'pt'){ elemento.textContent = base; return; }
+    const manual = info[campo + '_' + destino];
+    if(manual){ elemento.textContent = manual; return; }
+    // mostra o português enquanto traduz, depois substitui (se ainda estiver nesse idioma)
+    elemento.textContent = base;
+    traduzirInfoVinho(base, destino).then(t => {
+      if(t){ info[campo + '_' + destino] = t; if(idiomaAtual === destino) elemento.textContent = t; }
+    });
+  }
+
   document.addEventListener('click', (e) => {
     const el = e.target.closest('.vinho-clicavel');
     if(!el) return;
@@ -2204,8 +2225,8 @@
     if(!info) return;
     const nomeEl = el.querySelector('.nome');
     modalNome.textContent = nomeEl ? nomeEl.textContent : info.nome;
-    modalOrigem.textContent = info.origem;
-    modalTipo.textContent = (idiomaAtual === 'en' && info.tipo_en) ? info.tipo_en : (idiomaAtual === 'fr' && info.tipo_fr) ? info.tipo_fr : (idiomaAtual === 'es' && info.tipo_es) ? info.tipo_es : info.tipo;
+    mostrarCampoVinho(info, 'origem', idiomaAtual, modalOrigem);
+    mostrarCampoVinho(info, 'tipo', idiomaAtual, modalTipo);
     modalGrad.textContent = info.grad || '—';
     modal.classList.add('aberto');
   });
