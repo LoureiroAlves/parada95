@@ -441,15 +441,12 @@
         <div class="ajuda" style="margin-top:6px;">Ao abrir o link/QR, mostra um ecrã inteiro com o nome animado (letra a letra) e um botão. Também esconde o carregamento.</div>
         <label for="introTitulo">Título da abertura</label>
         <input type="text" id="introTitulo" placeholder="(vazio = usa o nome do restaurante)">
+        <div id="estiloITit"></div>
         <label for="introSubtitulo">Subtítulo da abertura</label>
         <input type="text" id="introSubtitulo" placeholder="(vazio = usa o subtítulo do cabeçalho)">
+        <div id="estiloISub"></div>
         <label for="introBotao">Texto do botão</label>
         <input type="text" id="introBotao" placeholder="Ver menu ▸">
-        <label for="corIntro">Cor do texto (nome e subtítulo)</label>
-        <div style="display:flex; align-items:center; gap:10px;">
-          <input type="color" id="corIntro" value="#ffffff">
-          <span id="corIntroVal" style="font-family:monospace; font-size:0.85rem; color:var(--castanho-suave);">#ffffff</span>
-        </div>
         <label for="introDuracao">Duração (segundos)</label>
         <input type="number" id="introDuracao" min="3" max="15" step="1" value="7" style="width:100px; padding:9px; border-radius:8px; border:1.5px solid var(--linha); font-family:inherit;">
         <label for="introFundo">Fundo da abertura</label>
@@ -474,16 +471,31 @@
           <div class="ajuda" style="margin-top:2px;">Clica na letra onde o zoom vai entrar para revelar o menu.</div>
           <div id="zoomLetraChips" style="display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;"></div>
         </div>
-        <label style="margin-top:14px;">Tamanho do nome</label>
+        <label style="margin-top:14px;">Rodar o nome (graus)</label>
         <div style="display:flex; align-items:center; gap:10px;">
-          <input type="range" id="introTamanho" min="1.6" max="4.5" step="0.1" value="2.7" style="flex:1;">
-          <span id="introTamanhoVal" style="font-size:0.82rem; color:var(--castanho-suave); font-family:monospace; min-width:44px;">2.7</span>
+          <input type="range" id="introRotNome" min="-90" max="90" step="1" value="0" style="flex:1;">
+          <span id="introRotNomeVal" style="font-size:0.82rem; color:var(--castanho-suave); font-family:monospace; min-width:44px;">0°</span>
         </div>
-        <label style="margin-top:10px;">Tamanho do subtítulo</label>
+        <label style="margin-top:8px;">Rodar o subtítulo (graus)</label>
         <div style="display:flex; align-items:center; gap:10px;">
-          <input type="range" id="introSubTamanho" min="0.8" max="2" step="0.05" value="1.08" style="flex:1;">
-          <span id="introSubTamanhoVal" style="font-size:0.82rem; color:var(--castanho-suave); font-family:monospace; min-width:44px;">1.08</span>
+          <input type="range" id="introRotSub" min="-90" max="90" step="1" value="0" style="flex:1;">
+          <span id="introRotSubVal" style="font-size:0.82rem; color:var(--castanho-suave); font-family:monospace; min-width:44px;">0°</span>
         </div>
+        <label style="margin-top:14px;">Transparência do nome</label>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <input type="range" id="introOpacNome" min="0" max="100" step="1" value="100" style="flex:1;">
+          <span id="introOpacNomeVal" style="font-size:0.82rem; color:var(--castanho-suave); font-family:monospace; min-width:44px;">100%</span>
+        </div>
+        <label style="margin-top:8px;">Transparência do subtítulo</label>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <input type="range" id="introOpacSub" min="0" max="100" step="1" value="100" style="flex:1;">
+          <span id="introOpacSubVal" style="font-size:0.82rem; color:var(--castanho-suave); font-family:monospace; min-width:44px;">100%</span>
+        </div>
+        <input type="hidden" id="introPosNomeX" value="0"><input type="hidden" id="introPosNomeY" value="0">
+        <input type="hidden" id="introPosSubX" value="0"><input type="hidden" id="introPosSubY" value="0">
+        <button type="button" class="acao" id="btnPreverIntro" style="background:var(--castanho); margin-top:12px;">👁 Ver abertura na pré-visualização</button>
+        <div class="ajuda" style="margin-top:4px;">Mostra a abertura na pré-visualização ao lado. Aí podes <strong>arrastar o nome e o subtítulo</strong> para os posicionar. Clica no fundo da abertura (ou neste botão outra vez) para voltar ao menu.</div>
+        <button type="button" class="acao" id="btnReporPosIntro" style="background:var(--dourado-escuro); margin-top:6px;">↺ Repor posição do texto</button>
       </div>
     </div>
   </details>
@@ -1095,9 +1107,6 @@
     document.getElementById('introFundo').value = (config.intro && config.intro.fundo) || 'foto';
     document.getElementById('introTitulo').value = (config.intro && config.intro.titulo) || '';
     document.getElementById('introSubtitulo').value = (config.intro && config.intro.subtitulo) || '';
-    const _ic = (config.intro && config.intro.cor) || '#ffffff';
-    document.getElementById('corIntro').value = _ic;
-    document.getElementById('corIntroVal').textContent = _ic;
     document.getElementById('introBotao').value = (config.intro && config.intro.botao) || '';
     document.getElementById('introReveal').value = (config.intro && config.intro.reveal) || 'slide';
     zoomLetraSel = (config.intro && typeof config.intro.zoomLetra === 'number') ? config.intro.zoomLetra : null;
@@ -1105,12 +1114,20 @@
     document.getElementById('introFotoAtual').textContent = (config.intro && config.intro.foto)
       ? ('Tem foto própria: ' + config.intro.foto)
       : 'Sem foto própria — usa a do cabeçalho.';
-    const _it = (config.intro && config.intro.tamanho) || 2.7;
-    const _ist = (config.intro && config.intro.subTamanho) || 1.08;
-    document.getElementById('introTamanho').value = _it;
-    document.getElementById('introTamanhoVal').textContent = Number(_it).toFixed(2);
-    document.getElementById('introSubTamanho').value = _ist;
-    document.getElementById('introSubTamanhoVal').textContent = Number(_ist).toFixed(2);
+    const _ic = (config.intro && config.intro.cor) || '#ffffff';
+    preencherEstilo('iTit', (config.intro && config.intro.estiloTitulo) || { tamanho:(config.intro && config.intro.tamanho) || 2.7, cor:_ic, negrito:true });
+    preencherEstilo('iSub', (config.intro && config.intro.estiloSub) || { tamanho:(config.intro && config.intro.subTamanho) || 1.08, cor:_ic, italico:true });
+    { const _rn=(config.intro && config.intro.rotacaoNome) || 0, _rs=(config.intro && config.intro.rotacaoSub) || 0;
+      document.getElementById('introRotNome').value = _rn; document.getElementById('introRotNomeVal').textContent = _rn + '°';
+      document.getElementById('introRotSub').value = _rs; document.getElementById('introRotSubVal').textContent = _rs + '°'; }
+    { const _on=(config.intro && config.intro.opacidadeNome != null) ? config.intro.opacidadeNome : 100,
+          _os=(config.intro && config.intro.opacidadeSub != null) ? config.intro.opacidadeSub : 100;
+      document.getElementById('introOpacNome').value = _on; document.getElementById('introOpacNomeVal').textContent = _on + '%';
+      document.getElementById('introOpacSub').value = _os; document.getElementById('introOpacSubVal').textContent = _os + '%';
+      document.getElementById('introPosNomeX').value = (config.intro && config.intro.posNomeX) || 0;
+      document.getElementById('introPosNomeY').value = (config.intro && config.intro.posNomeY) || 0;
+      document.getElementById('introPosSubX').value = (config.intro && config.intro.posSubX) || 0;
+      document.getElementById('introPosSubY').value = (config.intro && config.intro.posSubY) || 0; }
     document.getElementById('blocoIntro').style.display = (config.intro && config.intro.ativo) ? 'block' : 'none';
     document.getElementById('linha1').value = config.rodape.linha1 || '';
     document.getElementById('linha2').value = config.rodape.linha2 || '';
@@ -1575,15 +1592,27 @@
         instagram: document.getElementById('redeInstagram').value.trim(),
         facebook: document.getElementById('redeFacebook').value.trim()
       };
+      const _eiTit = lerEstilo('iTit'), _eiSub = lerEstilo('iSub');
       config.intro = {
         ativo: document.getElementById('introAtivo').checked,
         duracao: parseInt(document.getElementById('introDuracao').value, 10) || 7,
         fundo: document.getElementById('introFundo').value,
-        tamanho: parseFloat(document.getElementById('introTamanho').value) || 2.7,
-        subTamanho: parseFloat(document.getElementById('introSubTamanho').value) || 1.08,
         titulo: document.getElementById('introTitulo').value.trim(),
         subtitulo: document.getElementById('introSubtitulo').value.trim(),
-        cor: document.getElementById('corIntro').value,
+        estiloTitulo: _eiTit,
+        estiloSub: _eiSub,
+        rotacaoNome: parseInt(document.getElementById('introRotNome').value, 10) || 0,
+        rotacaoSub: parseInt(document.getElementById('introRotSub').value, 10) || 0,
+        opacidadeNome: parseInt(document.getElementById('introOpacNome').value, 10),
+        opacidadeSub: parseInt(document.getElementById('introOpacSub').value, 10),
+        posNomeX: parseInt(document.getElementById('introPosNomeX').value, 10) || 0,
+        posNomeY: parseInt(document.getElementById('introPosNomeY').value, 10) || 0,
+        posSubX: parseInt(document.getElementById('introPosSubX').value, 10) || 0,
+        posSubY: parseInt(document.getElementById('introPosSubY').value, 10) || 0,
+        // mantém campos antigos para compatibilidade com quem ainda lê tamanho/cor diretos
+        tamanho: _eiTit.tamanho || 2.7,
+        subTamanho: _eiSub.tamanho || 1.08,
+        cor: _eiTit.cor || '#ffffff',
         botao: document.getElementById('introBotao').value.trim(),
         reveal: document.getElementById('introReveal').value,
         zoomLetra: (zoomLetraSel === null ? undefined : zoomLetraSel),
@@ -1715,15 +1744,17 @@
   document.getElementById('introAtivo').addEventListener('change', e => {
     document.getElementById('blocoIntro').style.display = e.target.checked ? 'block' : 'none';
   });
-  document.getElementById('introTamanho').addEventListener('input', e => {
-    document.getElementById('introTamanhoVal').textContent = Number(e.target.value).toFixed(2);
+  document.getElementById('introRotNome').addEventListener('input', e => {
+    document.getElementById('introRotNomeVal').textContent = e.target.value + '°';
   });
-  document.getElementById('introSubTamanho').addEventListener('input', e => {
-    document.getElementById('introSubTamanhoVal').textContent = Number(e.target.value).toFixed(2);
+  document.getElementById('introRotSub').addEventListener('input', e => {
+    document.getElementById('introRotSubVal').textContent = e.target.value + '°';
   });
-
-  document.getElementById('corIntro').addEventListener('input', e => {
-    document.getElementById('corIntroVal').textContent = e.target.value;
+  document.getElementById('introOpacNome').addEventListener('input', e => {
+    document.getElementById('introOpacNomeVal').textContent = e.target.value + '%';
+  });
+  document.getElementById('introOpacSub').addEventListener('input', e => {
+    document.getElementById('introOpacSubVal').textContent = e.target.value + '%';
   });
 
   // ---- Escolher a letra por onde o efeito "zoom" fura ----
@@ -1760,7 +1791,7 @@
     if(c) c.appendChild(criarToolbarEstilo('l' + (i+1)));
   });
   (function(){
-    const mapa = [['estiloHTit','hTit',false],['estiloHSub','hSub',false],['estiloFNome','fNom',false],['estiloFMor','fMor',false],['estiloFTel','fTel',false]];
+    const mapa = [['estiloHTit','hTit',false],['estiloHSub','hSub',false],['estiloITit','iTit',false],['estiloISub','iSub',false],['estiloFNome','fNom',false],['estiloFMor','fMor',false],['estiloFTel','fTel',false]];
     mapa.forEach(function(m){ const c = document.getElementById(m[0]); if(c) c.appendChild(criarToolbarEstilo(m[1], { semTamanho:m[2] })); });
   })();
 
@@ -2556,6 +2587,35 @@
     if(btn) btn.addEventListener('click', enviar);
     const min = document.getElementById('previewMin');
     if(min) min.addEventListener('click', function(){ dock.classList.toggle('min'); min.textContent = dock.classList.contains('min') ? '▢' : '—'; });
+    // Botão: mostrar/esconder a abertura na pré-visualização
+    let introVisivel = false;
+    const btnPI = document.getElementById('btnPreverIntro');
+    function marcarBtnIntro(){ if(btnPI) btnPI.textContent = introVisivel ? '✖ Esconder abertura' : '👁 Ver abertura na pré-visualização'; }
+    if(btnPI){
+      btnPI.addEventListener('click', function(){
+        introVisivel = !introVisivel;
+        enviar(); // garante que o preview tem a config atual
+        try{ frame.contentWindow.postMessage({ type:'preview-intro', mostrar:introVisivel }, '*'); }catch(e){}
+        marcarBtnIntro();
+        if(introVisivel) dock.classList.remove('min');
+      });
+    }
+    window.addEventListener('message', function(e){
+      const d = e.data || {};
+      if(d.type === 'preview-intro-fechada'){ introVisivel = false; marcarBtnIntro(); }
+      else if(d.type === 'preview-intro-pos'){
+        if(d.alvo === 'nome'){ document.getElementById('introPosNomeX').value = d.x; document.getElementById('introPosNomeY').value = d.y; }
+        else if(d.alvo === 'sub'){ document.getElementById('introPosSubX').value = d.x; document.getElementById('introPosSubY').value = d.y; }
+      }
+    });
+    const btnRepor = document.getElementById('btnReporPosIntro');
+    if(btnRepor){
+      btnRepor.addEventListener('click', function(){
+        ['introPosNomeX','introPosNomeY','introPosSubX','introPosSubY'].forEach(id => { document.getElementById(id).value = 0; });
+        enviar();
+        if(introVisivel){ try{ frame.contentWindow.postMessage({ type:'preview-intro', mostrar:true }, '*'); }catch(e){} }
+      });
+    }
     // Arranca a pré-visualização logo
     frame.src = 'cardapio.html?preview=1&t=' + Date.now();
   })();
