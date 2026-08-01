@@ -2940,6 +2940,7 @@
     if((intro.fundo !== 'gradiente') && fotoIntro){ ov.style.background=''; if(bg) bg.style.backgroundImage = "url('" + (typeof RAW_BASE!=='undefined'?RAW_BASE:'') + fotoIntro + "')"; if(shade) shade.classList.add('on'); }
     else { const cs=getComputedStyle(document.documentElement); const c1=(cs.getPropertyValue('--castanho')||'#3a2c18').trim(), c2=(cs.getPropertyValue('--dourado-escuro')||'#6b4a1f').trim(), c3=(cs.getPropertyValue('--dourado')||'#a8712f').trim(); ov.style.background='linear-gradient(140deg,'+c1+' 0%,'+c2+' 55%,'+c3+' 100%)'; if(bg) bg.style.backgroundImage=''; if(shade) shade.classList.remove('on'); }
     ov.style.display = 'flex';
+    ov.classList.remove('sair'); ov.style.transform = '';   // evita ficar preso fora do ecrã
     ov.classList.remove('animar'); void ov.offsetWidth; ov.classList.add('animar');
     ov.onclick = function(){ window.__mostrarIntroPreview = false; ov.onclick=null; ov.classList.remove('animar'); ov.style.display='none'; try{ parent.postMessage({ type:'preview-intro-fechada' }, '*'); }catch(e){} };
   };
