@@ -37,6 +37,35 @@
                 "es": "aceitunas"
               },
               "preco": "2,50€"
+            },
+            {
+              "nome": {
+                "pt": "Queijo",
+                "en": "Cheese",
+                "fr": "Fromage",
+                "es": "Queso"
+              }
+            },
+            {
+              "nome": {
+                "pt": "Chouriço",
+                "en": "Chorizo",
+                "fr": "Chorizo",
+                "es": "chorizo"
+              }
+            },
+            {
+              "nome": {
+                "pt": "Patê",
+                "en": "Pate",
+                "fr": "Crâne",
+                "es": "Coronilla"
+              }
+            },
+            {
+              "nome": {
+                "pt": ""
+              }
             }
           ]
         }
