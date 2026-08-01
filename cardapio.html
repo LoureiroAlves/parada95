@@ -4567,5 +4567,27 @@
   })();
 </script>
 
+<script>
+  /* Mantém a publicidade/rodapé sempre abaixo da dobra: se o menu for pequeno,
+     estica a capa até o rodapé começar fora do ecrã. Assim só aparece ao fazer scroll. */
+  (function(){
+    function ajustarCapa(){
+      var grid = document.getElementById('categoriaGrid');
+      var footer = document.getElementById('rodapeFinal');
+      if(!grid || !footer) return;
+      // só na capa (quando não há secção aberta em ecrã inteiro)
+      grid.style.minHeight = '';
+      var faltam = window.innerHeight - footer.getBoundingClientRect().top;
+      if(faltam > 0){ grid.style.minHeight = (grid.offsetHeight + faltam + 2) + 'px'; }
+    }
+    window.__ajustarCapa = ajustarCapa;
+    window.addEventListener('resize', ajustarCapa);
+    window.addEventListener('load', ajustarCapa);
+    document.addEventListener('DOMContentLoaded', ajustarCapa);
+    // o menu e as imagens carregam de forma assíncrona — reajusta algumas vezes
+    [200, 700, 1500, 3000].forEach(function(t){ setTimeout(ajustarCapa, t); });
+  })();
+</script>
+
 </body>
 </html>
