@@ -749,6 +749,11 @@
       <button type="button" class="acao" id="btnImportarMenu" style="background:var(--dourado-escuro); margin-top:8px;">📁 Importar menu de um ficheiro (.json)</button>
       <div id="menuEditor" style="margin-top:14px;"></div>
       <div id="menuAcoes" style="display:none;">
+        <button type="button" class="acao" id="btnTraduzirMenu" style="background:var(--dourado-escuro);">🌐 Traduzir automaticamente (PT → EN/FR/ES)</button>
+        <label style="display:flex; align-items:center; gap:7px; font-size:0.82rem; color:var(--castanho-suave); margin:8px 0 2px;">
+          <input type="checkbox" id="chkTradSubstituir"> Substituir traduções já existentes (por norma só preenche as que estão em falta)
+        </label>
+        <div class="estado" id="estadoTrad" style="margin:4px 0;"></div>
         <button type="button" class="acao" id="btnGuardarMenu">💾 Guardar menu</button>
       </div>
       <div class="estado" id="estadoMenu"></div>
@@ -2330,6 +2335,81 @@
     document.getElementById('btnGuardarMenu').addEventListener('click', guardarMenu);
     // Exposto para a pré-visualização ao vivo
     window.__getMenuPreview = function(){ try{ return menuData || null; }catch(e){ return null; } };
+
+    // ==========================================================
+    //  TRADUÇÃO AUTOMÁTICA  (PT → EN/FR/ES)
+    // ==========================================================
+    const LANGS_TRAD = ['en','fr','es'];
+    const cacheTrad = {};   // evita traduzir a mesma frase duas vezes
+    function setEstadoTrad(msg, tipo){ const e=document.getElementById('estadoTrad'); e.className='estado '+(tipo||'info'); e.textContent=msg||''; }
+
+    function traduzirTexto(texto, destino){
+      const chave = destino+'|'+texto;
+      if(cacheTrad[chave]) return Promise.resolve(cacheTrad[chave]);
+      const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=pt&tl='+destino+'&dt=t&q='+encodeURIComponent(texto);
+      return fetch(url).then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+        .then(data=>{
+          const out = (data && data[0] ? data[0].map(seg=>seg[0]).join('') : texto);
+          cacheTrad[chave] = out;
+          return out;
+        });
+    }
+
+    // Deteta um "objeto de idioma" (só tem chaves pt/en/fr/es) com pt preenchido
+    function ehObjIdioma(o){
+      if(!o || typeof o!=='object' || Array.isArray(o)) return false;
+      const ks = Object.keys(o);
+      if(!ks.length) return false;
+      if(!ks.every(k=>['pt','en','fr','es'].includes(k))) return false;
+      return !!(o.pt && String(o.pt).trim());
+    }
+
+    // Recolhe todos os objetos de idioma dentro do menu.
+    // Os nomes de vinhos (itens com campo "vinho") NUNCA se traduzem — são marcas.
+    function recolherObjsIdioma(node, acc){
+      if(Array.isArray(node)){ node.forEach(n=>recolherObjsIdioma(n, acc)); return; }
+      if(node && typeof node==='object'){
+        const ehItemVinho = Object.prototype.hasOwnProperty.call(node, 'vinho');
+        if(ehObjIdioma(node)){ acc.push(node); }
+        Object.keys(node).forEach(k=>{
+          if(ehItemVinho && k==='nome') return;   // salta o nome da marca de vinho
+          const v=node[k]; if(v && typeof v==='object') recolherObjsIdioma(v, acc);
+        });
+      }
+    }
+
+    async function traduzirMenu(){
+      if(!menuData){ setEstadoTrad('Carrega o menu primeiro.', 'erro'); return; }
+      const substituir = document.getElementById('chkTradSubstituir').checked;
+      const objs = []; recolherObjsIdioma(menuData.categorias, objs);
+      // Constrói lista de tarefas (objeto + idioma em falta)
+      const tarefas = [];
+      objs.forEach(o=>{
+        LANGS_TRAD.forEach(l=>{
+          const jaTem = o[l] && String(o[l]).trim();
+          if(substituir || !jaTem) tarefas.push({o, l});
+        });
+      });
+      if(!tarefas.length){ setEstadoTrad('Já está tudo traduzido. (Marca a caixa acima se quiseres refazer as traduções.)', 'ok'); return; }
+      const btn = document.getElementById('btnTraduzirMenu');
+      btn.disabled = true;
+      let feitas = 0, erros = 0;
+      for(const t of tarefas){
+        try{
+          const traduzido = await traduzirTexto(String(t.o.pt), t.l);
+          t.o[t.l] = traduzido;
+        }catch(e){ erros++; }
+        feitas++;
+        setEstadoTrad('A traduzir… '+feitas+' / '+tarefas.length, 'info');
+        await new Promise(r=>setTimeout(r, 120)); // pausa curta para não saturar
+      }
+      renderEditor();
+      try{ document.dispatchEvent(new Event('change')); }catch(e){}
+      btn.disabled = false;
+      if(erros){ setEstadoTrad('Tradução concluída com '+erros+' falha(s). Revê e clica em "💾 Guardar menu".', 'erro'); }
+      else { setEstadoTrad('✅ Tradução concluída ('+feitas+' campos). Revê e clica em "💾 Guardar menu" para publicar.', 'ok'); }
+    }
+    document.getElementById('btnTraduzirMenu').addEventListener('click', traduzirMenu);
 
     // Importar um menu.json de um ficheiro local (fica editável; publica-se com "Guardar menu")
     document.getElementById('btnImportarMenu').addEventListener('click', function(){
