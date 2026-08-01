@@ -7,17 +7,17 @@
       "tipo": "comida",
       "tile": {
         "pt": "ENTRADAS",
-        "en": "ENTRIES",
-        "fr": "ENTRÉES",
-        "es": "ENTRADAS"
+        "en": "Starters",
+        "fr": "Entrées",
+        "es": "Entrantes"
       },
       "grupos": [
         {
           "summary": {
             "pt": "ENTRADAS",
-            "en": "ENTRIES",
-            "fr": "ENTRÉES",
-            "es": "ENTRADAS"
+            "en": "Starters",
+            "fr": "Entrées",
+            "es": "Entrantes"
           },
           "itens": [
             {
@@ -76,17 +76,17 @@
       "tipo": "comida",
       "tile": {
         "pt": "CARNE",
-        "en": "MEAT",
-        "fr": "VIANDE",
-        "es": "CARNE"
+        "en": "Meat",
+        "fr": "Viande",
+        "es": "Carne"
       },
       "grupos": [
         {
           "summary": {
             "pt": "CARNE",
-            "en": "MEAT",
-            "fr": "VIANDE",
-            "es": "CARNE"
+            "en": "Meat",
+            "fr": "Viande",
+            "es": "Carne"
           },
           "itens": [
             {
@@ -117,17 +117,17 @@
       "tipo": "comida",
       "tile": {
         "pt": "PEIXE",
-        "en": "FISH",
-        "fr": "POISSON",
-        "es": "PEZ"
+        "en": "Fish",
+        "fr": "Poisson",
+        "es": "Pescado"
       },
       "grupos": [
         {
           "summary": {
             "pt": "PEIXE",
-            "en": "FISH",
-            "fr": "POISSON",
-            "es": "PEZ"
+            "en": "Fish",
+            "fr": "Poisson",
+            "es": "Pescado"
           },
           "itens": [
             {
@@ -158,17 +158,17 @@
       "tipo": "comida",
       "tile": {
         "pt": "SNACKS",
-        "en": "SNACKS",
-        "fr": "COLLATIONS",
-        "es": "BOCADILLOS"
+        "en": "Snacks",
+        "fr": "Snacks",
+        "es": "Snacks"
       },
       "grupos": [
         {
           "summary": {
             "pt": "SNACKS",
-            "en": "SNACKS",
-            "fr": "COLLATIONS",
-            "es": "BOCADILLOS"
+            "en": "Snacks",
+            "fr": "Snacks",
+            "es": "Snacks"
           },
           "itens": [
             {
@@ -199,17 +199,17 @@
       "tipo": "comida",
       "tile": {
         "pt": "SOBREMESAS",
-        "en": "DESSERTS",
-        "fr": "DESSERTS",
-        "es": "POSTRES"
+        "en": "Desserts",
+        "fr": "Desserts",
+        "es": "Postres"
       },
       "grupos": [
         {
           "summary": {
             "pt": "SOBREMESAS",
-            "en": "DESSERTS",
-            "fr": "DESSERTS",
-            "es": "POSTRES"
+            "en": "Desserts",
+            "fr": "Desserts",
+            "es": "Postres"
           },
           "itens": [
             {
@@ -248,17 +248,17 @@
         {
           "summary": {
             "pt": "Vinho da casa",
-            "en": "House wine",
-            "fr": "vin de la maison",
-            "es": "vino de casa"
+            "en": "House Wine",
+            "fr": "Vin de la Maison",
+            "es": "Vino de la Casa"
           },
           "itens": [
             {
               "nome": {
                 "pt": "Vinho da casa ",
-                "en": "House wine",
-                "fr": "vin de la maison",
-                "es": "vino de casa"
+                "en": "House Wine",
+                "fr": "Vin de la Maison",
+                "es": "Vino de la Casa"
               },
               "tabela": {
                 "doses": [
@@ -278,9 +278,9 @@
         {
           "summary": {
             "pt": "Vinho da casa",
-            "en": "House wine",
-            "fr": "vin de la maison",
-            "es": "vino de casa"
+            "en": "House Wine",
+            "fr": "Vin de la Maison",
+            "es": "Vino de la Casa"
           },
           "itens": []
         },
