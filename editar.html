@@ -2343,9 +2343,90 @@
     const cacheTrad = {};   // evita traduzir a mesma frase duas vezes
     function setEstadoTrad(msg, tipo){ const e=document.getElementById('estadoTrad'); e.className='estado '+(tipo||'info'); e.textContent=msg||''; }
 
+    // Dicionário de restauração: termos-padrão saem sempre com o vocabulário certo de menu
+    // (ex.: Entradas → Starters, não "Entries"). Chave em minúsculas, sem pontuação final.
+    const GLOSSARIO = {
+      'entradas': { en:'Starters', fr:'Entrées', es:'Entrantes' },
+      'entrada': { en:'Starter', fr:'Entrée', es:'Entrante' },
+      'petiscos': { en:'Snacks', fr:'À grignoter', es:'Para picar' },
+      'couvert': { en:'Couvert', fr:'Couvert', es:'Cubierto' },
+      'sopas': { en:'Soups', fr:'Soupes', es:'Sopas' },
+      'sopa': { en:'Soup', fr:'Soupe', es:'Sopa' },
+      'sopa do dia': { en:'Soup of the Day', fr:'Soupe du Jour', es:'Sopa del Día' },
+      'saladas': { en:'Salads', fr:'Salades', es:'Ensaladas' },
+      'salada': { en:'Salad', fr:'Salade', es:'Ensalada' },
+      'sopas e saladas': { en:'Soups & Salads', fr:'Soupes et Salades', es:'Sopas y Ensaladas' },
+      'carne': { en:'Meat', fr:'Viande', es:'Carne' },
+      'carnes': { en:'Meat', fr:'Viandes', es:'Carnes' },
+      'peixe': { en:'Fish', fr:'Poisson', es:'Pescado' },
+      'peixes': { en:'Fish', fr:'Poissons', es:'Pescados' },
+      'peixe e marisco': { en:'Fish & Seafood', fr:'Poissons et Fruits de Mer', es:'Pescados y Mariscos' },
+      'marisco': { en:'Seafood', fr:'Fruits de Mer', es:'Marisco' },
+      'mariscos': { en:'Seafood', fr:'Fruits de Mer', es:'Mariscos' },
+      'grelhados': { en:'Grilled', fr:'Grillades', es:'A la Parrilla' },
+      'na brasa': { en:'Charcoal-Grilled', fr:'À la Braise', es:'A la Brasa' },
+      'especialidades': { en:'Specialties', fr:'Spécialités', es:'Especialidades' },
+      'especialidades da casa': { en:'House Specialties', fr:'Spécialités de la Maison', es:'Especialidades de la Casa' },
+      'pratos': { en:'Dishes', fr:'Plats', es:'Platos' },
+      'pratos individuais': { en:'Individual Dishes', fr:'Plats Individuels', es:'Platos Individuales' },
+      'pratos principais': { en:'Main Courses', fr:'Plats Principaux', es:'Platos Principales' },
+      'pratos partilhados': { en:'Sharing Plates', fr:'Plats à Partager', es:'Platos para Compartir' },
+      'prato do dia': { en:'Dish of the Day', fr:'Plat du Jour', es:'Plato del Día' },
+      'acompanhamentos': { en:'Sides', fr:'Accompagnements', es:'Guarniciones' },
+      'vegetariano': { en:'Vegetarian', fr:'Végétarien', es:'Vegetariano' },
+      'vegetariana': { en:'Vegetarian', fr:'Végétarien', es:'Vegetariana' },
+      'vegan': { en:'Vegan', fr:'Végan', es:'Vegano' },
+      'menu infantil': { en:'Kids Menu', fr:'Menu Enfants', es:'Menú Infantil' },
+      'menu de domingo': { en:'Sunday Menu', fr:'Menu du Dimanche', es:'Menú de Domingo' },
+      'menu do dia': { en:'Menu of the Day', fr:'Menu du Jour', es:'Menú del Día' },
+      'menu executivo': { en:'Set Lunch Menu', fr:'Menu du Jour', es:'Menú Ejecutivo' },
+      'sandes': { en:'Sandwiches', fr:'Sandwichs', es:'Sándwiches' },
+      'sandes e tostas': { en:'Sandwiches & Toasts', fr:'Sandwichs et Croque-Monsieurs', es:'Sándwiches y Tostadas' },
+      'tostas': { en:'Toasts', fr:'Croque-Monsieurs', es:'Tostadas' },
+      'snacks': { en:'Snacks', fr:'Snacks', es:'Snacks' },
+      'cachorros': { en:'Hot Dogs', fr:'Hot-Dogs', es:'Perritos Calientes' },
+      'hamburgueres': { en:'Burgers', fr:'Hamburgers', es:'Hamburguesas' },
+      'sobremesas': { en:'Desserts', fr:'Desserts', es:'Postres' },
+      'sobremesa': { en:'Dessert', fr:'Dessert', es:'Postre' },
+      'gelados': { en:'Ice Cream', fr:'Glaces', es:'Helados' },
+      'bebidas': { en:'Drinks', fr:'Boissons', es:'Bebidas' },
+      'bebidas e vinhos': { en:'Drinks & Wines', fr:'Boissons et Vins', es:'Bebidas y Vinos' },
+      'vinhos': { en:'Wines', fr:'Vins', es:'Vinos' },
+      'vinho': { en:'Wine', fr:'Vin', es:'Vino' },
+      'vinhos e bebidas': { en:'Wines & Drinks', fr:'Vins et Boissons', es:'Vinos y Bebidas' },
+      'vinho da casa': { en:'House Wine', fr:'Vin de la Maison', es:'Vino de la Casa' },
+      'vinho tinto': { en:'Red Wine', fr:'Vin Rouge', es:'Vino Tinto' },
+      'vinho branco': { en:'White Wine', fr:'Vin Blanc', es:'Vino Blanco' },
+      'maduro tinto': { en:'Red Wine', fr:'Vin Rouge', es:'Vino Tinto' },
+      'maduro branco': { en:'White Wine', fr:'Vin Blanc', es:'Vino Blanco' },
+      'verdes': { en:'Vinho Verde', fr:'Vinho Verde', es:'Vino Verde' },
+      'espumantes': { en:'Sparkling Wines', fr:'Vins Mousseux', es:'Espumosos' },
+      'roses': { en:'Rosés', fr:'Rosés', es:'Rosados' },
+      'sangrias': { en:'Sangria', fr:'Sangria', es:'Sangría' },
+      'sangria': { en:'Sangria', fr:'Sangria', es:'Sangría' },
+      'cervejas': { en:'Beers', fr:'Bières', es:'Cervezas' },
+      'refrigerantes': { en:'Soft Drinks', fr:'Boissons Gazeuses', es:'Refrescos' },
+      'sumos': { en:'Juices', fr:'Jus', es:'Zumos' },
+      'aguas': { en:'Water', fr:'Eaux', es:'Aguas' },
+      'cafes': { en:'Coffees', fr:'Cafés', es:'Cafés' },
+      'digestivos': { en:'Digestifs', fr:'Digestifs', es:'Digestivos' },
+      'meia dose': { en:'Half portion', fr:'Demi-portion', es:'Media ración' },
+      'dose': { en:'Full portion', fr:'Portion', es:'Ración' },
+      'meia dose / dose': { en:'Half portion / Full portion', fr:'Demi-portion / Portion', es:'Media ración / Ración' },
+      'cada': { en:'each', fr:'chacun', es:'cada uno' },
+      'take away': { en:'Take Away', fr:'À Emporter', es:'Para Llevar' }
+    };
+    function _normTrad(s){ return String(s||'').trim().toLowerCase()
+        .replace(/[áàâãä]/g,'a').replace(/[éèêë]/g,'e').replace(/[íìîï]/g,'i').replace(/[óòôõö]/g,'o').replace(/[úùûü]/g,'u').replace(/ç/g,'c')
+        .replace(/[.:;,]+$/,'').replace(/\s+/g,' '); }
+
     function traduzirTexto(texto, destino){
       const chave = destino+'|'+texto;
       if(cacheTrad[chave]) return Promise.resolve(cacheTrad[chave]);
+      // 1) Dicionário de restauração (termos-padrão) — tem prioridade sobre a tradução automática
+      const g = GLOSSARIO[_normTrad(texto)];
+      if(g && g[destino]){ cacheTrad[chave] = g[destino]; return Promise.resolve(g[destino]); }
+      // 2) Tradução automática para o resto (nomes de pratos, descrições, etc.)
       const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=pt&tl='+destino+'&dt=t&q='+encodeURIComponent(texto);
       return fetch(url).then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
         .then(data=>{
