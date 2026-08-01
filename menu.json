@@ -6,23 +6,35 @@
       "emoji": "🥖",
       "tipo": "comida",
       "tile": {
-        "pt": "ENTRADAS"
+        "pt": "ENTRADAS",
+        "en": "ENTRIES",
+        "fr": "ENTRÉES",
+        "es": "ENTRADAS"
       },
       "grupos": [
         {
           "summary": {
-            "pt": "ENTRADAS"
+            "pt": "ENTRADAS",
+            "en": "ENTRIES",
+            "fr": "ENTRÉES",
+            "es": "ENTRADAS"
           },
           "itens": [
             {
               "nome": {
-                "pt": "Pão"
+                "pt": "Pão",
+                "en": "Bread",
+                "fr": "Pain",
+                "es": "Pan"
               },
               "preco": "2,00€"
             },
             {
               "nome": {
-                "pt": "Azeitonas"
+                "pt": "Azeitonas",
+                "en": "Olives",
+                "fr": "Olives",
+                "es": "aceitunas"
               },
               "preco": "2,50€"
             }
@@ -34,23 +46,35 @@
       "emoji": "",
       "tipo": "comida",
       "tile": {
-        "pt": "CARNE"
+        "pt": "CARNE",
+        "en": "MEAT",
+        "fr": "VIANDE",
+        "es": "CARNE"
       },
       "grupos": [
         {
           "summary": {
-            "pt": "CARNE"
+            "pt": "CARNE",
+            "en": "MEAT",
+            "fr": "VIANDE",
+            "es": "CARNE"
           },
           "itens": [
             {
               "nome": {
-                "pt": "Prego em prato"
+                "pt": "Prego em prato",
+                "en": "Nail on plate",
+                "fr": "Clou sur plaque",
+                "es": "Clavo en plato"
               },
               "preco": "10,99€"
             },
             {
               "nome": {
-                "pt": "Bife da vazia"
+                "pt": "Bife da vazia",
+                "en": "Sirloin steak",
+                "fr": "Bifteck de surlonge",
+                "es": "solomillo"
               },
               "preco": "15,00€"
             }
@@ -63,23 +87,35 @@
       "emoji": "",
       "tipo": "comida",
       "tile": {
-        "pt": "PEIXE"
+        "pt": "PEIXE",
+        "en": "FISH",
+        "fr": "POISSON",
+        "es": "PEZ"
       },
       "grupos": [
         {
           "summary": {
-            "pt": "PEIXE"
+            "pt": "PEIXE",
+            "en": "FISH",
+            "fr": "POISSON",
+            "es": "PEZ"
           },
           "itens": [
             {
               "nome": {
-                "pt": "Dourada"
+                "pt": "Dourada",
+                "en": "Golden",
+                "fr": "Doré",
+                "es": "Dorado"
               },
               "preco": "15,00€"
             },
             {
               "nome": {
-                "pt": "Carapaus fritos"
+                "pt": "Carapaus fritos",
+                "en": "Fried mackerel",
+                "fr": "Maquereau frit",
+                "es": "caballa frita"
               },
               "preco": "7,50€"
             }
@@ -92,23 +128,35 @@
       "emoji": " 🍽️  ",
       "tipo": "comida",
       "tile": {
-        "pt": "SNACKS"
+        "pt": "SNACKS",
+        "en": "SNACKS",
+        "fr": "COLLATIONS",
+        "es": "BOCADILLOS"
       },
       "grupos": [
         {
           "summary": {
-            "pt": "SNACKS"
+            "pt": "SNACKS",
+            "en": "SNACKS",
+            "fr": "COLLATIONS",
+            "es": "BOCADILLOS"
           },
           "itens": [
             {
               "nome": {
-                "pt": "Prego em pão"
+                "pt": "Prego em pão",
+                "en": "Nail on bread",
+                "fr": "Clou sur du pain",
+                "es": "Clavo en pan"
               },
               "preco": "5,70€"
             },
             {
               "nome": {
-                "pt": "Cachorro"
+                "pt": "Cachorro",
+                "en": "Puppy",
+                "fr": "Chiot",
+                "es": "Cachorro"
               },
               "preco": "9,00€"
             }
@@ -121,23 +169,35 @@
       "emoji": "",
       "tipo": "comida",
       "tile": {
-        "pt": "SOBREMESAS"
+        "pt": "SOBREMESAS",
+        "en": "DESSERTS",
+        "fr": "DESSERTS",
+        "es": "POSTRES"
       },
       "grupos": [
         {
           "summary": {
-            "pt": "SOBREMESAS"
+            "pt": "SOBREMESAS",
+            "en": "DESSERTS",
+            "fr": "DESSERTS",
+            "es": "POSTRES"
           },
           "itens": [
             {
               "nome": {
-                "pt": "Bolo de Bolacha"
+                "pt": "Bolo de Bolacha",
+                "en": "Biscuit Cake",
+                "fr": "Gâteau Aux Biscuits",
+                "es": "Pastel De Galletas"
               },
               "preco": "2,50€"
             },
             {
               "nome": {
-                "pt": "Mousse de chocolate"
+                "pt": "Mousse de chocolate",
+                "en": "chocolate mousse",
+                "fr": "mousse au chocolat",
+                "es": "mousse de chocolate"
               },
               "preco": "3,00€"
             }
@@ -150,17 +210,26 @@
       "emoji": "",
       "tipo": "vinhos",
       "tile": {
-        "pt": "SECÇÃO DE VINHOS"
+        "pt": "SECÇÃO DE VINHOS",
+        "en": "WINE SECTION",
+        "fr": "SECTION VIN",
+        "es": "SECCIÓN DE VINOS"
       },
       "grupos": [
         {
           "summary": {
-            "pt": "Vinho da casa"
+            "pt": "Vinho da casa",
+            "en": "House wine",
+            "fr": "vin de la maison",
+            "es": "vino de casa"
           },
           "itens": [
             {
               "nome": {
-                "pt": "Vinho da casa "
+                "pt": "Vinho da casa ",
+                "en": "House wine",
+                "fr": "vin de la maison",
+                "es": "vino de casa"
               },
               "tabela": {
                 "doses": [
@@ -179,7 +248,10 @@
         },
         {
           "summary": {
-            "pt": "Vinho da casa"
+            "pt": "Vinho da casa",
+            "en": "House wine",
+            "fr": "vin de la maison",
+            "es": "vino de casa"
           },
           "itens": []
         },
