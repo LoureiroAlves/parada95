@@ -280,32 +280,16 @@
   body.modelo-caderno{ background-color:var(--cad-folha, #fbf8f2); }
   body.modelo-caderno .categoria-painel{ background-color:var(--cad-folha, #fbf8f2); }
   /* Tipos de folha */
-  /* A PAUTA (linha onde assenta a escrita) nasce de CADA linha de texto — por isso as palavras
-     assentam sempre na base, mesmo com o cabeçalho a empurrar o conteúdo. Vale para linhas e quadriculado. */
-  body.modelo-caderno.folha-linhas .tile .tile-label,
-  body.modelo-caderno.folha-quadriculado .tile .tile-label,
-  body.modelo-caderno.folha-linhas .categoria-painel-conteudo .item,
-  body.modelo-caderno.folha-quadriculado .categoria-painel-conteudo .item,
-  body.modelo-caderno.folha-linhas .categoria-painel-conteudo summary,
-  body.modelo-caderno.folha-quadriculado .categoria-painel-conteudo summary,
-  body.modelo-caderno.folha-linhas .categoria-painel-conteudo .desc,
-  body.modelo-caderno.folha-quadriculado .categoria-painel-conteudo .desc,
-  body.modelo-caderno.folha-linhas .categoria-painel-conteudo .menu-desc,
-  body.modelo-caderno.folha-quadriculado .categoria-painel-conteudo .menu-desc{
-    line-height:30px !important;
-    background-image:linear-gradient(to bottom, transparent calc(100% - 6px), var(--cad-linha,#d9d2bf) calc(100% - 6px), var(--cad-linha,#d9d2bf) calc(100% - 5px), transparent calc(100% - 5px)) !important;
-    background-size:100% 30px !important; background-repeat:repeat !important; background-position:0 0 !important; background-attachment:scroll !important;
-  }
-  body.modelo-caderno .tile .tile-label{ display:block; }
-  /* Colunas verticais (só no quadriculado) — dá o aspeto de caderno de quadrados */
-  body.modelo-caderno.folha-quadriculado .categoria-grid{ width:100%; max-width:none; margin:0; box-sizing:border-box; background-image:linear-gradient(90deg, var(--cad-linha,#d9d2bf) 1px, transparent 1px); background-size:30px 100%; background-position:0 0; }
-  body.modelo-caderno.folha-quadriculado .categoria-painel{ background-image:linear-gradient(90deg, var(--cad-linha,#d9d2bf) 1px, transparent 1px); background-size:30px 100%; background-attachment:local; }
+  body.modelo-caderno.folha-quadriculado{ background-image:linear-gradient(var(--cad-linha,#d9d2bf) 1px, transparent 1px), linear-gradient(90deg, var(--cad-linha,#d9d2bf) 1px, transparent 1px); background-size:28px 28px; background-attachment:scroll; }
+  body.modelo-caderno.folha-quadriculado .categoria-painel{ background-image:linear-gradient(var(--cad-linha,#d9d2bf) 1px, transparent 1px), linear-gradient(90deg, var(--cad-linha,#d9d2bf) 1px, transparent 1px); background-size:28px 28px; background-attachment:local; }
+  body.modelo-caderno.folha-linhas{ background-image:linear-gradient(var(--cad-linha,#d9d2bf) 1px, transparent 1px); background-size:100% 30px; background-attachment:scroll; }
+  body.modelo-caderno.folha-linhas .categoria-painel{ background-image:linear-gradient(var(--cad-linha,#d9d2bf) 1px, transparent 1px); background-size:100% 30px; background-attachment:local; }
   body.modelo-caderno.folha-liso, body.modelo-caderno.folha-liso .categoria-painel{ background-image:none; }
   /* Lista de separadores escrita à mão */
-  body.modelo-caderno .categoria-grid{ background-color:transparent; border:none; display:block; padding:30px; }
-  body.modelo-caderno .tile{ background:none !important; box-shadow:none !important; min-height:0; width:100%; display:block; text-align:left; border-radius:0; padding:0; }
+  body.modelo-caderno .categoria-grid{ background:transparent; border:none; display:block; padding:18px 22px 26px; }
+  body.modelo-caderno .tile{ background:none !important; box-shadow:none !important; min-height:0; width:100%; display:block; text-align:left; border-radius:0; padding:3px 0; }
   body.modelo-caderno .tile .tile-emoji{ display:none; }
-  body.modelo-caderno .tile .tile-label{ display:inline; max-width:100%; font-family:'Caveat', cursive; font-weight:700; font-size:1.9rem; line-height:30px; color:var(--cad-letra, var(--castanho)) !important; text-transform:none; letter-spacing:0; text-align:left; text-shadow:none !important; background-image:none; vertical-align:baseline; }
+  body.modelo-caderno .tile .tile-label{ display:inline-block; max-width:100%; font-family:'Caveat', cursive; font-weight:700; font-size:2.1rem; line-height:1.4; color:var(--cad-letra, var(--castanho)) !important; text-transform:none; letter-spacing:0; text-align:left; text-shadow:none !important; background-image:linear-gradient(transparent 80%, var(--dourado) 80%, var(--dourado) 92%, transparent 92%); }
   body.modelo-caderno .tile:active .tile-label{ opacity:.7; }
   body.modelo-caderno .tile{ -webkit-tap-highlight-color:transparent; }
   body.modelo-caderno .tile.active{ outline:none !important; }
@@ -316,10 +300,10 @@
   body.modelo-caderno .categoria-painel-header .voltar{ background:transparent !important; border:none !important; color:var(--cad-letra, var(--castanho)) !important; font-family:'Caveat', cursive; font-size:1.9rem; box-shadow:none !important; text-transform:none !important; letter-spacing:0 !important; padding:0 !important; }
   body.modelo-caderno #painelTitulo{ font-family:'Caveat', cursive; color:var(--cad-letra, var(--castanho)); font-size:2.4rem; font-weight:700; }
   /* Interior da secção: pratos escritos à mão na folha */
-  body.modelo-caderno .categoria-painel-conteudo .item{ background-color:transparent !important; border:none !important; box-shadow:none !important; padding:0 22px; }
-  body.modelo-caderno .categoria-painel-conteudo .nome, body.modelo-caderno .categoria-painel-conteudo .desc, body.modelo-caderno .categoria-painel-conteudo h2, body.modelo-caderno .categoria-painel-conteudo .subtitulo, body.modelo-caderno .categoria-painel-conteudo summary, body.modelo-caderno .categoria-painel-conteudo .menu-desc{ font-family:'Caveat', cursive !important; color:var(--cad-letra, var(--castanho)) !important; line-height:30px !important; margin-top:0; margin-bottom:0; }
+  body.modelo-caderno .categoria-painel-conteudo .item{ background:transparent !important; border:none !important; box-shadow:none !important; padding:3px 22px; }
+  body.modelo-caderno .categoria-painel-conteudo .nome, body.modelo-caderno .categoria-painel-conteudo .desc, body.modelo-caderno .categoria-painel-conteudo h2, body.modelo-caderno .categoria-painel-conteudo .subtitulo, body.modelo-caderno .categoria-painel-conteudo summary, body.modelo-caderno .categoria-painel-conteudo .menu-desc{ font-family:'Caveat', cursive !important; color:var(--cad-letra, var(--castanho)) !important; }
   body.modelo-caderno .categoria-painel-conteudo .nome, body.modelo-caderno .categoria-painel-conteudo summary{ font-size:1.65rem; }
-  body.modelo-caderno .categoria-painel-conteudo .preco{ font-family:'Caveat', cursive !important; font-size:1.55rem; color:var(--dourado) !important; line-height:30px !important; }
+  body.modelo-caderno .categoria-painel-conteudo .preco{ font-family:'Caveat', cursive !important; font-size:1.55rem; color:var(--dourado) !important; }
   body.modelo-caderno .categoria-painel-conteudo .desc, body.modelo-caderno .categoria-painel-conteudo .menu-desc{ font-size:1.2rem; opacity:.9; }
   /* Nada de bases/caixas dentro da secção — só o quadriculado e o texto */
   body.modelo-caderno .categoria-painel-conteudo,
