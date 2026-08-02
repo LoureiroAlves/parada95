@@ -28,13 +28,13 @@
   #introOverlay.animar #introNome{ animation:nomeFloat 3.2s ease-in-out 1.8s infinite; }
   #introSub{ font-family:var(--fonte-texto); color:#f7eeda; font-size:1.08rem; font-style:italic; text-shadow:0 1px 8px rgba(0,0,0,.5); opacity:0; transform:translate(var(--posSX,0px),var(--posSY,0px)) rotate(var(--rotS,0deg)); }
   #introOverlay.animar #introSub{ animation:introSubIn 1s cubic-bezier(.2,.8,.3,1.4) 1.2s forwards; }
-  #introBtn{ margin-top:20px; background:var(--dourado,#a8712f); color:#fff; border:none; border-radius:24px; padding:10px 24px; font-family:var(--fonte-titulo); font-size:0.86rem; font-weight:600; cursor:pointer; box-shadow:0 6px 16px rgba(0,0,0,.35); opacity:0; }
+  #introBtn{ margin-top:20px; background:var(--dourado,#a8712f); color:#fff; border:none; border-radius:24px; padding:10px 24px; font-family:var(--fonte-titulo); font-size:0.86rem; font-weight:600; cursor:pointer; box-shadow:0 6px 16px rgba(0,0,0,.35); opacity:0; transform:translate(var(--posBX,0px),var(--posBY,0px)); }
   #introOverlay.animar #introBtn{ animation:introBtnIn .6s ease 2.1s forwards, introPulse 1.6s ease-in-out 2.8s infinite; }
   @keyframes letraIn{ 0%{ opacity:0; transform:translateY(-46px) rotate(-10deg) scale(.5); } 60%{ opacity:1; transform:translateY(7px) rotate(3deg) scale(1.08); } 100%{ opacity:1; transform:translateY(0) rotate(0) scale(1); } }
   @keyframes nomeFloat{ 0%,100%{ transform:translate(var(--posNX,0px),var(--posNY,0px)) rotate(var(--rotN,0deg)); } 50%{ transform:translate(var(--posNX,0px),calc(var(--posNY,0px) - 7px)) rotate(var(--rotN,0deg)); } }
   @keyframes introSubIn{ 0%{ opacity:0; transform:translate(var(--posSX,0px),calc(var(--posSY,0px) + 14px)) rotate(var(--rotS,0deg)); } 100%{ opacity:var(--opacS,1); transform:translate(var(--posSX,0px),var(--posSY,0px)) rotate(var(--rotS,0deg)); } }
-  @keyframes introBtnIn{ 0%{ opacity:0; transform:scale(.8); } 100%{ opacity:1; transform:scale(1); } }
-  @keyframes introPulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.06); } }
+  @keyframes introBtnIn{ 0%{ opacity:0; transform:translate(var(--posBX,0px),var(--posBY,0px)) scale(.8); } 100%{ opacity:1; transform:translate(var(--posBX,0px),var(--posBY,0px)) scale(1); } }
+  @keyframes introPulse{ 0%,100%{ transform:translate(var(--posBX,0px),var(--posBY,0px)) scale(1); } 50%{ transform:translate(var(--posBX,0px),var(--posBY,0px)) scale(1.06); } }
 </style>
 <script>
   // A cortina de abertura cobre o ecrã enquanto os dados carregam (evita o flash de conteúdo).
@@ -2438,6 +2438,11 @@
       sEl.style.setProperty('--posSY', ((intro.posSubY)||0) + 'px');
       sEl.style.setProperty('--opacS', (intro.opacidadeSub != null ? intro.opacidadeSub/100 : 1));
     }
+    const btn = document.getElementById('introBtn');
+    if(btn){
+      btn.style.setProperty('--posBX', ((intro.posBotaoX)||0) + 'px');
+      btn.style.setProperty('--posBY', ((intro.posBotaoY)||0) + 'px');
+    }
   }
 
   // Textos livres da abertura (quantos o utilizador quiser), cada um com estilo próprio.
@@ -2978,6 +2983,7 @@
     aplicarPosOpacIntro(nEl, sEl, intro);
     _introArrastavel(nEl, '--posNX', '--posNY', 'nome');
     _introArrastavel(sEl, '--posSX', '--posSY', 'sub');
+    if(btn) _introArrastavel(btn, '--posBX', '--posBY', 'botao');
     renderIntroTextosLivres(config, true);
     const fotos = (config.header && config.header.fotos) || [];
     const fotoIntro = (intro.foto && String(intro.foto).trim()) ? intro.foto : ((config.header && config.header.fotosAtivas !== false && fotos.length) ? fotos[0] : null);
