@@ -482,6 +482,8 @@
     "posNomeY": 0,
     "posSubX": 0,
     "posSubY": 0,
+    "posBotaoX": 101,
+    "posBotaoY": 209,
     "tamanho": 4,
     "subTamanho": 1.1,
     "cor": "#c0bfbf",
