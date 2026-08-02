@@ -496,6 +496,12 @@
         <button type="button" class="acao" id="btnPreverIntro" style="background:var(--castanho); margin-top:12px;">👁 Ver abertura na pré-visualização</button>
         <div class="ajuda" style="margin-top:4px;">Mostra a abertura na pré-visualização ao lado. Aí podes <strong>arrastar o nome e o subtítulo</strong> para os posicionar. Clica no fundo da abertura (ou neste botão outra vez) para voltar ao menu.</div>
         <button type="button" class="acao" id="btnReporPosIntro" style="background:var(--dourado-escuro); margin-top:6px;">↺ Repor posição do texto</button>
+        <div style="margin-top:16px; border-top:1px dotted var(--linha); padding-top:12px;">
+          <label style="margin:0;">Textos livres na abertura</label>
+          <div class="ajuda" style="margin:2px 0 6px;">Acrescenta os textos que quiseres. Cada um tem o seu "Aa estilo" (tipo de letra, tamanho, cor, 3D…), rotação e transparência. Mostra a abertura na pré-visualização e <strong>arrasta cada texto</strong> para o posicionar.</div>
+          <div id="introTextosLivres"></div>
+          <button type="button" class="acao" id="btnAddIntroTexto" style="background:var(--dourado-escuro); margin-top:8px;">＋ Adicionar texto</button>
+        </div>
       </div>
     </div>
   </details>
@@ -1142,6 +1148,8 @@
       document.getElementById('introPosNomeY').value = (config.intro && config.intro.posNomeY) || 0;
       document.getElementById('introPosSubX').value = (config.intro && config.intro.posSubX) || 0;
       document.getElementById('introPosSubY').value = (config.intro && config.intro.posSubY) || 0; }
+    introTextos = (config.intro && Array.isArray(config.intro.textos)) ? JSON.parse(JSON.stringify(config.intro.textos)) : [];
+    renderIntroTextos();
     document.getElementById('blocoIntro').style.display = (config.intro && config.intro.ativo) ? 'block' : 'none';
     document.getElementById('linha1').value = config.rodape.linha1 || '';
     document.getElementById('linha2').value = config.rodape.linha2 || '';
@@ -1607,7 +1615,9 @@
         facebook: document.getElementById('redeFacebook').value.trim()
       };
       const _eiTit = lerEstilo('iTit'), _eiSub = lerEstilo('iSub');
+      capturarIntroTextos();
       config.intro = {
+        textos: introTextos.map(function(t){ return JSON.parse(JSON.stringify(t)); }),
         ativo: document.getElementById('introAtivo').checked,
         duracao: parseInt(document.getElementById('introDuracao').value, 10) || 7,
         fundo: document.getElementById('introFundo').value,
@@ -1769,6 +1779,57 @@
   });
   document.getElementById('introOpacSub').addEventListener('input', e => {
     document.getElementById('introOpacSubVal').textContent = e.target.value + '%';
+  });
+
+  // ---- Textos livres da abertura (lista dinâmica) ----
+  let introTextos = [];
+  function capturarIntroTextos(){
+    introTextos = introTextos.map(function(item, i){
+      const t = document.getElementById('itxTexto'+i);
+      if(!t) return item;
+      return {
+        texto: t.value,
+        estilo: lerEstilo('itx'+i),
+        rotacao: parseInt(document.getElementById('itxRot'+i).value, 10) || 0,
+        opacidade: parseInt(document.getElementById('itxOpac'+i).value, 10),
+        x: item.x || 0, y: item.y || 0
+      };
+    });
+  }
+  function renderIntroTextos(){
+    const cont = document.getElementById('introTextosLivres');
+    if(!cont) return;
+    cont.innerHTML = '';
+    introTextos.forEach(function(item, i){
+      const d = document.createElement('div');
+      d.style.cssText = 'border:1px solid var(--linha); border-radius:10px; padding:10px; margin-top:8px; background:var(--bege);';
+      d.innerHTML =
+        '<div style="display:flex; gap:8px; align-items:center;">' +
+          '<input type="text" id="itxTexto'+i+'" placeholder="Escreve o texto" style="flex:1; padding:8px; border-radius:8px; border:1.5px solid var(--linha); font-family:inherit;">' +
+          '<button type="button" data-rem="'+i+'" style="background:var(--vermelho); color:#fff; border:none; border-radius:8px; padding:8px 11px; margin:0; cursor:pointer; flex:0 0 auto;">🗑</button>' +
+        '</div>' +
+        '<div id="itxEstilo'+i+'"></div>' +
+        '<div style="display:flex; gap:10px; align-items:center; margin-top:4px; flex-wrap:wrap;">' +
+          '<span style="font-size:0.82rem; color:var(--castanho-suave);">Rodar</span><input type="range" id="itxRot'+i+'" min="-90" max="90" step="1" value="0" oninput="this.nextElementSibling.textContent=this.value+String.fromCharCode(176)"><span style="font-size:0.78rem; font-family:monospace; color:var(--castanho-suave);">0°</span>' +
+          '<span style="font-size:0.82rem; color:var(--castanho-suave);">Transp</span><input type="range" id="itxOpac'+i+'" min="0" max="100" step="1" value="100" oninput="this.nextElementSibling.textContent=this.value+String.fromCharCode(37)"><span style="font-size:0.78rem; font-family:monospace; color:var(--castanho-suave);">100%</span>' +
+        '</div>';
+      cont.appendChild(d);
+      document.getElementById('itxEstilo'+i).appendChild(criarToolbarEstilo('itx'+i));
+      document.getElementById('itxTexto'+i).value = item.texto || '';
+      preencherEstilo('itx'+i, item.estilo || {});
+      const rr = document.getElementById('itxRot'+i); rr.value = item.rotacao || 0; rr.nextElementSibling.textContent = (item.rotacao||0) + '°';
+      const oo = document.getElementById('itxOpac'+i); const ov = (item.opacidade != null ? item.opacidade : 100); oo.value = ov; oo.nextElementSibling.textContent = ov + '%';
+    });
+    cont.querySelectorAll('[data-rem]').forEach(function(b){
+      b.addEventListener('click', function(){ capturarIntroTextos(); introTextos.splice(parseInt(b.dataset.rem,10),1); renderIntroTextos(); document.dispatchEvent(new Event('change')); });
+    });
+  }
+  window.__setIntroTextoPos = function(i, x, y){ if(introTextos[i]){ introTextos[i].x = x; introTextos[i].y = y; } };
+  document.getElementById('btnAddIntroTexto').addEventListener('click', function(){
+    capturarIntroTextos();
+    introTextos.push({ texto:'Novo texto', estilo:{ cor:'#ffffff', negrito:true, tamanho:1.6 }, rotacao:0, opacidade:100, x:0, y:0 });
+    renderIntroTextos();
+    document.dispatchEvent(new Event('change'));
   });
 
   // ---- Escolher a letra por onde o efeito "zoom" fura ----
@@ -2634,6 +2695,7 @@
       else if(d.type === 'preview-intro-pos'){
         if(d.alvo === 'nome'){ document.getElementById('introPosNomeX').value = d.x; document.getElementById('introPosNomeY').value = d.y; }
         else if(d.alvo === 'sub'){ document.getElementById('introPosSubX').value = d.x; document.getElementById('introPosSubY').value = d.y; }
+        else if(typeof d.alvo === 'string' && d.alvo.indexOf('texto:') === 0 && window.__setIntroTextoPos){ window.__setIntroTextoPos(parseInt(d.alvo.slice(6), 10), d.x, d.y); }
       }
     });
     const btnRepor = document.getElementById('btnReporPosIntro');
