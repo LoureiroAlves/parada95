@@ -400,12 +400,12 @@
     flex:0 0 auto;
   }
   .categoria-painel-header .titulo{ display:none; }
-  /* Títulos de secção sempre em MAIÚSCULAS em qualquer idioma (o modelo "caderno" fica à mão, sem isto) */
-  body:not(.modelo-caderno) .tile .tile-label,
-  body:not(.modelo-caderno) #painelTitulo,
-  body:not(.modelo-caderno) section.categoria h2,
-  body:not(.modelo-caderno) .grupo-prato > summary,
-  body:not(.modelo-caderno) .grupo-vinho > summary{ text-transform:uppercase !important; }
+  /* Títulos de secção sempre em MAIÚSCULAS, em qualquer idioma e qualquer modelo (só os títulos; os pratos ficam na sua caixa) */
+  .tile .tile-label,
+  #painelTitulo,
+  section.categoria h2,
+  .grupo-prato > summary,
+  .grupo-vinho > summary{ text-transform:uppercase !important; }
   .categoria-painel-conteudo{
     max-width:640px; margin:0 auto; padding:18px 14px 40px;
   }
