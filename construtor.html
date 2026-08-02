@@ -1,536 +1,322 @@
 
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Construtor de Página</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Construtor — Camadas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Baloo+2:wght@700;800&family=Chewy&family=Poppins:wght@500;600;700&family=Playfair+Display:wght@600;700&family=Bebas+Neue&family=Lobster&family=Pacifico&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <style>
-  :root{ --castanho:#4a3820; --castanho-suave:#8a7350; --dourado:#a8712f; --dourado-escuro:#8a5a24; --bege:#f5efe2; --bege-claro:#fbf8f2; --linha:#e6dcc8; --branco:#fff; --vermelho:#c0392b; --verde:#2e7d32; }
-  *{ box-sizing:border-box; margin:0; padding:0; }
-  body{ font-family:'Nunito',sans-serif; background:var(--bege-claro); color:var(--castanho); padding:20px 16px 40px; line-height:1.5; }
-  .wrap{ max-width:640px; margin:0 auto; }
-  h1{ font-family:'Fredoka',sans-serif; font-size:1.6rem; color:var(--castanho); }
-  .subtitulo{ color:var(--castanho-suave); font-size:0.9rem; margin:4px 0 14px; }
-  .voltar{ color:var(--dourado-escuro); text-decoration:none; font-size:0.85rem; font-weight:700; }
-  label{ display:block; font-size:0.82rem; font-weight:700; color:var(--castanho); margin:12px 0 4px; }
-  input[type=text], input[type=password], textarea, select{ width:100%; padding:9px 11px; border-radius:9px; border:1.5px solid var(--linha); font-family:inherit; font-size:0.95rem; color:var(--castanho); background:var(--branco); }
-  textarea{ resize:vertical; }
-  .campo-token{ display:flex; gap:8px; }
-  .campo-token input{ flex:1; }
-  .btn{ padding:10px 14px; border-radius:9px; border:1.5px solid var(--linha); background:var(--branco); color:var(--castanho); cursor:pointer; font-family:inherit; font-weight:700; font-size:0.92rem; }
-  .btn-forte{ background:var(--castanho); color:#fff; border:none; width:100%; padding:13px; font-size:1rem; }
-  .estado{ display:none; margin:10px 0; padding:10px 12px; border-radius:9px; font-size:0.9rem; }
-  .estado.info{ display:block; background:#eef4fb; color:#2c5d8f; }
-  .estado.ok{ display:block; background:#eaf6ec; color:var(--verde); }
-  .estado.erro{ display:block; background:#fdecea; color:var(--vermelho); }
-  .bloco{ border:1.5px solid var(--linha); border-radius:14px; margin-top:12px; background:var(--branco); overflow:hidden; }
-  .bloco-cab{ display:flex; align-items:center; gap:10px; padding:12px 14px; cursor:pointer; }
-  .bloco-cab .tit{ font-weight:800; color:var(--castanho); font-size:1rem; flex:1; }
-  .bloco-cab .sw{ position:relative; width:44px; height:26px; flex:0 0 44px; }
-  .bloco-cab .sw input{ opacity:0; width:0; height:0; position:absolute; }
-  .bloco-cab .sw .track{ position:absolute; inset:0; background:#d9d2c2; border-radius:20px; transition:.2s; }
-  .bloco-cab .sw .track::before{ content:''; position:absolute; width:20px; height:20px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 3px rgba(0,0,0,.2); }
-  .bloco-cab .sw input:checked + .track{ background:var(--dourado); }
-  .bloco-cab .sw input:checked + .track::before{ transform:translateX(18px); }
-  .bloco-corpo{ padding:0 14px 14px; display:none; }
-  .bloco.aberto .bloco-corpo{ display:block; }
-  .campo-cor{ display:flex; align-items:center; gap:10px; }
-  .campo-cor input[type=color]{ width:52px; height:34px; padding:0; border:none; background:none; cursor:pointer; }
-  .ajuda{ font-size:0.8rem; color:var(--castanho-suave); }
-  .lin{ display:flex; align-items:center; gap:10px; }
-  .lin input[type=range]{ flex:1; }
-  .lin .val{ font-family:monospace; font-size:0.8rem; color:var(--castanho-suave); min-width:38px; }
-  /* Painel fixo de pré-visualização */
-  .preview-dock{ position:fixed; right:14px; bottom:14px; width:290px; z-index:900; background:#1f2530; border-radius:16px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.28); }
-  .preview-dock-bar{ display:flex; align-items:center; justify-content:space-between; padding:7px 8px 7px 12px; color:#fff; font-size:0.8rem; font-weight:700; }
-  .preview-dock-btn{ background:rgba(255,255,255,0.16); border:none; color:#fff; width:26px; height:26px; border-radius:7px; cursor:pointer; margin-left:5px; }
-  .preview-dock-corpo{ height:500px; background:#fff; }
-  .preview-dock-corpo iframe{ width:100%; height:100%; border:0; display:block; }
-  .preview-dock.min{ width:190px; }
-  .preview-dock.min .preview-dock-corpo{ display:none; }
-  @media(max-width:820px){ .preview-dock{ right:8px; bottom:8px; width:46vw; max-width:230px; } .preview-dock-corpo{ height:52vh; } .preview-dock.min{ width:150px; } }
+  :root{ --br:#3a2c18; --dour:#a8712f; --dour2:#6b4a1f; --bege:#f3ead9; --linha:#e0d6c2; --branco:#fff; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; font-family:'Poppins',system-ui,sans-serif; background:#efe7d7; color:var(--br); }
+  header{ background:var(--br); color:#fff; padding:10px 14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  header h1{ font-family:'Fredoka'; font-size:1.05rem; margin:0; }
+  header .sp{ flex:1; }
+  .btn{ background:var(--dour); color:#fff; border:none; border-radius:9px; padding:8px 12px; font-weight:600; cursor:pointer; font-family:inherit; font-size:.82rem; }
+  .btn.sec{ background:var(--dour2); }
+  .btn.gh{ background:#2c333d; }
+  .wrap{ display:flex; gap:14px; padding:14px; align-items:flex-start; flex-wrap:wrap; }
+  .col-tela{ flex:1 1 340px; display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .barra-add{ display:flex; gap:6px; flex-wrap:wrap; justify-content:center; }
+  .barra-add button{ background:var(--branco); border:1.5px solid var(--linha); border-radius:9px; padding:7px 11px; cursor:pointer; font-family:inherit; font-size:.8rem; font-weight:600; color:var(--br); }
+  .tela-moldura{ background:#1f2530; border-radius:22px; padding:10px; box-shadow:0 12px 30px rgba(0,0,0,.28); }
+  .tela{ position:relative; width:320px; height:640px; max-width:82vw; overflow:hidden; border-radius:14px; background:#6d5a2e; background-size:cover; background-position:center; }
+  .cam{ position:absolute; transform-origin:center center; }
+  .cam .conteudo{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .cam.txt .conteudo{ text-align:center; }
+  .cam.sel{ outline:2px solid #4aa3ff; outline-offset:1px; }
+  .cam .h{ position:absolute; width:16px; height:16px; background:#fff; border:2px solid #4aa3ff; border-radius:50%; z-index:5; touch-action:none; }
+  .cam .h.br{ right:-8px; bottom:-8px; cursor:nwse-resize; border-radius:3px; }
+  .cam .h.rot{ left:50%; top:-30px; margin-left:-8px; cursor:grab; }
+  .cam .h.rot::after{ content:""; position:absolute; left:50%; top:16px; width:2px; height:14px; background:#4aa3ff; transform:translateX(-50%); }
+  .painel{ flex:0 0 300px; max-width:100%; background:var(--branco); border:1px solid var(--linha); border-radius:14px; padding:12px; }
+  .painel h3{ font-family:'Fredoka'; font-size:.95rem; margin:0 0 8px; color:var(--dour2); }
+  .lay-item{ display:flex; align-items:center; gap:6px; padding:6px; border:1px solid var(--linha); border-radius:8px; margin-bottom:6px; background:var(--bege); cursor:pointer; }
+  .lay-item.on{ outline:2px solid var(--dour); }
+  .lay-item .nm{ flex:1; font-size:.82rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .lay-item button{ background:none; border:none; cursor:pointer; font-size:.9rem; padding:2px 3px; }
+  .campo{ margin-bottom:8px; }
+  .campo label{ display:block; font-size:.75rem; color:var(--dour2); margin-bottom:2px; font-weight:600; }
+  .campo input[type=text], .campo select, .campo input[type=number], .campo textarea{ width:100%; padding:7px 8px; border:1.5px solid var(--linha); border-radius:8px; font-family:inherit; font-size:.85rem; }
+  .campo textarea{ resize:vertical; min-height:44px; }
+  .linha{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .linha .campo{ flex:1; margin-bottom:0; }
+  .chk{ display:inline-flex; align-items:center; gap:5px; font-size:.8rem; }
+  .rng{ width:100%; }
+  .val{ font-size:.72rem; font-family:monospace; color:var(--dour2); }
+  .vazio{ font-size:.82rem; color:#8a7a5e; text-align:center; padding:10px; }
+  .modal{ position:fixed; inset:0; background:rgba(0,0,0,.5); display:none; align-items:center; justify-content:center; z-index:50; padding:16px; }
+  .modal.on{ display:flex; }
+  .modal .cx{ background:#fff; border-radius:14px; padding:16px; width:100%; max-width:520px; }
+  .modal textarea{ width:100%; min-height:200px; font-family:monospace; font-size:.78rem; }
+  .ajuda{ font-size:.74rem; color:#8a7a5e; margin-top:2px; }
 </style>
 </head>
 <body>
+<header>
+  <h1>🧩 Construtor — Camadas</h1>
+  <span class="sp"></span>
+  <button class="btn sec" id="btnFundo">Fundo</button>
+  <button class="btn sec" id="btnJson">Exportar / Importar</button>
+  <button class="btn gh" id="btnPublicar">Publicar</button>
+</header>
+
 <div class="wrap">
-  <a class="voltar" href="cardapio.html">← Ver página</a>
-  <h1>Construtor de Página</h1>
-  <div class="subtitulo">Começa numa folha em branco e liga só os blocos que quiseres. Vê o resultado em tempo real no canto.</div>
-
-  <label for="token">Token do GitHub</label>
-  <div class="campo-token">
-    <input type="password" id="token" placeholder="github_pat_...">
-    <button type="button" class="btn" id="mostrarToken">Ver</button>
-  </div>
-  <div style="margin-top:6px;"><label style="display:inline; font-weight:400;"><input type="checkbox" id="lembrar" checked style="width:auto;"> Lembrar neste aparelho</label></div>
-
-  <button type="button" class="btn btn-forte" id="btnCarregar" style="margin-top:12px; background:var(--castanho-suave);">📥 Carregar página atual</button>
-  <div class="estado" id="estado"></div>
-
-  <!-- BLOCO: CRIAR PÁGINA NOVA -->
-  <div class="bloco" id="blk-criar">
-    <div class="bloco-cab"><span class="tit">➕ Criar página nova (do zero)</span></div>
-    <div class="bloco-corpo">
-      <div class="ajuda">Cria um site novo, à parte. Precisa do <strong>token clássico</strong> (âmbito <code>repo</code>). Copia o código desta página como modelo, incluindo o próprio construtor.</div>
-      <label for="novoNome">Nome da página</label>
-      <input type="text" id="novoNome" placeholder="Ex: Barbearia Central">
-      <label for="novoRepo">Endereço (repositório)</label>
-      <input type="text" id="novoRepo" placeholder="ex: barbearia-central">
-      <button type="button" class="btn btn-forte" id="btnCriar" style="margin-top:10px; background:var(--dourado-escuro);">Criar página</button>
-      <div class="estado" id="estadoCriar"></div>
+  <div class="col-tela">
+    <div class="barra-add">
+      <button data-add="texto">＋ Texto</button>
+      <button data-add="botao">＋ Botão</button>
+      <button data-add="imagem">＋ Imagem</button>
+      <button data-add="forma">＋ Forma</button>
     </div>
+    <div class="tela-moldura">
+      <div class="tela" id="tela"></div>
+    </div>
+    <div class="ajuda">Clica numa camada para a selecionar · arrasta para mover · pega no ● de baixo-direita para redimensionar e no ● de cima para rodar.</div>
   </div>
 
-  <!-- BLOCO: TEMA & FUNDO -->
-  <div class="bloco aberto" id="blk-tema">
-    <div class="bloco-cab" data-toggle>
-      <span class="tit">🎨 Tema & Fundo</span>
-    </div>
-    <div class="bloco-corpo">
-      <label for="layout">Tema (cores)</label>
-      <select id="layout">
-        <option value="1">1 — Rústico</option><option value="2">2 — Verde</option><option value="3">3 — Vinho</option><option value="4">4 — Azul</option>
-        <option value="5">5 — Preto & Dourado</option><option value="6">6 — Terracota</option><option value="7">7 — Petróleo</option><option value="8">8 — Roxo</option>
-        <option value="9">9 — Laranja</option><option value="10">10 — Cinza</option><option value="11">11 — Rosa</option><option value="12">12 — Azeitona</option>
-      </select>
-      <label for="fundoTipo">Fundo</label>
-      <select id="fundoTipo">
-        <option value="liso">Liso</option><option value="gradiente">Degradê</option><option value="textura">Textura</option>
-      </select>
-      <div id="fundoTexturaBox" style="display:none;">
-        <label for="fundoTextura">Textura</label>
-        <select id="fundoTextura">
-          <option value="pontos">Pontos</option><option value="grelha">Grelha</option><option value="diagonal">Diagonais</option>
-          <option value="linho">Linho</option><option value="xadrez">Xadrez</option><option value="favo">Favo</option>
-          <option value="relevo">Relevo 3D</option><option value="almofada">Almofada 3D</option>
-        </select>
-      </div>
-    </div>
+  <div class="painel" id="painelCamadas">
+    <h3>Camadas</h3>
+    <div id="listaCamadas"></div>
+    <div class="vazio" id="vazioCamadas">Ainda sem camadas. Usa os botões ＋ acima.</div>
   </div>
 
-  <!-- BLOCO: CABEÇALHO -->
-  <div class="bloco" id="blk-header">
-    <div class="bloco-cab">
-      <span class="tit">🔖 Cabeçalho</span>
-      <label class="sw"><input type="checkbox" id="on-header"><span class="track"></span></label>
-    </div>
-    <div class="bloco-corpo">
-      <label for="hTitulo">Título</label>
-      <input type="text" id="hTitulo" placeholder="Nome do negócio">
-      <label for="hSubtitulo">Subtítulo</label>
-      <input type="text" id="hSubtitulo" placeholder="Uma frase curta">
-      <label for="hCor">Cor do texto</label>
-      <div class="campo-cor"><input type="color" id="hCor" value="#ffffff"><span class="ajuda" id="hCorVal">#ffffff</span></div>
-    </div>
+  <div class="painel" id="painelEstilo">
+    <h3>Estilo da camada</h3>
+    <div id="propsCamada"><div class="vazio">Seleciona uma camada para editar.</div></div>
   </div>
-
-  <!-- BLOCO: TEXTO LIVRE -->
-  <div class="bloco" id="blk-texto">
-    <div class="bloco-cab">
-      <span class="tit">✍️ Texto livre</span>
-      <label class="sw"><input type="checkbox" id="on-texto"><span class="track"></span></label>
-    </div>
-    <div class="bloco-corpo">
-      <div class="ajuda">Um título/subtítulo que posicionas onde quiseres no topo.</div>
-      <label for="tlTitulo">Título</label>
-      <input type="text" id="tlTitulo" placeholder="Ex: Bem-vindo">
-      <label for="tlSubtitulo">Subtítulo</label>
-      <input type="text" id="tlSubtitulo">
-      <label for="tlCor">Cor</label>
-      <div class="campo-cor"><input type="color" id="tlCor" value="#4a3820"><span class="ajuda" id="tlCorVal">#4a3820</span></div>
-      <label>Tamanho <span class="val" id="tlTamanhoVal">2.4</span></label>
-      <div class="lin"><input type="range" id="tlTamanho" min="1.2" max="5" step="0.1" value="2.4"></div>
-      <label>Posição horizontal <span class="val" id="tlXVal">50</span></label>
-      <div class="lin"><input type="range" id="tlX" min="0" max="100" step="1" value="50"></div>
-      <label>Posição vertical <span class="val" id="tlYVal">50</span></label>
-      <div class="lin"><input type="range" id="tlY" min="0" max="100" step="1" value="50"></div>
-    </div>
-  </div>
-
-  <!-- BLOCO: CONTEÚDO (blocos livres) -->
-  <div class="bloco aberto" id="blk-conteudo">
-    <div class="bloco-cab"><span class="tit">🧩 Blocos de conteúdo</span></div>
-    <div class="bloco-corpo">
-      <div class="ajuda">Adiciona blocos e monta a página. Reordena com ▲▼, apaga com 🗑.</div>
-      <div style="display:flex; flex-wrap:wrap; gap:6px; margin:10px 0;">
-        <button type="button" class="btn" data-add="titulo">+ Título</button>
-        <button type="button" class="btn" data-add="paragrafo">+ Texto</button>
-        <button type="button" class="btn" data-add="imagem">+ Imagem</button>
-        <button type="button" class="btn" data-add="botao">+ Botão</button>
-        <button type="button" class="btn" data-add="separador">+ Linha</button>
-        <button type="button" class="btn" data-add="espaco">+ Espaço</button>
-      </div>
-      <div id="listaBlocos"></div>
-    </div>
-  </div>
-
-  <!-- BLOCO: LISTA / MENU -->
-  <div class="bloco" id="blk-menu">
-    <div class="bloco-cab">
-      <span class="tit">🍽️ Lista / Menu</span>
-      <label class="sw"><input type="checkbox" id="on-menu"><span class="track"></span></label>
-    </div>
-    <div class="bloco-corpo">
-      <div class="ajuda">A lista de separadores e itens. Importa um ficheiro <code>menu.json</code> e guarda-o.</div>
-      <label for="menuModelo">Estilo da lista</label>
-      <select id="menuModelo">
-        <option value="lista">Lista (barras)</option>
-        <option value="grelha">Grelha de cartões</option>
-        <option value="caderno">Caderno (folha quadriculada)</option>
-      </select>
-      <div id="cadernoBox" style="display:none; margin-top:8px; padding:10px; border:1.5px solid var(--linha); border-radius:10px;">
-        <label for="cadFolha" style="margin-top:0;">Tipo de folha</label>
-        <select id="cadFolha"><option value="quadriculado">Quadriculado</option><option value="linhas">Linhas horizontais</option><option value="liso">Folha lisa</option></select>
-        <div class="campo-cor" style="justify-content:space-between; margin-top:8px;"><span class="ajuda">Cor da letra</span><input type="color" id="cadCorLetra" value="#4a3820"></div>
-        <div class="campo-cor" style="justify-content:space-between; margin-top:6px;"><span class="ajuda">Cor da folha</span><input type="color" id="cadCorFolha" value="#fbf8f2"></div>
-        <div class="campo-cor" style="justify-content:space-between; margin-top:6px;"><span class="ajuda">Cor das linhas</span><input type="color" id="cadCorLinha" value="#d9d2bf"></div>
-      </div>
-      <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
-        <button type="button" class="btn" id="btnImportarMenu">Importar menu.json</button>
-        <button type="button" class="btn" id="btnGuardarMenu">Guardar menu</button>
-      </div>
-      <input type="file" id="fileMenu" accept="application/json" style="display:none;">
-      <div class="ajuda" id="menuEstado" style="margin-top:8px;">Sem menu carregado.</div>
-    </div>
-  </div>
-
-  <!-- BLOCO: BARRA FIXA -->
-  <div class="bloco" id="blk-barra">
-    <div class="bloco-cab">
-      <span class="tit">📌 Barra fixa (fundo)</span>
-      <label class="sw"><input type="checkbox" id="on-barra"><span class="track"></span></label>
-    </div>
-    <div class="bloco-corpo">
-      <label for="bL1">Linha 1 (negrito)</label><input type="text" id="bL1">
-      <label for="bL2">Linha 2</label><input type="text" id="bL2">
-      <label for="bL3">Linha 3</label><input type="text" id="bL3">
-      <label for="bL4">Linha 4</label><input type="text" id="bL4">
-      <label for="bCor">Cor do texto</label>
-      <div class="campo-cor"><input type="color" id="bCor" value="#ffffff"><span class="ajuda" id="bCorVal">#ffffff</span></div>
-    </div>
-  </div>
-
-  <!-- BLOCO: RODAPÉ -->
-  <div class="bloco" id="blk-footer">
-    <div class="bloco-cab">
-      <span class="tit">📄 Rodapé final</span>
-      <label class="sw"><input type="checkbox" id="on-footer"><span class="track"></span></label>
-    </div>
-    <div class="bloco-corpo">
-      <label for="fNome">Nome</label><input type="text" id="fNome">
-      <label for="fMorada">Morada</label><input type="text" id="fMorada">
-      <label for="fTelefone">Telefone</label><input type="text" id="fTelefone">
-      <label for="fCor">Cor do texto</label>
-      <div class="campo-cor"><input type="color" id="fCor" value="#ffffff"><span class="ajuda" id="fCorVal">#ffffff</span></div>
-    </div>
-  </div>
-
-  <!-- BLOCO: ABERTURA -->
-  <div class="bloco" id="blk-intro">
-    <div class="bloco-cab">
-      <span class="tit">🎬 Ecrã de abertura</span>
-      <label class="sw"><input type="checkbox" id="on-intro"><span class="track"></span></label>
-    </div>
-    <div class="bloco-corpo">
-      <label for="iTitulo">Título (vazio = nome do cabeçalho)</label><input type="text" id="iTitulo">
-      <label for="iSubtitulo">Subtítulo</label><input type="text" id="iSubtitulo">
-      <label for="iBotao">Texto do botão</label><input type="text" id="iBotao" placeholder="Ver menu ▸">
-      <label for="iReveal">Efeito de entrada</label>
-      <select id="iReveal">
-        <option value="slide">Slide</option><option value="cortina">Cortina horizontal</option><option value="cortina-v">Cortina vertical</option><option value="cubos">Cubos 3D</option><option value="zoom">Zoom + dissolve</option>
-      </select>
-    </div>
-  </div>
-
-  <button type="button" class="btn btn-forte" id="btnGuardar" style="margin-top:20px;">💾 Guardar página</button>
-  <div class="estado" id="estado2"></div>
 </div>
 
-<!-- PRÉ-VISUALIZAÇÃO -->
-<div id="previewDock" class="preview-dock">
-  <div class="preview-dock-bar">
-    <span>👁️ Pré-visualização</span>
-    <span style="display:flex;">
-      <button type="button" id="btnAtualizarPreview" title="Atualizar" class="preview-dock-btn">↻</button>
-      <button type="button" id="previewMin" title="Minimizar" class="preview-dock-btn">—</button>
-    </span>
+<div class="modal" id="modalJson">
+  <div class="cx">
+    <h3 style="font-family:'Fredoka'; margin-top:0;">Desenho em JSON</h3>
+    <div class="ajuda" style="margin-bottom:6px;">Copia para guardar, ou cola um desenho e clica em Importar.</div>
+    <textarea id="jsonArea"></textarea>
+    <div class="linha" style="margin-top:8px; justify-content:flex-end;">
+      <button class="btn sec" id="btnImportar">Importar</button>
+      <button class="btn" id="btnCopiar">Copiar</button>
+      <button class="btn" style="background:#999;" id="btnFecharJson">Fechar</button>
+    </div>
   </div>
-  <div class="preview-dock-corpo"><iframe id="previewFrame" title="Pré-visualização"></iframe></div>
+</div>
+
+<div class="modal" id="modalPub">
+  <div class="cx">
+    <h3 style="font-family:'Fredoka'; margin-top:0;">Publicar (em breve)</h3>
+    <div class="ajuda">Nesta primeira versão o construtor de camadas ainda não publica no site — serve para desenhares e exportares em JSON. A ligação ao teu repositório (config.json) e o desenho na página real são o passo seguinte.</div>
+    <div class="linha" style="margin-top:10px; justify-content:flex-end;">
+      <button class="btn" style="background:#999;" id="btnFecharPub">Ok</button>
+    </div>
+  </div>
 </div>
 
 <script>
-  const REPO = (function(){ try{ const h=location.hostname, seg=location.pathname.split('/').filter(Boolean); if(h.endsWith('github.io') && seg.length) return h.split('.')[0]+'/'+seg[0]; }catch(e){} return ''; })();
-  const CONFIG_API = 'https://api.github.com/repos/'+REPO+'/contents/config.json';
-  const MENU_API = 'https://api.github.com/repos/'+REPO+'/contents/menu.json';
-  const $ = id => document.getElementById(id);
-  function b64e(s){ return btoa(unescape(encodeURIComponent(s))); }
-  function b64d(s){ return decodeURIComponent(escape(atob(String(s).replace(/\n/g,'')))); }
-  function setEstado(m,t){ const e=$('estado'); e.className='estado '+(t||'info'); e.textContent=m; }
-  function setEstado2(m,t){ const e=$('estado2'); e.className='estado '+(t||'info'); e.textContent=m; }
+  const FONTES = { auto:'', fredoka:"'Fredoka',sans-serif", baloo:"'Baloo 2',sans-serif", chewy:"'Chewy',cursive", poppins:"'Poppins',sans-serif", playfair:"'Playfair Display',serif", bebas:"'Bebas Neue',sans-serif", lobster:"'Lobster',cursive", pacifico:"'Pacifico',cursive", caveat:"'Caveat',cursive" };
+  const tela = document.getElementById('tela');
+  let camadas = [];
+  let selId = null;
+  let uid = 1;
+  let fundo = { cor:'#6d5a2e', img:'' };
 
-  let cfg = {}, configSha = null, menuData = null, menuSha = null;
-
-  const tok = localStorage.getItem('cardapioEditorToken');
-  if(tok) $('token').value = tok; else $('lembrar').checked = false;
-  $('mostrarToken').addEventListener('click', ()=>{ const t=$('token'); t.type = t.type==='password'?'text':'password'; });
-
-  // Abrir/fechar blocos ao tocar no cabeçalho; ligar/desligar abre automaticamente
-  document.querySelectorAll('.bloco').forEach(function(bl){
-    const cab = bl.querySelector('.bloco-cab');
-    const chk = bl.querySelector('input[type=checkbox]');
-    cab.addEventListener('click', function(e){
-      if(e.target.closest('.sw')) return;
-      bl.classList.toggle('aberto');
-    });
-    if(chk) chk.addEventListener('change', function(){ if(chk.checked) bl.classList.add('aberto'); enviar(); });
-  });
-
-  // Mostradores
-  [['tlTamanho','tlTamanhoVal'],['tlX','tlXVal'],['tlY','tlYVal']].forEach(function(p){ const el=$(p[0]); el.addEventListener('input', ()=> $(p[1]).textContent = el.value ); });
-  [['hCor','hCorVal'],['tlCor','tlCorVal'],['bCor','bCorVal'],['fCor','fCorVal']].forEach(function(p){ const el=$(p[0]); el.addEventListener('input', ()=> $(p[1]).textContent = el.value ); });
-  $('fundoTipo').addEventListener('change', ()=>{ $('fundoTexturaBox').style.display = $('fundoTipo').value==='textura'?'block':'none'; });
-  $('menuModelo').addEventListener('change', ()=>{ $('cadernoBox').style.display = $('menuModelo').value==='caderno'?'block':'none'; });
-
-  // ---- Blocos de conteúdo ----
-  const TIPOS_LABEL = { titulo:'Título', paragrafo:'Texto', imagem:'Imagem', botao:'Botão', separador:'Linha', espaco:'Espaço' };
-  function novoBloco(tipo){
-    const id = 'b'+Date.now()+Math.floor(Math.random()*1000);
-    const base = { id:id, tipo:tipo, align:'center' };
-    if(tipo==='titulo') return Object.assign(base,{ texto:'Título', tamanho:2, cor:'' });
-    if(tipo==='paragrafo') return Object.assign(base,{ texto:'Escreve aqui…', tamanho:1, cor:'' });
-    if(tipo==='imagem') return Object.assign(base,{ url:'', largura:100, radius:12 });
-    if(tipo==='botao') return Object.assign(base,{ texto:'Clica aqui', link:'', cor:'', corTexto:'#ffffff' });
-    if(tipo==='espaco') return Object.assign(base,{ altura:24 });
-    return base;
-  }
-  function mkCampo(label, tipo, valor, onInput, attrs){
-    attrs = attrs || {};
-    const wrap = document.createElement('div'); wrap.style.margin = '6px 0';
-    if(label){ const l=document.createElement('label'); l.textContent=label; l.style.margin='4px 0 2px'; wrap.appendChild(l); }
-    let inp;
-    if(tipo==='textarea'){ inp=document.createElement('textarea'); inp.rows=3; }
-    else if(tipo==='select'){ inp=document.createElement('select'); (attrs.opcoes||[]).forEach(function(o){ const op=document.createElement('option'); op.value=o[0]; op.textContent=o[1]; inp.appendChild(op); }); }
-    else { inp=document.createElement('input'); inp.type=tipo; }
-    if(attrs.min!=null) inp.min=attrs.min; if(attrs.max!=null) inp.max=attrs.max; if(attrs.step!=null) inp.step=attrs.step; if(attrs.placeholder) inp.placeholder=attrs.placeholder;
-    if(tipo==='color') inp.style.cssText='width:52px; height:34px; padding:0; border:none; background:none; cursor:pointer;';
-    inp.value = (valor!=null?valor:'');
-    inp.addEventListener('input', function(){ onInput(inp.value); });
-    if(attrs.inline && label){ wrap.style.display='flex'; wrap.style.alignItems='center'; wrap.style.justifyContent='space-between'; wrap.querySelector('label').style.margin='0'; }
-    wrap.appendChild(inp); return wrap;
-  }
-  const OPC_ALIGN = [['left','Esquerda'],['center','Centro'],['right','Direita']];
-  function renderBlocos(){
-    const lista = $('listaBlocos'); if(!lista) return;
-    cfg.blocos = Array.isArray(cfg.blocos) ? cfg.blocos : [];
-    lista.innerHTML='';
-    cfg.blocos.forEach(function(b, i){
-      const card=document.createElement('div'); card.style.cssText='border:1.5px solid var(--linha); border-radius:10px; padding:8px 10px; margin-top:8px; background:var(--bege-claro);';
-      const cab=document.createElement('div'); cab.style.cssText='display:flex; align-items:center; gap:5px;';
-      const t=document.createElement('span'); t.textContent=TIPOS_LABEL[b.tipo]||b.tipo; t.style.cssText='font-weight:800; flex:1; color:var(--castanho);';
-      const mkBtn=function(txt,fn){ const x=document.createElement('button'); x.className='btn'; x.textContent=txt; x.style.padding='4px 8px'; x.onclick=fn; return x; };
-      cab.appendChild(t);
-      cab.appendChild(mkBtn('▲', function(){ if(i>0){ cfg.blocos.splice(i-1,0,cfg.blocos.splice(i,1)[0]); renderBlocos(); enviar(); } }));
-      cab.appendChild(mkBtn('▼', function(){ if(i<cfg.blocos.length-1){ cfg.blocos.splice(i+1,0,cfg.blocos.splice(i,1)[0]); renderBlocos(); enviar(); } }));
-      cab.appendChild(mkBtn('🗑', function(){ cfg.blocos.splice(i,1); renderBlocos(); enviar(); }));
-      card.appendChild(cab);
-      const set=function(k){ return function(v){ b[k]=v; enviar(); }; };
-      const setN=function(k){ return function(v){ b[k]=parseFloat(v); enviar(); }; };
-      if(b.tipo==='titulo'){
-        card.appendChild(mkCampo('','text',b.texto,set('texto'),{placeholder:'Texto do título'}));
-        card.appendChild(mkCampo('Tamanho','range',b.tamanho,setN('tamanho'),{min:1,max:4,step:0.1,inline:true}));
-        card.appendChild(mkCampo('Cor','color',b.cor||'#4a3820',set('cor'),{inline:true}));
-        card.appendChild(mkCampo('Alinhamento','select',b.align,set('align'),{opcoes:OPC_ALIGN,inline:true}));
-      } else if(b.tipo==='paragrafo'){
-        card.appendChild(mkCampo('','textarea',b.texto,set('texto'),{placeholder:'Escreve o texto…'}));
-        card.appendChild(mkCampo('Tamanho','range',b.tamanho,setN('tamanho'),{min:0.8,max:2,step:0.05,inline:true}));
-        card.appendChild(mkCampo('Cor','color',b.cor||'#8a7350',set('cor'),{inline:true}));
-        card.appendChild(mkCampo('Alinhamento','select',b.align,set('align'),{opcoes:OPC_ALIGN,inline:true}));
-      } else if(b.tipo==='imagem'){
-        card.appendChild(mkCampo('Endereço da imagem (URL ou imagens/…)','text',b.url,set('url'),{placeholder:'https://… ou imagens/foto.jpg'}));
-        card.appendChild(mkCampo('Largura %','range',b.largura,setN('largura'),{min:20,max:100,step:1,inline:true}));
-        card.appendChild(mkCampo('Cantos','range',b.radius,setN('radius'),{min:0,max:40,step:1,inline:true}));
-        card.appendChild(mkCampo('Alinhamento','select',b.align,set('align'),{opcoes:OPC_ALIGN,inline:true}));
-      } else if(b.tipo==='botao'){
-        card.appendChild(mkCampo('Texto','text',b.texto,set('texto'),{placeholder:'Ex: Reservar'}));
-        card.appendChild(mkCampo('Link','text',b.link,set('link'),{placeholder:'https://…'}));
-        card.appendChild(mkCampo('Cor do botão','color',b.cor||'#a8712f',set('cor'),{inline:true}));
-        card.appendChild(mkCampo('Cor do texto','color',b.corTexto||'#ffffff',set('corTexto'),{inline:true}));
-        card.appendChild(mkCampo('Alinhamento','select',b.align,set('align'),{opcoes:OPC_ALIGN,inline:true}));
-      } else if(b.tipo==='espaco'){
-        card.appendChild(mkCampo('Altura (px)','range',b.altura,setN('altura'),{min:8,max:120,step:2,inline:true}));
-      }
-      lista.appendChild(card);
-    });
-  }
-  document.querySelectorAll('[data-add]').forEach(function(btn){
-    btn.addEventListener('click', function(){ cfg.blocos = Array.isArray(cfg.blocos)?cfg.blocos:[]; cfg.blocos.push(novoBloco(btn.dataset.add)); renderBlocos(); enviar(); });
-  });
-
-  // ---- Ler o formulário para o cfg (mantendo campos não expostos) ----
-  function lerForm(){
-    cfg.layout = $('layout').value;
-    cfg.fundo = Object.assign({}, cfg.fundo, { tipo:$('fundoTipo').value, textura:$('fundoTextura').value });
-    cfg.header = Object.assign({ cor:'#ffffff', realce:true, fotos:[], fotosAtivas:true }, cfg.header, {
-      mostrar: $('on-header').checked, titulo:$('hTitulo').value.trim(), subtitulo:$('hSubtitulo').value.trim(), cor:$('hCor').value
-    });
-    cfg.textoLivre = Object.assign({}, cfg.textoLivre, {
-      ativo:$('on-texto').checked, titulo:$('tlTitulo').value.trim(), subtitulo:$('tlSubtitulo').value.trim(),
-      cor:$('tlCor').value, tamanho:parseFloat($('tlTamanho').value)||2.4, altura:42, x:parseInt($('tlX').value,10), y:parseInt($('tlY').value,10)
-    });
-    cfg.mostrarMenu = $('on-menu').checked;
-    cfg.modelo = $('menuModelo').value;
-    cfg.caderno = { folha:$('cadFolha').value, corLetra:$('cadCorLetra').value, corFolha:$('cadCorFolha').value, corLinha:$('cadCorLinha').value };
-    cfg.rodape = Object.assign({ cor:'#ffffff', realce:true, fotos:[], fotosAtivas:true }, cfg.rodape, {
-      mostrar:$('on-barra').checked, linha1:$('bL1').value.trim(), linha2:$('bL2').value.trim(), linha3:$('bL3').value.trim(), linha4:$('bL4').value.trim(), cor:$('bCor').value
-    });
-    cfg.footer = Object.assign({ fotos:[], fotosAtivas:false }, cfg.footer, {
-      mostrar:$('on-footer').checked, nome:$('fNome').value.trim(), morada:$('fMorada').value.trim(), telefone:$('fTelefone').value.trim(), cor:$('fCor').value
-    });
-    cfg.intro = Object.assign({ duracao:7, fundo:'gradiente', tamanho:2.7, subTamanho:1.08, cor:'#ffffff' }, cfg.intro, {
-      ativo:$('on-intro').checked, titulo:$('iTitulo').value.trim(), subtitulo:$('iSubtitulo').value.trim(), botao:$('iBotao').value.trim(), reveal:$('iReveal').value
-    });
-    cfg.blocos = Array.isArray(cfg.blocos) ? cfg.blocos : [];
-    return cfg;
+  function novaCamada(tipo){
+    const base = { id:uid++, tipo, x:18, y:38, w:64, h:12, rot:0, opac:100, visivel:true,
+      cor:'#ffffff', fundo:(tipo==='botao'?'#a8712f':(tipo==='forma'?'#ffd27a':'')),
+      fonte:'fredoka', tamanho:1.6, negrito:true, italico:false, radius:(tipo==='botao'?24:(tipo==='forma'?10:0)) };
+    if(tipo==='texto'){ base.texto='Texto'; base.fundo=''; base.h=8; }
+    if(tipo==='botao'){ base.texto='Botão'; base.link=''; base.h=7; base.w=40; base.x=30; }
+    if(tipo==='imagem'){ base.src=''; base.h=30; base.w=50; base.x=25; base.negrito=false; }
+    if(tipo==='forma'){ base.h=14; }
+    camadas.push(base); selId = base.id; renderTudo();
   }
 
-  function preencherForm(){
-    $('layout').value = cfg.layout || '1';
-    const fundo = cfg.fundo || {}; $('fundoTipo').value = fundo.tipo || 'liso'; $('fundoTextura').value = fundo.textura || 'pontos';
-    $('fundoTexturaBox').style.display = (fundo.tipo==='textura')?'block':'none';
-    const h = cfg.header || {}; $('on-header').checked = h.mostrar !== false; $('hTitulo').value=h.titulo||''; $('hSubtitulo').value=h.subtitulo||''; $('hCor').value=h.cor||'#ffffff'; $('hCorVal').textContent=h.cor||'#ffffff';
-    const tl = cfg.textoLivre || {}; $('on-texto').checked=!!tl.ativo; $('tlTitulo').value=tl.titulo||''; $('tlSubtitulo').value=tl.subtitulo||''; $('tlCor').value=tl.cor||'#4a3820'; $('tlCorVal').textContent=tl.cor||'#4a3820';
-    $('tlTamanho').value=tl.tamanho||2.4; $('tlTamanhoVal').textContent=tl.tamanho||2.4; $('tlX').value=(tl.x!=null?tl.x:50); $('tlXVal').textContent=(tl.x!=null?tl.x:50); $('tlY').value=(tl.y!=null?tl.y:50); $('tlYVal').textContent=(tl.y!=null?tl.y:50);
-    $('on-menu').checked = cfg.mostrarMenu !== false;
-    $('menuModelo').value = cfg.modelo || 'lista';
-    { const cad = cfg.caderno || {}; $('cadFolha').value = cad.folha || 'quadriculado'; $('cadCorLetra').value = cad.corLetra || '#4a3820'; $('cadCorFolha').value = cad.corFolha || '#fbf8f2'; $('cadCorLinha').value = cad.corLinha || '#d9d2bf'; $('cadernoBox').style.display = (cfg.modelo === 'caderno') ? 'block' : 'none'; }
-    const r = cfg.rodape || {}; $('on-barra').checked = r.mostrar !== false; $('bL1').value=r.linha1||''; $('bL2').value=r.linha2||''; $('bL3').value=r.linha3||''; $('bL4').value=r.linha4||''; $('bCor').value=r.cor||'#ffffff'; $('bCorVal').textContent=r.cor||'#ffffff';
-    const f = cfg.footer || {}; $('on-footer').checked = f.mostrar !== false && !!(f.nome||f.morada||f.telefone); $('fNome').value=f.nome||''; $('fMorada').value=f.morada||''; $('fTelefone').value=f.telefone||''; $('fCor').value=f.cor||'#ffffff'; $('fCorVal').textContent=f.cor||'#ffffff';
-    const i = cfg.intro || {}; $('on-intro').checked=!!i.ativo; $('iTitulo').value=i.titulo||''; $('iSubtitulo').value=i.subtitulo||''; $('iBotao').value=i.botao||''; $('iReveal').value=i.reveal||'slide';
-    document.querySelectorAll('.bloco input[type=checkbox]:checked').forEach(function(c){ c.closest('.bloco').classList.add('aberto'); });
-    renderBlocos();
-  }
+  function selCamada(){ return camadas.find(c=>c.id===selId) || null; }
 
-  // ---- Carregar ----
-  $('btnCarregar').addEventListener('click', async function(){
-    const token = $('token').value.trim();
-    if(!token){ setEstado('Cola primeiro o token.', 'erro'); return; }
-    if($('lembrar').checked) localStorage.setItem('cardapioEditorToken', token); else localStorage.removeItem('cardapioEditorToken');
-    setEstado('A carregar…','info');
-    try{
-      const r = await fetch(CONFIG_API+'?t='+Date.now(), { headers:{ Authorization:'Bearer '+token, Accept:'application/vnd.github+json' } });
-      if(r.status===404){ configSha=null; cfg={}; setEstado('Página em branco — liga blocos e guarda para criar.','info'); }
-      else if(r.ok){ const d=await r.json(); configSha=d.sha; cfg=JSON.parse(b64d(d.content)); setEstado('Página carregada ✓','ok'); }
-      else throw new Error('HTTP '+r.status+' — verifica o token.');
-      // menu (opcional)
-      try{ const rm=await fetch(MENU_API+'?t='+Date.now(), { headers:{ Authorization:'Bearer '+token, Accept:'application/vnd.github+json' } });
-        if(rm.ok){ const dm=await rm.json(); menuSha=dm.sha; menuData=JSON.parse(b64d(dm.content)); $('menuEstado').textContent='Menu carregado ('+((menuData.categorias||[]).length)+' separadores).'; }
-      }catch(e){}
-      preencherForm(); enviar();
-    }catch(err){ setEstado('Erro: '+err.message, 'erro'); }
-  });
-
-  // ---- Importar/guardar menu ----
-  $('btnImportarMenu').addEventListener('click', ()=> $('fileMenu').click());
-  $('fileMenu').addEventListener('change', function(e){
-    const f=e.target.files&&e.target.files[0]; if(!f) return;
-    const rd=new FileReader(); rd.onload=function(){ try{ const d=JSON.parse(rd.result); if(!Array.isArray(d.categorias)) throw new Error('Falta "categorias".'); menuData=d; $('menuEstado').textContent='Menu importado ('+d.categorias.length+' separadores) — guarda para publicar.'; $('on-menu').checked=true; enviar(); }catch(err){ $('menuEstado').textContent='Erro a importar: '+err.message; } };
-    rd.readAsText(f);
-  });
-  $('btnGuardarMenu').addEventListener('click', async function(){
-    const token=$('token').value.trim(); if(!token){ setEstado2('Cola o token.','erro'); return; }
-    if(!menuData){ setEstado2('Importa um menu primeiro.','erro'); return; }
-    setEstado2('A guardar menu…','info');
-    try{
-      if(!menuSha){ try{ const c=await fetch(MENU_API+'?t='+Date.now(),{headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json'}}); if(c.ok){ menuSha=(await c.json()).sha; } }catch(e){} }
-      const corpo={ message:'Atualizar menu.json via construtor', content:b64e(JSON.stringify(menuData,null,2)) }; if(menuSha) corpo.sha=menuSha;
-      const r=await fetch(MENU_API,{ method:'PUT', headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json','Content-Type':'application/json'}, body:JSON.stringify(corpo) });
-      if(!r.ok){ const e=await r.json().catch(()=>({})); throw new Error(e.message||('HTTP '+r.status)); }
-      menuSha=(await r.json()).content.sha; setEstado2('Menu guardado ✓','ok');
-    }catch(err){ setEstado2('Erro ao guardar menu: '+err.message,'erro'); }
-  });
-
-  // ---- Guardar página (config) ----
-  $('btnGuardar').addEventListener('click', async function(){
-    const token=$('token').value.trim(); if(!token){ setEstado2('Cola o token.','erro'); return; }
-    lerForm();
-    setEstado2('A guardar…','info');
-    try{
-      if(!configSha){ try{ const c=await fetch(CONFIG_API+'?t='+Date.now(),{headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json'}}); if(c.ok){ configSha=(await c.json()).sha; } }catch(e){} }
-      const corpo={ message:'Atualizar config.json via construtor', content:b64e(JSON.stringify(cfg,null,2)) }; if(configSha) corpo.sha=configSha;
-      const r=await fetch(CONFIG_API,{ method:'PUT', headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json','Content-Type':'application/json'}, body:JSON.stringify(corpo) });
-      if(!r.ok){ const e=await r.json().catch(()=>({})); throw new Error(e.message||('HTTP '+r.status)); }
-      configSha=(await r.json()).content.sha; setEstado2('✅ Guardado! Aparece na página em 1-2 minutos.','ok');
-    }catch(err){ setEstado2('Erro ao guardar: '+err.message,'erro'); }
-  });
-
-  // ---- Criar página nova (repositório + código + alojamento) ----
-  function RAWown(file){ return 'https://raw.githubusercontent.com/'+REPO+'/main/'+file; }
-  async function ghPUT(owner, repo, path, contentB64, token, msg){
-    const r = await fetch('https://api.github.com/repos/'+owner+'/'+repo+'/contents/'+path, { method:'PUT', headers:{ Authorization:'Bearer '+token, Accept:'application/vnd.github+json', 'Content-Type':'application/json' }, body: JSON.stringify({ message: msg||('add '+path), content: contentB64 }) });
-    if(!r.ok){ const e=await r.json().catch(()=>({})); throw new Error('PUT '+path+': '+(e.message||r.status)); }
-  }
-  $('btnCriar').addEventListener('click', async function(){
-    const token = $('token').value.trim();
-    const nome = $('novoNome').value.trim();
-    let repo = $('novoRepo').value.trim().toLowerCase().replace(/[^a-z0-9-]+/g,'-').replace(/^-+|-+$/g,'');
-    const est = $('estadoCriar'); const se = (m,t)=>{ est.className='estado '+(t||'info'); est.textContent=m; };
-    if(!token){ se('Cola o token clássico (âmbito repo).','erro'); return; }
-    if(!nome || !repo){ se('Preenche o nome e o endereço.','erro'); return; }
-    const btn=$('btnCriar'); btn.disabled=true;
-    try{
-      se('1/5 A criar o repositório…','info');
-      const cr = await fetch('https://api.github.com/user/repos', { method:'POST', headers:{ Authorization:'Bearer '+token, Accept:'application/vnd.github+json', 'Content-Type':'application/json' }, body: JSON.stringify({ name:repo, private:false, description:'Página — '+nome, auto_init:false }) });
-      if(!cr.ok){ const e=await cr.json().catch(()=>({})); throw new Error('Criar repo: '+(e.message||cr.status)); }
-      const owner = (await cr.json()).owner.login;
-      se('2/5 A copiar o código…','info');
-      for(const file of ['cardapio.html','editar.html','construtor.html']){
-        let txt=''; try{ txt = await (await fetch(RAWown(file)+'?t='+Date.now())).text(); }catch(e){}
-        if(txt && txt.indexOf('<') !== -1) await ghPUT(owner, repo, file, b64e(txt), token, file);
-      }
-      se('4/5 A adicionar definições…','info');
-      const configBase = { layout:'1', header:{ mostrar:true, titulo:nome, subtitulo:'', cor:'#ffffff', realce:true }, mostrarMenu:true, rodape:{ mostrar:true, linha1:'', cor:'#ffffff' }, footer:{ mostrar:false, nome:nome, cor:'#ffffff' } };
-      const menuBase = { restaurante:nome, categorias:[ { id:'seccao', emoji:'', tipo:'comida', tile:{pt:'Secção'}, grupos:[ { summary:{pt:'Secção'}, itens:[ { nome:{pt:'Exemplo'}, preco:'' } ] } ] } ] };
-      await ghPUT(owner, repo, 'config.json', b64e(JSON.stringify(configBase,null,2)), token, 'config.json');
-      await ghPUT(owner, repo, 'menu.json', b64e(JSON.stringify(menuBase,null,2)), token, 'menu.json');
-      se('5/5 A ativar o site…','info');
-      await fetch('https://api.github.com/repos/'+owner+'/'+repo+'/pages', { method:'POST', headers:{ Authorization:'Bearer '+token, Accept:'application/vnd.github+json', 'Content-Type':'application/json' }, body: JSON.stringify({ source:{ branch:'main', path:'/' } }) }).catch(()=>{});
-      const base = 'https://'+owner.toLowerCase()+'.github.io/'+repo+'/';
-      est.className='estado ok';
-      est.innerHTML = '✅ Criada! Fica online em 1-2 min. <a href="'+base+'construtor.html" target="_blank" style="color:inherit;font-weight:700;">Abrir o construtor desta página ▸</a>';
-      $('novoNome').value=''; $('novoRepo').value='';
-    }catch(err){ se('Erro: '+err.message,'erro'); }
-    finally{ btn.disabled=false; }
-  });
-
-  // ---- Pré-visualização ----
-  let pronto=false, temporizador=null;
-  function enviar(){
-    const frame=$('previewFrame'); if(!pronto || !frame.contentWindow) return;
-    const msg={ type:'cardapio-preview' };
-    try{ msg.config=JSON.parse(JSON.stringify(lerForm())); }catch(e){ msg.config=cfg; }
-    if(menuData){ try{ msg.menu=JSON.parse(JSON.stringify(menuData)); }catch(e){ msg.menu=menuData; } }
-    frame.contentWindow.postMessage(msg,'*');
-  }
-  function agendar(){ clearTimeout(temporizador); temporizador=setTimeout(enviar,400); }
-  window.addEventListener('message', function(e){
-    const d = e.data || {};
-    if(d.type==='cardapio-preview-ready'){ pronto=true; enviar(); }
-    else if(d.type==='preview-pos' && d.target==='textoLivre'){
-      if(d.x!=null){ $('tlX').value=d.x; $('tlXVal').textContent=d.x; }
-      if(d.y!=null){ $('tlY').value=d.y; $('tlYVal').textContent=d.y; }
-      cfg.textoLivre = cfg.textoLivre || {}; cfg.textoLivre.x=d.x; cfg.textoLivre.y=d.y;
+  // ---- Render da tela ----
+  function estiloConteudo(c){
+    const s = {};
+    if(c.tipo==='imagem'){
+      return 'width:100%;height:100%;background-image:url('+(c.src?JSON.stringify(c.src):'"none"')+');background-size:cover;background-position:center;background-repeat:no-repeat;border-radius:'+c.radius+'px;'+(c.src?'':'background:#00000022;');
     }
-    else if(d.type==='preview-size' && d.target==='textoLivre'){
-      if(d.tamanho!=null){ $('tlTamanho').value=d.tamanho; $('tlTamanhoVal').textContent=d.tamanho; cfg.textoLivre=cfg.textoLivre||{}; cfg.textoLivre.tamanho=d.tamanho; }
+    let css = 'width:100%;height:100%;display:flex;align-items:center;justify-content:center;';
+    if(c.tipo==='forma'){ css += 'background:'+(c.fundo||'#ffd27a')+';border-radius:'+c.radius+'px;'; return css; }
+    // texto / botao
+    if(c.tipo==='botao'){ css += 'background:'+(c.fundo||'#a8712f')+';border-radius:'+c.radius+'px;padding:0 14px;'; }
+    css += 'color:'+(c.cor||'#fff')+';font-family:'+(FONTES[c.fonte]||"'Fredoka',sans-serif")+';font-weight:'+(c.negrito?800:500)+';font-style:'+(c.italico?'italic':'normal')+';font-size:'+c.tamanho+'rem;text-align:center;line-height:1.15;white-space:pre-wrap;';
+    return css;
+  }
+  function textoDe(c){ return c.tipo==='botao'||c.tipo==='texto' ? (c.texto||'') : ''; }
+
+  function renderTudo(){
+    tela.style.background = fundo.img ? ("url("+JSON.stringify(fundo.img)+") center/cover") : fundo.cor;
+    tela.innerHTML = '';
+    camadas.forEach(function(c, i){
+      const el = document.createElement('div');
+      el.className = 'cam ' + (c.tipo==='texto'?'txt':'') + (c.id===selId?' sel':'');
+      el.dataset.id = c.id;
+      el.style.left = c.x+'%'; el.style.top = c.y+'%';
+      el.style.width = c.w+'%'; el.style.height = c.h+'%';
+      el.style.transform = 'rotate('+c.rot+'deg)';
+      el.style.opacity = (c.opac/100);
+      el.style.zIndex = i+1;
+      el.style.display = c.visivel ? '' : 'none';
+      const cont = document.createElement('div'); cont.className='conteudo';
+      cont.style.cssText = estiloConteudo(c);
+      cont.textContent = textoDe(c);
+      el.appendChild(cont);
+      if(c.id===selId){
+        const hbr = document.createElement('div'); hbr.className='h br'; el.appendChild(hbr);
+        if(c.tipo!=='texto'){} // resize disponível para todos (texto ajusta largura)
+        const hr = document.createElement('div'); hr.className='h rot'; el.appendChild(hr);
+        hbr.addEventListener('pointerdown', e=>iniciarResize(e, c));
+        hr.addEventListener('pointerdown', e=>iniciarRodar(e, c));
+      }
+      el.addEventListener('pointerdown', e=>iniciarMover(e, c, el));
+      tela.appendChild(el);
+    });
+    renderLista();
+    renderProps();
+  }
+
+  // ---- Interações ----
+  function rect(){ return tela.getBoundingClientRect(); }
+  function iniciarMover(e, c, el){
+    if(e.target.classList.contains('h')) return;
+    e.preventDefault();
+    selId = c.id; renderTudo();
+    const r = rect(); const sx=e.clientX, sy=e.clientY, ox=c.x, oy=c.y;
+    const node = tela.querySelector('.cam[data-id="'+c.id+'"]');
+    function mv(ev){ c.x = ox + (ev.clientX-sx)/r.width*100; c.y = oy + (ev.clientY-sy)/r.height*100; node.style.left=c.x+'%'; node.style.top=c.y+'%'; }
+    function up(){ document.removeEventListener('pointermove',mv); document.removeEventListener('pointerup',up); renderProps(); }
+    document.addEventListener('pointermove',mv); document.addEventListener('pointerup',up);
+  }
+  function centroPx(c){ const r=rect(); return { x:r.left + (c.x+c.w/2)/100*r.width, y:r.top + (c.y+c.h/2)/100*r.height }; }
+  function iniciarResize(e, c){
+    e.preventDefault(); e.stopPropagation();
+    const r = rect(); const node = tela.querySelector('.cam[data-id="'+c.id+'"]');
+    const cen = centroPx(c);
+    function mv(ev){
+      const dx=ev.clientX-cen.x, dy=ev.clientY-cen.y; const a=-c.rot*Math.PI/180;
+      const lx = dx*Math.cos(a)-dy*Math.sin(a), ly = dx*Math.sin(a)+dy*Math.cos(a);
+      let wpx = Math.max(24, Math.abs(lx)*2), hpx = Math.max(18, Math.abs(ly)*2);
+      const newW = wpx/r.width*100, newH = hpx/r.height*100;
+      const cx = c.x+c.w/2, cy = c.y+c.h/2;
+      c.w = newW; c.h = newH; c.x = cx-newW/2; c.y = cy-newH/2;
+      node.style.width=c.w+'%'; node.style.height=c.h+'%'; node.style.left=c.x+'%'; node.style.top=c.y+'%';
     }
+    function up(){ document.removeEventListener('pointermove',mv); document.removeEventListener('pointerup',up); renderProps(); }
+    document.addEventListener('pointermove',mv); document.addEventListener('pointerup',up);
+  }
+  function iniciarRodar(e, c){
+    e.preventDefault(); e.stopPropagation();
+    const node = tela.querySelector('.cam[data-id="'+c.id+'"]'); const cen = centroPx(c);
+    function mv(ev){ let ang = Math.atan2(ev.clientY-cen.y, ev.clientX-cen.x)*180/Math.PI + 90; c.rot = Math.round(ang); node.style.transform='rotate('+c.rot+'deg)'; renderProps(); }
+    function up(){ document.removeEventListener('pointermove',mv); document.removeEventListener('pointerup',up); }
+    document.addEventListener('pointermove',mv); document.addEventListener('pointerup',up);
+  }
+
+  // ---- Painel de camadas ----
+  const nomes = { texto:'Texto', botao:'Botão', imagem:'Imagem', forma:'Forma' };
+  function renderLista(){
+    const lista = document.getElementById('listaCamadas');
+    document.getElementById('vazioCamadas').style.display = camadas.length? 'none':'';
+    lista.innerHTML = '';
+    // topo da lista = frente (maior z) → mostrar por ordem inversa
+    camadas.slice().reverse().forEach(function(c){
+      const idx = camadas.indexOf(c);
+      const d = document.createElement('div'); d.className='lay-item'+(c.id===selId?' on':'');
+      d.innerHTML = '<span class="nm">'+ (nomes[c.tipo]||'Camada') + (c.tipo==='texto'||c.tipo==='botao'? ' — '+(c.texto||'').slice(0,14):'') +'</span>'+
+        '<button title="Frente" data-up>▲</button><button title="Trás" data-down>▼</button>'+
+        '<button title="Duplicar" data-dup>⧉</button><button title="Mostrar/ocultar" data-vis>'+(c.visivel?'👁':'🚫')+'</button>'+
+        '<button title="Apagar" data-del>🗑</button>';
+      d.addEventListener('click', e=>{ if(e.target.tagName==='BUTTON') return; selId=c.id; renderTudo(); });
+      d.querySelector('[data-up]').onclick=()=>{ mover(idx,1); };
+      d.querySelector('[data-down]').onclick=()=>{ mover(idx,-1); };
+      d.querySelector('[data-dup]').onclick=()=>{ const n=JSON.parse(JSON.stringify(c)); n.id=uid++; n.x+=4; n.y+=4; camadas.splice(idx+1,0,n); selId=n.id; renderTudo(); };
+      d.querySelector('[data-vis]').onclick=()=>{ c.visivel=!c.visivel; renderTudo(); };
+      d.querySelector('[data-del]').onclick=()=>{ camadas.splice(idx,1); if(selId===c.id) selId=null; renderTudo(); };
+      lista.appendChild(d);
+    });
+  }
+  function mover(idx, dir){ const j=idx+dir; if(j<0||j>=camadas.length) return; const t=camadas[idx]; camadas[idx]=camadas[j]; camadas[j]=t; renderTudo(); }
+
+  // ---- Painel de estilo ----
+  function campoTexto(lbl, val, on, tipo){ tipo=tipo||'text'; return '<div class="campo"><label>'+lbl+'</label><input type="'+tipo+'" value="'+(val||'').toString().replace(/"/g,'&quot;')+'" data-k="'+on+'"></div>'; }
+  function renderProps(){
+    const c = selCamada(); const box = document.getElementById('propsCamada');
+    if(!c){ box.innerHTML = '<div class="vazio">Seleciona uma camada para editar.</div>'; return; }
+    let h = '';
+    if(c.tipo==='texto'||c.tipo==='botao'){
+      h += '<div class="campo"><label>Texto</label><textarea data-k="texto">'+(c.texto||'')+'</textarea></div>';
+    }
+    if(c.tipo==='botao'){ h += campoTexto('Link (opcional)', c.link, 'link'); }
+    if(c.tipo==='imagem'){ h += campoTexto('URL da imagem', c.src, 'src'); }
+    if(c.tipo==='texto'||c.tipo==='botao'){
+      h += '<div class="campo"><label>Tipo de letra</label><select data-k="fonte">'+
+        Object.keys(FONTES).map(f=>'<option value="'+f+'"'+(c.fonte===f?' selected':'')+'>'+(f==='auto'?'Automático':f.charAt(0).toUpperCase()+f.slice(1))+'</option>').join('')+'</select></div>';
+      h += '<div class="linha"><div class="campo"><label>Tamanho</label><input type="number" step="0.1" min="0.6" data-k="tamanho" value="'+c.tamanho+'"></div>'+
+        '<div class="campo"><label>Cor do texto</label><input type="color" data-k="cor" value="'+(c.cor||'#ffffff')+'"></div></div>';
+      h += '<div class="linha" style="margin-bottom:8px;"><label class="chk"><input type="checkbox" data-k="negrito" '+(c.negrito?'checked':'')+'> Negrito</label>'+
+        '<label class="chk"><input type="checkbox" data-k="italico" '+(c.italico?'checked':'')+'> Itálico</label></div>';
+    }
+    if(c.tipo==='botao'||c.tipo==='forma'){
+      h += '<div class="linha"><div class="campo"><label>Cor de fundo</label><input type="color" data-k="fundo" value="'+(c.fundo||'#a8712f')+'"></div>'+
+        '<div class="campo"><label>Cantos</label><input type="number" min="0" max="60" data-k="radius" value="'+c.radius+'"></div></div>';
+    }
+    if(c.tipo==='imagem'){ h += '<div class="campo"><label>Cantos</label><input type="number" min="0" max="60" data-k="radius" value="'+c.radius+'"></div>'; }
+    h += '<div class="campo"><label>Rotação: <span class="val" id="vrot">'+c.rot+'°</span></label><input type="range" class="rng" min="-180" max="180" data-k="rot" value="'+c.rot+'"></div>';
+    h += '<div class="campo"><label>Transparência: <span class="val" id="vopac">'+c.opac+'%</span></label><input type="range" class="rng" min="0" max="100" data-k="opac" value="'+c.opac+'"></div>';
+    box.innerHTML = h;
+    box.querySelectorAll('[data-k]').forEach(function(inp){
+      const k = inp.dataset.k;
+      const ev = (inp.type==='range'||inp.type==='color'||inp.tagName==='SELECT'||inp.type==='checkbox') ? 'input' : 'input';
+      inp.addEventListener('input', function(){
+        let v = inp.type==='checkbox' ? inp.checked : inp.value;
+        if(inp.type==='number'||inp.type==='range') v = parseFloat(v);
+        c[k] = v;
+        if(k==='rot'){ const s=document.getElementById('vrot'); if(s) s.textContent=c.rot+'°'; }
+        if(k==='opac'){ const s=document.getElementById('vopac'); if(s) s.textContent=c.opac+'%'; }
+        atualizarNode(c);
+      });
+    });
+  }
+  function atualizarNode(c){
+    const node = tela.querySelector('.cam[data-id="'+c.id+'"]'); if(!node) return;
+    node.style.transform = 'rotate('+c.rot+'deg)'; node.style.opacity = c.opac/100;
+    const cont = node.querySelector('.conteudo'); cont.style.cssText = estiloConteudo(c); cont.textContent = textoDe(c);
+    renderLista();
+  }
+
+  // ---- Toolbar / add ----
+  document.querySelectorAll('[data-add]').forEach(b=> b.addEventListener('click', ()=> novaCamada(b.dataset.add)) );
+
+  // Fundo da tela
+  document.getElementById('btnFundo').addEventListener('click', function(){
+    const cor = prompt('Cor de fundo da página (hex), ou deixa vazio e cola um URL de imagem a seguir:', fundo.cor||'#6d5a2e');
+    if(cor===null) return;
+    const img = prompt('URL de imagem de fundo (opcional, vazio = usar só a cor):', fundo.img||'');
+    fundo.cor = cor || '#6d5a2e'; fundo.img = (img||'').trim();
+    renderTudo();
   });
-  document.addEventListener('input', agendar);
-  document.addEventListener('change', agendar);
-  $('btnAtualizarPreview').addEventListener('click', enviar);
-  $('previewMin').addEventListener('click', function(){ const d=$('previewDock'); d.classList.toggle('min'); this.textContent=d.classList.contains('min')?'▢':'—'; });
-  $('previewFrame').src = 'cardapio.html?preview=1&t=' + Date.now();
+
+  // Export / import JSON
+  const modalJson = document.getElementById('modalJson');
+  document.getElementById('btnJson').addEventListener('click', function(){ document.getElementById('jsonArea').value = JSON.stringify({ fundo:fundo, camadas:camadas }, null, 2); modalJson.classList.add('on'); });
+  document.getElementById('btnFecharJson').addEventListener('click', ()=> modalJson.classList.remove('on'));
+  document.getElementById('btnCopiar').addEventListener('click', function(){ const t=document.getElementById('jsonArea'); t.select(); document.execCommand('copy'); this.textContent='Copiado ✓'; setTimeout(()=>this.textContent='Copiar',1200); });
+  document.getElementById('btnImportar').addEventListener('click', function(){ try{ const o=JSON.parse(document.getElementById('jsonArea').value); fundo=o.fundo||fundo; camadas=(o.camadas||[]).map(c=>c); uid = camadas.reduce((m,c)=>Math.max(m,(c.id||0)),0)+1; selId=null; renderTudo(); modalJson.classList.remove('on'); }catch(e){ alert('JSON inválido: '+e.message); } });
+
+  const modalPub = document.getElementById('modalPub');
+  document.getElementById('btnPublicar').addEventListener('click', ()=> modalPub.classList.add('on'));
+  document.getElementById('btnFecharPub').addEventListener('click', ()=> modalPub.classList.remove('on'));
+
+  // clicar fora deseleciona
+  tela.addEventListener('pointerdown', function(e){ if(e.target===tela){ selId=null; renderTudo(); } });
+
+  // arranque com uma amostra
+  novaCamada('texto'); const c0=selCamada(); c0.texto='O TEU TÍTULO'; c0.tamanho=2.2; c0.y=20; atualizarNode(c0);
+  renderTudo();
 </script>
 </body>
 </html>
