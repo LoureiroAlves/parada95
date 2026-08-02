@@ -399,8 +399,8 @@
       "cor": "#a3a3a3",
       "negrito": false,
       "italico": true,
-      "sombra": false,
-      "contorno": false,
+      "sombra": true,
+      "contorno": true,
       "contornoCor": "#000000"
     },
     "rotacaoNome": 0,
