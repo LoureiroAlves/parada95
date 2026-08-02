@@ -2434,6 +2434,27 @@
     }
   }
 
+  // Textos livres da abertura (quantos o utilizador quiser), cada um com estilo próprio.
+  function renderIntroTextosLivres(config, arrastavel){
+    const cont = document.getElementById('introContent');
+    if(!cont) return;
+    cont.querySelectorAll('.intro-livre').forEach(function(e){ e.remove(); });
+    const arr = (config && config.intro && config.intro.textos) || [];
+    arr.forEach(function(t, i){
+      const el = document.createElement('div');
+      el.className = 'intro-livre';
+      el.textContent = t.texto || '';
+      el.style.marginTop = '12px';
+      if(typeof aplicarEstiloTexto === 'function') aplicarEstiloTexto([el], t.estilo || {});
+      el.style.setProperty('--tx', ((t.x)||0) + 'px');
+      el.style.setProperty('--ty', ((t.y)||0) + 'px');
+      el.style.transform = 'translate(var(--tx,0px),var(--ty,0px)) rotate(' + ((t.rotacao)||0) + 'deg)';
+      el.style.opacity = (t.opacidade != null ? (t.opacidade/100) : 1);
+      cont.appendChild(el);
+      if(arrastavel && typeof _introArrastavel === 'function') _introArrastavel(el, '--tx', '--ty', 'texto:' + i);
+    });
+  }
+
   // Mostrar/esconder a secção de Jogos consoante o restaurante
   window._jogosAtivos = true;
   window.aplicarJogos = function(ativo){
@@ -2652,6 +2673,7 @@
             if(intro.cor){ if(nEl) nEl.style.color = intro.cor; if(sEl) sEl.style.color = intro.cor; }
           }
           aplicarPosOpacIntro(nEl, sEl, intro);
+          renderIntroTextosLivres(config, false);
           const fotos = (config.header && config.header.fotos) || [];
           const fotoIntro = (intro.foto && String(intro.foto).trim()) ? intro.foto
             : ((config.header && config.header.fotosAtivas !== false && fotos.length) ? fotos[0] : null);
@@ -2950,6 +2972,7 @@
     aplicarPosOpacIntro(nEl, sEl, intro);
     _introArrastavel(nEl, '--posNX', '--posNY', 'nome');
     _introArrastavel(sEl, '--posSX', '--posSY', 'sub');
+    renderIntroTextosLivres(config, true);
     const fotos = (config.header && config.header.fotos) || [];
     const fotoIntro = (intro.foto && String(intro.foto).trim()) ? intro.foto : ((config.header && config.header.fotosAtivas !== false && fotos.length) ? fotos[0] : null);
     const bg = document.getElementById('introBg'), shade = document.getElementById('introShade');
