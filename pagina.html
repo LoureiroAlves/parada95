@@ -1,1 +1,73 @@
 
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Página</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Baloo+2:wght@700;800&family=Chewy&family=Poppins:wght@500;600;700&family=Playfair+Display:wght@600;700&family=Bebas+Neue&family=Lobster&family=Pacifico&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  html,body{ margin:0; height:100%; background:#6d5a2e; overflow:hidden; }
+  #palco-wrap{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; }
+  #palco{ position:relative; width:400px; height:800px; transform-origin:center center; overflow:hidden; }
+  .cam{ position:absolute; transform-origin:center center; }
+  .cam .conteudo{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  a.cam-link{ text-decoration:none; }
+</style>
+</head>
+<body>
+<div id="palco-wrap"><div id="palco"></div></div>
+<script>
+  const FONTES = { auto:'', fredoka:"'Fredoka',sans-serif", baloo:"'Baloo 2',sans-serif", chewy:"'Chewy',cursive", poppins:"'Poppins',sans-serif", playfair:"'Playfair Display',serif", bebas:"'Bebas Neue',sans-serif", lobster:"'Lobster',cursive", pacifico:"'Pacifico',cursive", caveat:"'Caveat',cursive" };
+  const palco = document.getElementById('palco');
+
+  function estiloConteudo(c){
+    if(c.tipo==='imagem'){
+      return 'width:100%;height:100%;background-image:url('+JSON.stringify(c.src||'')+');background-size:cover;background-position:center;background-repeat:no-repeat;border-radius:'+(c.radius||0)+'px;'+((c.src)?'':'background-color:#00000022;');
+    }
+    let css = 'width:100%;height:100%;display:flex;align-items:center;justify-content:center;';
+    if(c.tipo==='forma'){ return css + 'background:'+(c.fundo||'#ffd27a')+';border-radius:'+(c.radius||0)+'px;'; }
+    if(c.tipo==='botao'){ css += 'background:'+(c.fundo||'#a8712f')+';border-radius:'+(c.radius||24)+'px;padding:0 14px;'; }
+    css += 'color:'+(c.cor||'#fff')+';font-family:'+(FONTES[c.fonte]||"'Fredoka',sans-serif")+';font-weight:'+(c.negrito?800:500)+';font-style:'+(c.italico?'italic':'normal')+';font-size:'+(c.tamanho||1.6)+'rem;text-align:center;line-height:1.15;white-space:pre-wrap;';
+    return css;
+  }
+
+  function desenhar(d){
+    d = d || {}; const fundo = d.fundo || {}; const camadas = d.camadas || [];
+    document.body.style.background = fundo.img ? ("url("+JSON.stringify(fundo.img)+") center/cover") : (fundo.cor || '#6d5a2e');
+    palco.innerHTML = '';
+    camadas.forEach(function(c, i){
+      if(c.visivel === false) return;
+      const link = (c.tipo==='botao' && c.link && String(c.link).trim());
+      const el = document.createElement(link ? 'a' : 'div');
+      el.className = 'cam' + (link ? ' cam-link' : '');
+      if(link){ el.href = c.link; if(/^https?:/i.test(c.link)) { el.target = '_blank'; el.rel = 'noopener'; } }
+      el.style.left = c.x + '%'; el.style.top = c.y + '%';
+      el.style.width = c.w + '%'; el.style.height = c.h + '%';
+      el.style.transform = 'rotate(' + (c.rot||0) + 'deg)';
+      el.style.opacity = ((c.opac != null ? c.opac : 100) / 100);
+      el.style.zIndex = i + 1;
+      const cont = document.createElement('div'); cont.className = 'conteudo';
+      cont.style.cssText = estiloConteudo(c);
+      if(c.tipo==='texto' || c.tipo==='botao') cont.textContent = c.texto || '';
+      el.appendChild(cont);
+      palco.appendChild(el);
+    });
+  }
+
+  function ajustar(){
+    const w = window.innerWidth, h = window.innerHeight;
+    const esc = Math.min(w/400, h/800);
+    palco.style.transform = 'scale(' + esc + ')';
+  }
+  window.addEventListener('resize', ajustar);
+
+  fetch('desenho.json?t=' + Date.now())
+    .then(r => r.ok ? r.json() : null)
+    .then(d => { desenhar(d || {}); ajustar(); })
+    .catch(() => { desenhar({}); ajustar(); });
+  ajustar();
+</script>
+</body>
+</html>
