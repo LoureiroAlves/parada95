@@ -147,8 +147,8 @@
   .preview-dock{ position:fixed; right:14px; bottom:14px; width:290px; z-index:900; background:#1f2530; border-radius:16px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.28); }
   .preview-dock-bar{ display:flex; align-items:center; justify-content:space-between; padding:7px 8px 7px 12px; color:#fff; font-size:0.8rem; font-weight:700; }
   .preview-dock-btn{ background:rgba(255,255,255,0.16); border:none; color:#fff; width:26px; height:26px; border-radius:7px; cursor:pointer; margin-left:5px; font-size:0.9rem; line-height:1; }
-  .preview-dock-corpo{ height:500px; background:#fff; }
-  .preview-dock-corpo iframe{ width:100%; height:100%; border:0; display:block; background:#fff; }
+  .preview-dock-corpo{ height:500px; background:#fff; overflow:hidden; }
+  .preview-dock-corpo iframe{ border:0; display:block; background:#fff; transform-origin:top left; }
   .preview-dock.min{ width:190px; }
   .preview-dock.min .preview-dock-corpo{ display:none; }
   @media(max-width:820px){ .preview-dock{ right:8px; bottom:8px; width:46vw; max-width:230px; } .preview-dock-corpo{ height:52vh; } .preview-dock.min{ width:150px; } }
@@ -2557,6 +2557,20 @@
     const frame = document.getElementById('previewFrame');
     if(!dock || !frame) return;
     let pronto = false, temporizador = null;
+    // A pré-visualização renderiza à largura real de um telemóvel (390px) e encolhe para caber no dock,
+    // para o layout (quebras de linha, tamanhos) ser fiel ao que o cliente vê.
+    const LARGURA_TELEMOVEL = 390;
+    function ajustarEscalaPreview(){
+      const corpo = dock.querySelector('.preview-dock-corpo');
+      if(!corpo || dock.classList.contains('min')) return;
+      const w = corpo.clientWidth, h = corpo.clientHeight;
+      if(!w || !h) return;
+      const escala = w / LARGURA_TELEMOVEL;
+      frame.style.width = LARGURA_TELEMOVEL + 'px';
+      frame.style.height = (h / escala) + 'px';
+      frame.style.transform = 'scale(' + escala + ')';
+    }
+    window.addEventListener('resize', ajustarEscalaPreview);
     function enviar(){
       if(!pronto || !frame.contentWindow) return;
       let cfg;
@@ -2570,7 +2584,7 @@
     function agendarEnvio(){ clearTimeout(temporizador); temporizador = setTimeout(enviar, 400); }
     window.addEventListener('message', function(e){
       const d = e.data || {};
-      if(d.type === 'cardapio-preview-ready'){ pronto = true; enviar(); }
+      if(d.type === 'cardapio-preview-ready'){ pronto = true; ajustarEscalaPreview(); enviar(); }
       else if(d.type === 'preview-pos' && d.target === 'textoLivre'){
         const ex = document.getElementById('tlX'), ey = document.getElementById('tlY');
         if(ex && d.x!=null){ ex.value = d.x; const v=document.getElementById('tlXVal'); if(v) v.textContent = d.x; }
@@ -2586,7 +2600,7 @@
     const btn = document.getElementById('btnAtualizarPreview');
     if(btn) btn.addEventListener('click', enviar);
     const min = document.getElementById('previewMin');
-    if(min) min.addEventListener('click', function(){ dock.classList.toggle('min'); min.textContent = dock.classList.contains('min') ? '▢' : '—'; });
+    if(min) min.addEventListener('click', function(){ dock.classList.toggle('min'); min.textContent = dock.classList.contains('min') ? '▢' : '—'; if(!dock.classList.contains('min')) setTimeout(ajustarEscalaPreview, 30); });
     // Botão: mostrar/esconder a abertura na pré-visualização
     let introVisivel = false;
     const btnPI = document.getElementById('btnPreverIntro');
