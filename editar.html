@@ -447,6 +447,13 @@
         <div id="estiloISub"></div>
         <label for="introBotao">Texto do botão</label>
         <input type="text" id="introBotao" placeholder="Ver menu ▸">
+        <div id="estiloIBtn"></div>
+        <label style="display:flex; align-items:center; gap:7px; margin-top:6px; font-weight:400;"><input type="checkbox" id="introBotaoFundoAtivo" style="width:auto;"> Cor de fundo própria do botão</label>
+        <input type="color" id="introCorBotaoFundo" value="#a8712f" style="width:42px; height:28px; padding:0; border:none; background:none; cursor:pointer;">
+        <label style="margin-top:8px;">Rodar o botão (graus)</label>
+        <div style="display:flex; align-items:center; gap:10px;"><input type="range" id="introRotBotao" min="-90" max="90" step="1" value="0" style="flex:1;"><span id="introRotBotaoVal" style="font-size:0.82rem; color:var(--castanho-suave); font-family:monospace; min-width:44px;">0°</span></div>
+        <label style="margin-top:6px;">Transparência do botão</label>
+        <div style="display:flex; align-items:center; gap:10px;"><input type="range" id="introOpacBotao" min="0" max="100" step="1" value="100" style="flex:1;"><span id="introOpacBotaoVal" style="font-size:0.82rem; color:var(--castanho-suave); font-family:monospace; min-width:44px;">100%</span></div>
         <label for="introDuracao">Duração (segundos)</label>
         <input type="number" id="introDuracao" min="3" max="15" step="1" value="7" style="width:100px; padding:9px; border-radius:8px; border:1.5px solid var(--linha); font-family:inherit;">
         <label for="introFundo">Fundo da abertura</label>
@@ -502,6 +509,12 @@
           <div class="ajuda" style="margin:2px 0 6px;">Acrescenta os textos que quiseres. Cada um tem o seu "Aa estilo" (tipo de letra, tamanho, cor, 3D…), rotação e transparência. Mostra a abertura na pré-visualização e <strong>arrasta cada texto</strong> para o posicionar.</div>
           <div id="introTextosLivres"></div>
           <button type="button" class="acao" id="btnAddIntroTexto" style="background:var(--dourado-escuro); margin-top:8px;">＋ Adicionar texto</button>
+        </div>
+        <div style="margin-top:16px; border-top:1px dotted var(--linha); padding-top:12px;">
+          <label style="margin:0;">Botões livres na abertura</label>
+          <div class="ajuda" style="margin:2px 0 6px;">Acrescenta botões (com link, ex.: Instagram, reservas). Cada um tem texto, estilo, cor de fundo, rotação e transparência. Arrasta-o na pré-visualização para o posicionar.</div>
+          <div id="introBotoesLivres"></div>
+          <button type="button" class="acao" id="btnAddIntroBotao" style="background:var(--dourado-escuro); margin-top:8px;">＋ Adicionar botão</button>
         </div>
       </div>
     </div>
@@ -1151,8 +1164,18 @@
       document.getElementById('introPosSubY').value = (config.intro && config.intro.posSubY) || 0;
       document.getElementById('introPosBotaoX').value = (config.intro && config.intro.posBotaoX) || 0;
       document.getElementById('introPosBotaoY').value = (config.intro && config.intro.posBotaoY) || 0; }
+    { const _ib = (config.intro && config.intro.estiloBotao) || { cor:'#ffffff', negrito:true };
+      preencherEstilo('iBtn', _ib);
+      const _rb = (config.intro && config.intro.rotacaoBotao) || 0, _ob = (config.intro && config.intro.opacidadeBotao != null) ? config.intro.opacidadeBotao : 100;
+      document.getElementById('introRotBotao').value = _rb; document.getElementById('introRotBotaoVal').textContent = _rb + '°';
+      document.getElementById('introOpacBotao').value = _ob; document.getElementById('introOpacBotaoVal').textContent = _ob + '%';
+      const _cbf = (config.intro && config.intro.corBotaoFundo) || '';
+      document.getElementById('introBotaoFundoAtivo').checked = !!_cbf;
+      document.getElementById('introCorBotaoFundo').value = _cbf || '#a8712f'; }
     introTextos = (config.intro && Array.isArray(config.intro.textos)) ? JSON.parse(JSON.stringify(config.intro.textos)) : [];
     renderIntroTextos();
+    introBotoes = (config.intro && Array.isArray(config.intro.botoes)) ? JSON.parse(JSON.stringify(config.intro.botoes)) : [];
+    renderIntroBotoes();
     document.getElementById('blocoIntro').style.display = (config.intro && config.intro.ativo) ? 'block' : 'none';
     document.getElementById('linha1').value = config.rodape.linha1 || '';
     document.getElementById('linha2').value = config.rodape.linha2 || '';
@@ -1618,9 +1641,10 @@
         facebook: document.getElementById('redeFacebook').value.trim()
       };
       const _eiTit = lerEstilo('iTit'), _eiSub = lerEstilo('iSub');
-      capturarIntroTextos();
+      capturarIntroTextos(); capturarIntroBotoes();
       config.intro = {
         textos: introTextos.map(function(t){ return JSON.parse(JSON.stringify(t)); }),
+        botoes: introBotoes.map(function(b){ return JSON.parse(JSON.stringify(b)); }),
         ativo: document.getElementById('introAtivo').checked,
         duracao: parseInt(document.getElementById('introDuracao').value, 10) || 7,
         fundo: document.getElementById('introFundo').value,
@@ -1638,6 +1662,10 @@
         posSubY: parseInt(document.getElementById('introPosSubY').value, 10) || 0,
         posBotaoX: parseInt(document.getElementById('introPosBotaoX').value, 10) || 0,
         posBotaoY: parseInt(document.getElementById('introPosBotaoY').value, 10) || 0,
+        estiloBotao: lerEstilo('iBtn'),
+        rotacaoBotao: parseInt(document.getElementById('introRotBotao').value, 10) || 0,
+        opacidadeBotao: parseInt(document.getElementById('introOpacBotao').value, 10),
+        corBotaoFundo: document.getElementById('introBotaoFundoAtivo').checked ? document.getElementById('introCorBotaoFundo').value : '',
         // mantém campos antigos para compatibilidade com quem ainda lê tamanho/cor diretos
         tamanho: _eiTit.tamanho || 2.7,
         subTamanho: _eiSub.tamanho || 1.08,
@@ -1785,6 +1813,12 @@
   document.getElementById('introOpacSub').addEventListener('input', e => {
     document.getElementById('introOpacSubVal').textContent = e.target.value + '%';
   });
+  document.getElementById('introRotBotao').addEventListener('input', e => {
+    document.getElementById('introRotBotaoVal').textContent = e.target.value + '°';
+  });
+  document.getElementById('introOpacBotao').addEventListener('input', e => {
+    document.getElementById('introOpacBotaoVal').textContent = e.target.value + '%';
+  });
 
   // ---- Textos livres da abertura (lista dinâmica) ----
   let introTextos = [];
@@ -1837,6 +1871,65 @@
     document.dispatchEvent(new Event('change'));
   });
 
+  // ---- Botões livres da abertura (lista dinâmica, com link) ----
+  let introBotoes = [];
+  function capturarIntroBotoes(){
+    introBotoes = introBotoes.map(function(item, i){
+      const t = document.getElementById('ibtxTexto'+i);
+      if(!t) return item;
+      return {
+        texto: t.value,
+        link: document.getElementById('ibtxLink'+i).value.trim(),
+        estilo: lerEstilo('ibtx'+i),
+        corFundo: document.getElementById('ibtxFundoAtivo'+i).checked ? document.getElementById('ibtxCor'+i).value : '',
+        rotacao: parseInt(document.getElementById('ibtxRot'+i).value, 10) || 0,
+        opacidade: parseInt(document.getElementById('ibtxOpac'+i).value, 10),
+        x: item.x || 0, y: item.y || 0
+      };
+    });
+  }
+  function renderIntroBotoes(){
+    const cont = document.getElementById('introBotoesLivres');
+    if(!cont) return;
+    cont.innerHTML = '';
+    introBotoes.forEach(function(item, i){
+      const d = document.createElement('div');
+      d.style.cssText = 'border:1px solid var(--linha); border-radius:10px; padding:10px; margin-top:8px; background:var(--bege);';
+      d.innerHTML =
+        '<div style="display:flex; gap:8px; align-items:center;">' +
+          '<input type="text" id="ibtxTexto'+i+'" placeholder="Texto do botão" style="flex:1; padding:8px; border-radius:8px; border:1.5px solid var(--linha); font-family:inherit;">' +
+          '<button type="button" data-remb="'+i+'" style="background:var(--vermelho); color:#fff; border:none; border-radius:8px; padding:8px 11px; margin:0; cursor:pointer; flex:0 0 auto;">🗑</button>' +
+        '</div>' +
+        '<input type="text" id="ibtxLink'+i+'" placeholder="Link (ex.: https://instagram.com/...)" style="width:100%; margin-top:6px; padding:8px; border-radius:8px; border:1.5px solid var(--linha); font-family:inherit;">' +
+        '<div id="ibtxEstilo'+i+'"></div>' +
+        '<label style="display:flex; align-items:center; gap:7px; margin-top:4px; font-weight:400;"><input type="checkbox" id="ibtxFundoAtivo'+i+'" style="width:auto;"> Cor de fundo própria</label>' +
+        '<input type="color" id="ibtxCor'+i+'" value="#a8712f" style="width:42px; height:28px; padding:0; border:none; background:none; cursor:pointer;">' +
+        '<div style="display:flex; gap:10px; align-items:center; margin-top:4px; flex-wrap:wrap;">' +
+          '<span style="font-size:0.82rem; color:var(--castanho-suave);">Rodar</span><input type="range" id="ibtxRot'+i+'" min="-90" max="90" step="1" value="0" oninput="this.nextElementSibling.textContent=this.value+String.fromCharCode(176)"><span style="font-size:0.78rem; font-family:monospace; color:var(--castanho-suave);">0°</span>' +
+          '<span style="font-size:0.82rem; color:var(--castanho-suave);">Transp</span><input type="range" id="ibtxOpac'+i+'" min="0" max="100" step="1" value="100" oninput="this.nextElementSibling.textContent=this.value+String.fromCharCode(37)"><span style="font-size:0.78rem; font-family:monospace; color:var(--castanho-suave);">100%</span>' +
+        '</div>';
+      cont.appendChild(d);
+      document.getElementById('ibtxEstilo'+i).appendChild(criarToolbarEstilo('ibtx'+i));
+      document.getElementById('ibtxTexto'+i).value = item.texto || '';
+      document.getElementById('ibtxLink'+i).value = item.link || '';
+      preencherEstilo('ibtx'+i, item.estilo || {});
+      document.getElementById('ibtxFundoAtivo'+i).checked = !!item.corFundo;
+      document.getElementById('ibtxCor'+i).value = item.corFundo || '#a8712f';
+      const rr = document.getElementById('ibtxRot'+i); rr.value = item.rotacao || 0; rr.nextElementSibling.textContent = (item.rotacao||0) + '°';
+      const oo = document.getElementById('ibtxOpac'+i); const ov = (item.opacidade != null ? item.opacidade : 100); oo.value = ov; oo.nextElementSibling.textContent = ov + '%';
+    });
+    cont.querySelectorAll('[data-remb]').forEach(function(b){
+      b.addEventListener('click', function(){ capturarIntroBotoes(); introBotoes.splice(parseInt(b.dataset.remb,10),1); renderIntroBotoes(); document.dispatchEvent(new Event('change')); });
+    });
+  }
+  window.__setIntroBotaoLivrePos = function(i, x, y){ if(introBotoes[i]){ introBotoes[i].x = x; introBotoes[i].y = y; } };
+  document.getElementById('btnAddIntroBotao').addEventListener('click', function(){
+    capturarIntroBotoes();
+    introBotoes.push({ texto:'Novo botão', link:'', estilo:{ cor:'#ffffff', negrito:true }, corFundo:'', rotacao:0, opacidade:100, x:0, y:0 });
+    renderIntroBotoes();
+    document.dispatchEvent(new Event('change'));
+  });
+
   // ---- Escolher a letra por onde o efeito "zoom" fura ----
   let zoomLetraSel = null; // null = automático (letra do meio)
   function nomeEfetivoIntro(){
@@ -1871,7 +1964,7 @@
     if(c) c.appendChild(criarToolbarEstilo('l' + (i+1)));
   });
   (function(){
-    const mapa = [['estiloHTit','hTit',false],['estiloHSub','hSub',false],['estiloITit','iTit',false],['estiloISub','iSub',false],['estiloFNome','fNom',false],['estiloFMor','fMor',false],['estiloFTel','fTel',false]];
+    const mapa = [['estiloHTit','hTit',false],['estiloHSub','hSub',false],['estiloITit','iTit',false],['estiloISub','iSub',false],['estiloIBtn','iBtn',false],['estiloFNome','fNom',false],['estiloFMor','fMor',false],['estiloFTel','fTel',false]];
     mapa.forEach(function(m){ const c = document.getElementById(m[0]); if(c) c.appendChild(criarToolbarEstilo(m[1], { semTamanho:m[2] })); });
   })();
 
@@ -2702,6 +2795,7 @@
         else if(d.alvo === 'sub'){ document.getElementById('introPosSubX').value = d.x; document.getElementById('introPosSubY').value = d.y; }
         else if(d.alvo === 'botao'){ document.getElementById('introPosBotaoX').value = d.x; document.getElementById('introPosBotaoY').value = d.y; }
         else if(typeof d.alvo === 'string' && d.alvo.indexOf('texto:') === 0 && window.__setIntroTextoPos){ window.__setIntroTextoPos(parseInt(d.alvo.slice(6), 10), d.x, d.y); }
+        else if(typeof d.alvo === 'string' && d.alvo.indexOf('botaolivre:') === 0 && window.__setIntroBotaoLivrePos){ window.__setIntroBotaoLivrePos(parseInt(d.alvo.slice(11), 10), d.x, d.y); }
       }
     });
     const btnRepor = document.getElementById('btnReporPosIntro');
