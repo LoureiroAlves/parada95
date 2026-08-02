@@ -388,7 +388,7 @@
       "tamanho": 4,
       "cor": "#c0bfbf",
       "negrito": true,
-      "italico": true,
+      "italico": false,
       "sombra": true,
       "contorno": true,
       "contornoCor": "#000000"
