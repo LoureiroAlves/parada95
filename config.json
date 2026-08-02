@@ -29,7 +29,11 @@
       "italico": false,
       "sombra": true,
       "contorno": true,
-      "contornoCor": "#000000"
+      "contornoCor": "#000000",
+      "tridi": false,
+      "tridiProf": 6,
+      "tridiCor": "#4a3416",
+      "tridiRedondo": false
     },
     "estiloSub": {
       "fonte": "auto",
@@ -39,7 +43,11 @@
       "italico": true,
       "sombra": true,
       "contorno": true,
-      "contornoCor": "#000000"
+      "contornoCor": "#000000",
+      "tridi": false,
+      "tridiProf": 6,
+      "tridiCor": "#4a3416",
+      "tridiRedondo": false
     }
   },
   "rodape": {
@@ -237,7 +245,11 @@
         "italico": false,
         "sombra": false,
         "contorno": false,
-        "contornoCor": "#000000"
+        "contornoCor": "#000000",
+        "tridi": false,
+        "tridiProf": 6,
+        "tridiCor": "#4a3416",
+        "tridiRedondo": false
       },
       {
         "fonte": "auto",
@@ -247,7 +259,11 @@
         "italico": false,
         "sombra": false,
         "contorno": false,
-        "contornoCor": "#000000"
+        "contornoCor": "#000000",
+        "tridi": false,
+        "tridiProf": 6,
+        "tridiCor": "#4a3416",
+        "tridiRedondo": false
       },
       {
         "fonte": "auto",
@@ -257,7 +273,11 @@
         "italico": false,
         "sombra": false,
         "contorno": false,
-        "contornoCor": "#000000"
+        "contornoCor": "#000000",
+        "tridi": false,
+        "tridiProf": 6,
+        "tridiCor": "#4a3416",
+        "tridiRedondo": false
       },
       {
         "fonte": "auto",
@@ -267,7 +287,11 @@
         "italico": false,
         "sombra": false,
         "contorno": false,
-        "contornoCor": "#000000"
+        "contornoCor": "#000000",
+        "tridi": false,
+        "tridiProf": 6,
+        "tridiCor": "#4a3416",
+        "tridiRedondo": false
       }
     ]
   },
@@ -294,7 +318,11 @@
         "italico": false,
         "sombra": false,
         "contorno": false,
-        "contornoCor": "#000000"
+        "contornoCor": "#000000",
+        "tridi": false,
+        "tridiProf": 6,
+        "tridiCor": "#4a3416",
+        "tridiRedondo": false
       },
       {
         "fonte": "auto",
@@ -304,7 +332,11 @@
         "italico": false,
         "sombra": false,
         "contorno": false,
-        "contornoCor": "#000000"
+        "contornoCor": "#000000",
+        "tridi": false,
+        "tridiProf": 6,
+        "tridiCor": "#4a3416",
+        "tridiRedondo": false
       },
       {
         "fonte": "auto",
@@ -314,7 +346,11 @@
         "italico": false,
         "sombra": false,
         "contorno": false,
-        "contornoCor": "#000000"
+        "contornoCor": "#000000",
+        "tridi": false,
+        "tridiProf": 6,
+        "tridiCor": "#4a3416",
+        "tridiRedondo": false
       }
     ]
   },
@@ -369,7 +405,11 @@
       "italico": false,
       "sombra": false,
       "contorno": false,
-      "contornoCor": "#000000"
+      "contornoCor": "#000000",
+      "tridi": false,
+      "tridiProf": 6,
+      "tridiCor": "#4a3416",
+      "tridiRedondo": false
     }
   },
   "jogos": false,
@@ -378,20 +418,47 @@
     "facebook": ""
   },
   "intro": {
+    "textos": [
+      {
+        "texto": "Para reservas contactar - 916254923",
+        "estilo": {
+          "fonte": "chewy",
+          "tamanho": 0.9,
+          "cor": "#ffffff",
+          "negrito": true,
+          "italico": false,
+          "sombra": false,
+          "contorno": false,
+          "contornoCor": "#000000",
+          "tridi": false,
+          "tridiProf": 6,
+          "tridiCor": "#4a3416",
+          "tridiRedondo": false
+        },
+        "rotacao": 0,
+        "opacidade": 100,
+        "x": -7,
+        "y": 202
+      }
+    ],
     "ativo": true,
     "duracao": 7,
     "fundo": "foto",
     "titulo": "",
     "subtitulo": "",
     "estiloTitulo": {
-      "fonte": "auto",
+      "fonte": "chewy",
       "tamanho": 4,
       "cor": "#c0bfbf",
       "negrito": true,
       "italico": false,
       "sombra": true,
       "contorno": true,
-      "contornoCor": "#000000"
+      "contornoCor": "#000000",
+      "tridi": true,
+      "tridiProf": 6,
+      "tridiCor": "#4a3416",
+      "tridiRedondo": false
     },
     "estiloSub": {
       "fonte": "auto",
@@ -401,7 +468,11 @@
       "italico": true,
       "sombra": true,
       "contorno": true,
-      "contornoCor": "#000000"
+      "contornoCor": "#000000",
+      "tridi": false,
+      "tridiProf": 6,
+      "tridiCor": "#4a3416",
+      "tridiRedondo": false
     },
     "rotacaoNome": 0,
     "rotacaoSub": 0,
