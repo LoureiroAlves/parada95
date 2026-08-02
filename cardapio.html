@@ -70,7 +70,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Rest & Bar Parque São Caetano — Cardápio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Poppins:wght@500;600;700&family=Playfair+Display:wght@600;700&family=Quicksand:wght@500;600;700&family=Montserrat:wght@500;600;700&family=Bebas+Neue&family=Lobster&family=Pacifico&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Poppins:wght@500;600;700&family=Playfair+Display:wght@600;700&family=Quicksand:wght@500;600;700&family=Montserrat:wght@500;600;700&family=Bebas+Neue&family=Lobster&family=Pacifico&family=Caveat:wght@600;700&family=Baloo+2:wght@700;800&family=Chewy&display=swap" rel="stylesheet">
 <style>
   :root{
     --branco: #ffffff;
@@ -2373,7 +2373,9 @@
     montserrat: "'Montserrat', sans-serif",
     bebas: "'Bebas Neue', sans-serif",
     lobster: "'Lobster', cursive",
-    pacifico: "'Pacifico', cursive"
+    pacifico: "'Pacifico', cursive",
+    baloo: "'Baloo 2', sans-serif",
+    chewy: "'Chewy', cursive"
   };
   function aplicarFonte(nome){
     if(nome && FONTES_TITULO[nome]){
@@ -2390,8 +2392,22 @@
       if(est.tamanho) el.style.fontSize = est.tamanho + 'rem';
       el.style.fontWeight = est.negrito ? '800' : '';
       el.style.fontStyle = est.italico ? 'italic' : '';
-      el.style.textShadow = est.sombra ? '0 1px 3px rgba(0,0,0,0.55), 0 0 8px rgba(0,0,0,0.35)' : '';
-      if(est.contorno){
+      // Sombra normal OU efeito 3D (letras "gordas" = camadas de sombra empilhadas)
+      if(est.tridi){
+        var prof = Math.max(1, Math.min(20, parseInt(est.tridiProf, 10) || 6));
+        var corExt = est.tridiCor || '#4a3416';
+        var sh = '';
+        for(var i=1;i<=prof;i++){ sh += (i>1?', ':'') + i + 'px ' + i + 'px 0 ' + corExt; }
+        sh += ', ' + (prof+2) + 'px ' + (prof+4) + 'px 12px rgba(0,0,0,0.4)';
+        el.style.textShadow = sh;
+      } else {
+        el.style.textShadow = est.sombra ? '0 1px 3px rgba(0,0,0,0.55), 0 0 8px rgba(0,0,0,0.35)' : '';
+      }
+      // Contorno: "3D redondo" incha na própria cor (prioridade); senão contorno normal
+      if(est.tridi && est.tridiRedondo){
+        el.style.setProperty('-webkit-text-stroke', '6px ' + (est.cor || '#ffffff'));
+        el.style.paintOrder = 'stroke fill';
+      } else if(est.contorno){
         el.style.setProperty('-webkit-text-stroke', (est.contornoLargura || 1) + 'px ' + (est.contornoCor || '#000000'));
         el.style.paintOrder = 'stroke fill';
       } else {
