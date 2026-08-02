@@ -929,7 +929,11 @@
       italico:g('Italico').checked,
       sombra: g('Sombra') ? g('Sombra').checked : false,
       contorno:g('Contorno').checked,
-      contornoCor:g('ContornoCor').value
+      contornoCor:g('ContornoCor').value,
+      tridi: g('Tridi') ? g('Tridi').checked : false,
+      tridiProf: g('TridiProf') ? (parseInt(g('TridiProf').value, 10) || 6) : 6,
+      tridiCor: g('TridiCor') ? g('TridiCor').value : '#4a3416',
+      tridiRedondo: g('TridiRedondo') ? g('TridiRedondo').checked : false
     };
   }
   function preencherEstilo(P, est){
@@ -943,6 +947,10 @@
     if(g('Sombra')) g('Sombra').checked = !!est.sombra;
     g('Contorno').checked = !!est.contorno;
     g('ContornoCor').value = est.contornoCor || '#000000';
+    if(g('Tridi')) g('Tridi').checked = !!est.tridi;
+    if(g('TridiProf')) g('TridiProf').value = (est.tridiProf != null ? est.tridiProf : 6);
+    if(g('TridiCor')) g('TridiCor').value = est.tridiCor || '#4a3416';
+    if(g('TridiRedondo')) g('TridiRedondo').checked = !!est.tridiRedondo;
   }
   // Cria uma mini-barra de estilo (para usar por linha/campo)
   function criarToolbarEstilo(P, opts){
@@ -954,7 +962,7 @@
       '<summary style="cursor:pointer; padding:6px 10px; font-size:0.8rem; font-weight:700; color:var(--dourado-escuro);">Aa estilo</summary>' +
       '<div style="padding:0 10px 10px;">' +
         '<select id="'+P+'Fonte" style="width:100%; padding:7px 9px; border-radius:8px; border:1.5px solid var(--linha); font-family:inherit; background:var(--branco); color:var(--castanho); font-size:0.9rem;">' +
-          '<option value="auto">Tipo de letra (automático)</option><option value="fredoka">Fredoka</option><option value="poppins">Poppins</option><option value="quicksand">Quicksand</option><option value="montserrat">Montserrat</option><option value="playfair">Playfair Display</option><option value="bebas">Bebas Neue</option><option value="lobster">Lobster</option><option value="pacifico">Pacifico</option>' +
+          '<option value="auto">Tipo de letra (automático)</option><option value="fredoka">Fredoka</option><option value="baloo">Baloo (redonda)</option><option value="chewy">Chewy (balão)</option><option value="poppins">Poppins</option><option value="quicksand">Quicksand</option><option value="montserrat">Montserrat</option><option value="playfair">Playfair Display</option><option value="bebas">Bebas Neue</option><option value="lobster">Lobster</option><option value="pacifico">Pacifico</option>' +
         '</select>' +
         '<div style="display:flex; align-items:center; gap:8px; margin-top:6px; flex-wrap:wrap;">' +
           campoTam +
@@ -966,6 +974,12 @@
           '<label style="display:inline-flex; align-items:center; gap:4px; margin:0; font-weight:400;"><input type="checkbox" id="'+P+'Sombra" style="width:auto;"> Sombra</label>' +
           '<label style="display:inline-flex; align-items:center; gap:4px; margin:0; font-weight:400;"><input type="checkbox" id="'+P+'Contorno" style="width:auto;"> Contorno</label>' +
           '<input type="color" id="'+P+'ContornoCor" value="#000000" style="width:34px; height:26px; padding:0; border:none; background:none; cursor:pointer;">' +
+        '</div>' +
+        '<div style="display:flex; gap:10px; align-items:center; margin-top:6px; flex-wrap:wrap;">' +
+          '<label style="display:inline-flex; align-items:center; gap:4px; margin:0; font-weight:400;"><input type="checkbox" id="'+P+'Tridi" style="width:auto;"> 3D (gordas)</label>' +
+          '<span style="font-size:0.82rem; color:var(--castanho-suave);">Prof</span><input type="number" id="'+P+'TridiProf" min="1" max="16" step="1" value="6" style="width:52px; padding:6px; border-radius:8px; border:1.5px solid var(--linha); font-family:inherit;">' +
+          '<span style="font-size:0.82rem; color:var(--castanho-suave);">Espessura</span><input type="color" id="'+P+'TridiCor" value="#4a3416" style="width:34px; height:26px; padding:0; border:none; background:none; cursor:pointer;">' +
+          '<label style="display:inline-flex; align-items:center; gap:4px; margin:0; font-weight:400;"><input type="checkbox" id="'+P+'TridiRedondo" style="width:auto;"> Redondo</label>' +
         '</div>' +
       '</div>';
     return d;
