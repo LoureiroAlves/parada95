@@ -2,7 +2,7 @@
   "header": {
     "titulo": "Parada95",
     "subtitulo": "A tua frase de motivação",
-    "cor": "#ffffff",
+    "cor": "#cccccc",
     "realce": false,
     "fotosAtivas": true,
     "fotos": [
@@ -24,21 +24,21 @@
     "estiloTitulo": {
       "fonte": "auto",
       "tamanho": 2.8,
-      "cor": "#ffffff",
+      "cor": "#cccccc",
       "negrito": false,
       "italico": false,
-      "sombra": false,
-      "contorno": false,
+      "sombra": true,
+      "contorno": true,
       "contornoCor": "#000000"
     },
     "estiloSub": {
       "fonte": "auto",
       "tamanho": 0.82,
-      "cor": "#ffffff",
-      "negrito": false,
+      "cor": "#f2f2f2",
+      "negrito": true,
       "italico": true,
-      "sombra": false,
-      "contorno": false,
+      "sombra": true,
+      "contorno": true,
       "contornoCor": "#000000"
     }
   },
@@ -386,17 +386,17 @@
     "estiloTitulo": {
       "fonte": "auto",
       "tamanho": 4,
-      "cor": "#ebeaea",
+      "cor": "#c0bfbf",
       "negrito": true,
-      "italico": false,
-      "sombra": false,
-      "contorno": false,
+      "italico": true,
+      "sombra": true,
+      "contorno": true,
       "contornoCor": "#000000"
     },
     "estiloSub": {
       "fonte": "auto",
       "tamanho": 1.1,
-      "cor": "#ebeaea",
+      "cor": "#a3a3a3",
       "negrito": false,
       "italico": true,
       "sombra": false,
@@ -413,7 +413,7 @@
     "posSubY": 0,
     "tamanho": 4,
     "subTamanho": 1.1,
-    "cor": "#ebeaea",
+    "cor": "#c0bfbf",
     "botao": "Menu",
     "reveal": "cubos",
     "foto": ""
