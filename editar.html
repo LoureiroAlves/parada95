@@ -493,8 +493,9 @@
         </div>
         <input type="hidden" id="introPosNomeX" value="0"><input type="hidden" id="introPosNomeY" value="0">
         <input type="hidden" id="introPosSubX" value="0"><input type="hidden" id="introPosSubY" value="0">
+        <input type="hidden" id="introPosBotaoX" value="0"><input type="hidden" id="introPosBotaoY" value="0">
         <button type="button" class="acao" id="btnPreverIntro" style="background:var(--castanho); margin-top:12px;">👁 Ver abertura na pré-visualização</button>
-        <div class="ajuda" style="margin-top:4px;">Mostra a abertura na pré-visualização ao lado. Aí podes <strong>arrastar o nome e o subtítulo</strong> para os posicionar. Clica no fundo da abertura (ou neste botão outra vez) para voltar ao menu.</div>
+        <div class="ajuda" style="margin-top:4px;">Mostra a abertura na pré-visualização ao lado. Aí podes <strong>arrastar o nome, o subtítulo e o botão "Ver menu"</strong> para os posicionar. Clica no fundo da abertura (ou neste botão outra vez) para voltar ao menu.</div>
         <button type="button" class="acao" id="btnReporPosIntro" style="background:var(--dourado-escuro); margin-top:6px;">↺ Repor posição do texto</button>
         <div style="margin-top:16px; border-top:1px dotted var(--linha); padding-top:12px;">
           <label style="margin:0;">Textos livres na abertura</label>
@@ -1147,7 +1148,9 @@
       document.getElementById('introPosNomeX').value = (config.intro && config.intro.posNomeX) || 0;
       document.getElementById('introPosNomeY').value = (config.intro && config.intro.posNomeY) || 0;
       document.getElementById('introPosSubX').value = (config.intro && config.intro.posSubX) || 0;
-      document.getElementById('introPosSubY').value = (config.intro && config.intro.posSubY) || 0; }
+      document.getElementById('introPosSubY').value = (config.intro && config.intro.posSubY) || 0;
+      document.getElementById('introPosBotaoX').value = (config.intro && config.intro.posBotaoX) || 0;
+      document.getElementById('introPosBotaoY').value = (config.intro && config.intro.posBotaoY) || 0; }
     introTextos = (config.intro && Array.isArray(config.intro.textos)) ? JSON.parse(JSON.stringify(config.intro.textos)) : [];
     renderIntroTextos();
     document.getElementById('blocoIntro').style.display = (config.intro && config.intro.ativo) ? 'block' : 'none';
@@ -1633,6 +1636,8 @@
         posNomeY: parseInt(document.getElementById('introPosNomeY').value, 10) || 0,
         posSubX: parseInt(document.getElementById('introPosSubX').value, 10) || 0,
         posSubY: parseInt(document.getElementById('introPosSubY').value, 10) || 0,
+        posBotaoX: parseInt(document.getElementById('introPosBotaoX').value, 10) || 0,
+        posBotaoY: parseInt(document.getElementById('introPosBotaoY').value, 10) || 0,
         // mantém campos antigos para compatibilidade com quem ainda lê tamanho/cor diretos
         tamanho: _eiTit.tamanho || 2.7,
         subTamanho: _eiSub.tamanho || 1.08,
@@ -2695,13 +2700,14 @@
       else if(d.type === 'preview-intro-pos'){
         if(d.alvo === 'nome'){ document.getElementById('introPosNomeX').value = d.x; document.getElementById('introPosNomeY').value = d.y; }
         else if(d.alvo === 'sub'){ document.getElementById('introPosSubX').value = d.x; document.getElementById('introPosSubY').value = d.y; }
+        else if(d.alvo === 'botao'){ document.getElementById('introPosBotaoX').value = d.x; document.getElementById('introPosBotaoY').value = d.y; }
         else if(typeof d.alvo === 'string' && d.alvo.indexOf('texto:') === 0 && window.__setIntroTextoPos){ window.__setIntroTextoPos(parseInt(d.alvo.slice(6), 10), d.x, d.y); }
       }
     });
     const btnRepor = document.getElementById('btnReporPosIntro');
     if(btnRepor){
       btnRepor.addEventListener('click', function(){
-        ['introPosNomeX','introPosNomeY','introPosSubX','introPosSubY'].forEach(id => { document.getElementById(id).value = 0; });
+        ['introPosNomeX','introPosNomeY','introPosSubX','introPosSubY','introPosBotaoX','introPosBotaoY'].forEach(id => { document.getElementById(id).value = 0; });
         enviar();
         if(introVisivel){ try{ frame.contentWindow.postMessage({ type:'preview-intro', mostrar:true }, '*'); }catch(e){} }
       });
