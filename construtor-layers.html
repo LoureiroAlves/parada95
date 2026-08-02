@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -103,11 +104,20 @@
 
 <div class="modal" id="modalPub">
   <div class="cx">
-    <h3 style="font-family:'Fredoka'; margin-top:0;">Publicar (em breve)</h3>
-    <div class="ajuda">Nesta primeira versão o construtor de camadas ainda não publica no site — serve para desenhares e exportares em JSON. A ligação ao teu repositório (config.json) e o desenho na página real são o passo seguinte.</div>
-    <div class="linha" style="margin-top:10px; justify-content:flex-end;">
-      <button class="btn" style="background:#999;" id="btnFecharPub">Ok</button>
+    <h3 style="font-family:'Fredoka'; margin-top:0;">Publicar no teu site</h3>
+    <div class="campo"><label>Token do GitHub</label><input type="password" id="ghToken" placeholder="ghp_..."><div class="ajuda">O mesmo tipo de token (repo) que usas no editar.</div></div>
+    <div id="ghRepoInfo" class="ajuda" style="margin-bottom:8px;"></div>
+    <div class="campo"><label>Tipo de página</label>
+      <label class="chk" style="display:block; margin-top:4px;"><input type="radio" name="tipopag" value="auto" checked> Página autónoma (qualquer app)</label>
+      <label class="chk" style="display:block; margin-top:4px;"><input type="radio" name="tipopag" value="capa"> Capa que abre o menu (junta um botão "Ver menu")</label>
     </div>
+    <div class="ajuda" id="pubEstado" style="min-height:16px;"></div>
+    <div class="linha" style="margin-top:8px; justify-content:flex-end;">
+      <button class="btn sec" id="btnCarregarSite">Carregar do site</button>
+      <button class="btn gh" id="btnGravar">Publicar</button>
+      <button class="btn" style="background:#999;" id="btnFecharPub">Fechar</button>
+    </div>
+    <div class="ajuda" style="margin-top:6px;">Nota: sobe uma vez o ficheiro <b>pagina.html</b> ao repositório (é ele que mostra o desenho). Depois é só publicar daqui sempre que mudares.</div>
   </div>
 </div>
 
@@ -309,6 +319,47 @@
   const modalPub = document.getElementById('modalPub');
   document.getElementById('btnPublicar').addEventListener('click', ()=> modalPub.classList.add('on'));
   document.getElementById('btnFecharPub').addEventListener('click', ()=> modalPub.classList.remove('on'));
+
+  function detectarRepo(){
+    const h = location.hostname, seg = location.pathname.split('/').filter(Boolean);
+    if(h.endsWith('github.io') && seg.length){ return { conta:h.split('.')[0], repo:seg[0] }; }
+    return null;
+  }
+  const repoInfo = detectarRepo();
+  document.getElementById('ghRepoInfo').textContent = repoInfo ? ('Repositório: '+repoInfo.conta+'/'+repoInfo.repo) : 'Abre este construtor a partir do teu site (…github.io/…) para poder publicar.';
+  function setPub(m,t){ const e=document.getElementById('pubEstado'); e.textContent=m; e.style.color = (t==='erro'?'#b3402f':(t==='ok'?'#3b8a4f':'#8a7a5e')); }
+  function b64(str){ return btoa(unescape(encodeURIComponent(str))); }
+  async function ghPut(path, contentStr, token, conta, repo, msg){
+    const api = 'https://api.github.com/repos/'+conta+'/'+repo+'/contents/'+path;
+    let sha = null;
+    const g = await fetch(api+'?t='+Date.now(), { headers:{ Authorization:'Bearer '+token, Accept:'application/vnd.github+json' } });
+    if(g.ok){ try{ sha = (await g.json()).sha; }catch(e){} }
+    const body = { message:msg, content:b64(contentStr) }; if(sha) body.sha = sha;
+    const r = await fetch(api, { method:'PUT', headers:{ Authorization:'Bearer '+token, Accept:'application/vnd.github+json' }, body:JSON.stringify(body) });
+    if(!r.ok) throw new Error('HTTP '+r.status+' — verifica o token.');
+  }
+  document.getElementById('btnGravar').addEventListener('click', async function(){
+    const token = document.getElementById('ghToken').value.trim();
+    if(!repoInfo){ setPub('Abre a partir do teu site (github.io) para publicar.','erro'); return; }
+    if(!token){ setPub('Cola primeiro o token.','erro'); return; }
+    const tipo = document.querySelector('input[name=tipopag]:checked').value;
+    if(tipo==='capa' && !camadas.some(c=>c.tipo==='botao' && /cardapio\.html/i.test(c.link||''))){
+      camadas.push({ id:uid++, tipo:'botao', x:30, y:82, w:40, h:7, rot:0, opac:100, visivel:true, cor:'#ffffff', fundo:'#a8712f', fonte:'fredoka', tamanho:1.1, negrito:true, italico:false, radius:24, texto:'Ver menu ▸', link:'cardapio.html' });
+      renderTudo();
+    }
+    this.disabled = true; setPub('A publicar…','info');
+    try{
+      await ghPut('desenho.json', JSON.stringify({ fundo:fundo, camadas:camadas }, null, 2), token, repoInfo.conta, repoInfo.repo, 'Atualizar desenho (construtor de camadas)');
+      setPub('✅ Publicado! Abre: '+location.origin+'/'+repoInfo.repo+'/pagina.html (sobe a pagina.html uma vez, se ainda não estiver lá).','ok');
+    }catch(e){ setPub('Erro: '+e.message,'erro'); }
+    this.disabled = false;
+  });
+  document.getElementById('btnCarregarSite').addEventListener('click', function(){
+    fetch('desenho.json?t='+Date.now()).then(r=>r.ok?r.json():null).then(d=>{
+      if(d){ fundo=d.fundo||fundo; camadas=(d.camadas||[]); uid=camadas.reduce((m,c)=>Math.max(m,c.id||0),0)+1; selId=null; renderTudo(); setPub('Desenho carregado do site.','ok'); }
+      else setPub('Ainda não há desenho publicado neste repositório.','info');
+    }).catch(()=>setPub('Não consegui carregar (abre a partir do site).','erro'));
+  });
 
   // clicar fora deseleciona
   tela.addEventListener('pointerdown', function(e){ if(e.target===tela){ selId=null; renderTudo(); } });
