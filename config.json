@@ -368,10 +368,17 @@
   },
   "sazonal": false,
   "decor": {
-    "tema": "nenhum",
+    "tema": "natal",
     "queda": false,
-    "luzes": false,
-    "fixas": [],
+    "luzes": true,
+    "fixas": [
+      {
+        "simb": "🎄",
+        "x": 83,
+        "y": 79,
+        "tam": 3
+      }
+    ],
     "intro": {
       "queda": false,
       "luzes": false,
