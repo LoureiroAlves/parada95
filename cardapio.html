@@ -967,6 +967,19 @@
   .sz-item{ position:absolute; top:-8%; will-change:transform; animation:szCair linear infinite; }
   @keyframes szCair{ 0%{ transform:translateY(-12vh) rotate(0deg); } 100%{ transform:translateY(115vh) rotate(360deg); } }
 
+  /* ===== Decorações por época (novo sistema) ===== */
+  #decorQueda{ position:fixed; inset:0; pointer-events:none; z-index:46; overflow:hidden; }
+  #introDecorQueda{ position:absolute; inset:0; pointer-events:none; z-index:2; overflow:hidden; }
+  .dq-item{ position:absolute; top:-8%; will-change:transform; animation:szCair linear infinite; }
+  #decorLuzes{ position:fixed; top:0; left:0; right:0; height:24px; pointer-events:none; z-index:47; display:flex; justify-content:space-around; align-items:flex-start; }
+  #introDecorLuzes{ position:absolute; top:0; left:0; right:0; height:24px; pointer-events:none; z-index:4; display:flex; justify-content:space-around; align-items:flex-start; }
+  #decorLuzes::before, #introDecorLuzes::before{ content:''; position:absolute; top:2px; left:0; right:0; height:2px; background:rgba(0,0,0,.28); border-radius:2px; }
+  .luz{ position:relative; width:9px; height:13px; margin-top:5px; border-radius:50%; background:currentColor; box-shadow:0 0 8px 2px currentColor; animation:luzPisca 1.4s ease-in-out infinite; }
+  .luz::before{ content:''; position:absolute; top:-5px; left:50%; width:1px; height:5px; background:rgba(0,0,0,.4); transform:translateX(-50%); }
+  @keyframes luzPisca{ 0%,100%{ opacity:1; } 50%{ opacity:.32; } }
+  .decor-fixa{ position:fixed; z-index:44; pointer-events:none; user-select:none; line-height:1; text-shadow:0 2px 6px rgba(0,0,0,.35); transform:translate(-50%,-50%); }
+  .idecor-fixa{ position:absolute; z-index:3; pointer-events:none; user-select:none; line-height:1; text-shadow:0 2px 6px rgba(0,0,0,.4); transform:translate(-50%,-50%); }
+
   /* ===== Grelha de jogos (quadrados com ícones) ===== */
   .jogos-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; padding:8px 4px 4px; }
   .jogo-tile{
@@ -2752,6 +2765,7 @@
           if(sEl) envolverAnim(sEl, intro.animSub||'subir', 0.5);
           renderIntroTextosLivres(config, false);
           renderIntroBotoesLivres(config, false);
+          try{ aplicarDecorIntro(config, false); }catch(e){}
           const fotos = (config.header && config.header.fotos) || [];
           const fotoIntro = (intro.foto && String(intro.foto).trim()) ? intro.foto
             : ((config.header && config.header.fotosAtivas !== false && fotos.length) ? fotos[0] : null);
@@ -2994,6 +3008,9 @@
       // Decoração sazonal (desativar se configurado)
       if(config.sazonal === false){ const ov = document.getElementById('sazonalOverlay'); if(ov) ov.remove(); }
 
+      // Decorações por época (novo sistema, manual)
+      try{ aplicarDecor(config); }catch(e){}
+
       // Cartão de fidelidade
       window._fidelidade = (config.fidelidade && config.fidelidade.ativo) ? config.fidelidade : null;
       const fb = document.getElementById('linkFidelidade');
@@ -3059,6 +3076,7 @@
     if(sEl) envolverAnim(sEl, intro.animSub||'subir', 0.5);
     renderIntroTextosLivres(config, true);
     renderIntroBotoesLivres(config, true);
+    aplicarDecorIntro(config, true);
     const fotos = (config.header && config.header.fotos) || [];
     const fotoIntro = (intro.foto && String(intro.foto).trim()) ? intro.foto : ((config.header && config.header.fotosAtivas !== false && fotos.length) ? fotos[0] : null);
     const bg = document.getElementById('introBg'), shade = document.getElementById('introShade');
@@ -3103,33 +3121,109 @@
     }, false);
   }
 
-  // Decoração sazonal automática (por data)
-  function iniciarSazonal(){
-    if(document.getElementById('sazonalOverlay')) return;
-    const d = new Date(), mes = d.getMonth() + 1, dia = d.getDate();
-    let emojis = null;
-    if(mes === 12) emojis = ['❄️','🎄','⭐','⛄'];                    // Natal
-    else if(mes === 10 && dia >= 20) emojis = ['🦇','🎃','👻'];       // Halloween
-    else if(mes === 2 && dia >= 10 && dia <= 15) emojis = ['💛','💕','❤️']; // S. Valentim
-    else if(mes === 6) emojis = ['🎈','🌻','🎉'];                    // Santos Populares
-    else if(mes === 7 || mes === 8) emojis = ['☀️','🌴','🦋'];        // Verão
-    if(!emojis) return;
-    const ov = document.createElement('div');
-    ov.id = 'sazonalOverlay';
-    for(let i = 0; i < 14; i++){
-      const s = document.createElement('span');
-      s.className = 'sz-item';
+  // ==========================================================
+  //  DECORAÇÕES POR ÉPOCA (manual, escolhido no editor)
+  // ==========================================================
+  const TEMAS_DECOR = {
+    natal:     { queda:['❄️','⭐','🎄','❄️','✨'], luz:['#e63946','#2a9d8f','#e9c46a','#457b9d','#e76f51'] },
+    halloween: { queda:['🍂','🦇','🍁','🕷️'],      luz:['#e76f51','#6a4c93','#f4a261','#2b2d42'] },
+    pascoa:    { queda:['🌸','🌼','🐣','🌷'],       luz:['#ffb3c1','#a0c4ff','#caffbf','#fdffb6'] },
+    verao:     { queda:['🌴','🦋','☀️','🌺'],       luz:['#ffd166','#06d6a0','#118ab2','#ef476f'] },
+    namorados: { queda:['❤️','💕','💗','🌹'],       luz:['#ff4d6d','#ff8fa3','#ffb3c1','#c9184a'] },
+    santos:    { queda:['🎈','🌻','🎉','🎊'],       luz:['#ef476f','#ffd166','#06d6a0','#118ab2'] },
+    anonovo:   { queda:['🎆','✨','🎊','🎇'],       luz:['#ffd700','#c0c0c0','#ff6b6b','#4cc9f0'] }
+  };
+  function _decorQueda(id, emojis, dentro){
+    const ov = document.createElement('div'); ov.id = id;
+    for(let i = 0; i < 16; i++){
+      const s = document.createElement('span'); s.className = 'dq-item';
       s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-      s.style.left = (Math.random() * 100) + 'vw';
-      s.style.fontSize = (14 + Math.random() * 18) + 'px';
+      s.style.left = (Math.random() * 100) + '%';
+      s.style.fontSize = (13 + Math.random() * 20) + 'px';
       s.style.animationDuration = (7 + Math.random() * 8) + 's';
-      s.style.animationDelay = (-Math.random() * 10) + 's';
-      s.style.opacity = '0.85';
+      s.style.animationDelay = (-Math.random() * 12) + 's';
+      s.style.opacity = '0.9';
       ov.appendChild(s);
     }
-    document.body.appendChild(ov);
+    (dentro || document.body).appendChild(ov); return ov;
   }
-  iniciarSazonal();
+  function _decorLuzes(id, cores, dentro){
+    const g = document.createElement('div'); g.id = id;
+    for(let i = 0; i < 16; i++){
+      const l = document.createElement('span'); l.className = 'luz';
+      const c = cores[i % cores.length];
+      l.style.color = c; l.style.background = c;
+      l.style.animationDelay = (-(i * 0.18)) + 's';
+      g.appendChild(l);
+    }
+    (dentro || document.body).appendChild(g); return g;
+  }
+  function _decorRenderFixas(container, arr, cls, arrastavel, ctx){
+    (arr || []).forEach(function(it, i){
+      const el = document.createElement('div'); el.className = cls;
+      el.style.left = (it.x != null ? it.x : 50) + '%';
+      el.style.top  = (it.y != null ? it.y : 50) + '%';
+      if(it.txt != null){
+        el.textContent = it.txt || '';
+        el.style.fontSize = ((it.tam || 1) * 26) + 'px';
+        el.style.fontFamily = "'Fredoka',sans-serif"; el.style.fontWeight = '700';
+        if(it.cor) el.style.color = it.cor;
+        el.style.whiteSpace = 'pre';
+      } else {
+        el.textContent = it.simb || '⭐';
+        el.style.fontSize = ((it.tam || 1) * 44) + 'px';
+      }
+      if(arrastavel){ el.style.pointerEvents = 'auto'; _decorArrastavel(el, i, ctx); }
+      container.appendChild(el);
+    });
+  }
+  function _decorArrastavel(el, i, ctx){
+    el.style.cursor = 'move'; el.style.touchAction = 'none';
+    let drag = false, moveu = false;
+    el.onpointerdown = function(ev){ ev.preventDefault(); ev.stopPropagation(); drag = true; moveu = false; try{ el.setPointerCapture(ev.pointerId); }catch(e){} };
+    el.onpointermove = function(ev){
+      if(!drag) return;
+      const cont = el.parentElement; if(!cont) return;
+      const r = cont.getBoundingClientRect();
+      let nx = Math.round(((ev.clientX - r.left) / r.width) * 100);
+      let ny = Math.round(((ev.clientY - r.top) / r.height) * 100);
+      nx = Math.max(0, Math.min(100, nx)); ny = Math.max(0, Math.min(100, ny));
+      el.style.left = nx + '%'; el.style.top = ny + '%'; moveu = true; el._nx = nx; el._ny = ny;
+    };
+    el.onpointerup = function(ev){
+      if(!drag) return; drag = false; try{ el.releasePointerCapture(ev.pointerId); }catch(e){}
+      if(moveu){ try{ parent.postMessage({ type:'decor-pos', ctx:ctx, i:i, x:el._nx, y:el._ny }, '*'); }catch(e){} }
+    };
+  }
+  function aplicarDecor(config){
+    ['decorQueda','decorLuzes','decorFixas'].forEach(function(id){ const e = document.getElementById(id); if(e) e.remove(); });
+    const dec = config && config.decor;
+    if(!dec || !dec.tema || dec.tema === 'nenhum') return;
+    const T = TEMAS_DECOR[dec.tema]; if(!T) return;
+    if(dec.queda) _decorQueda('decorQueda', T.queda, document.body);
+    if(dec.luzes) _decorLuzes('decorLuzes', T.luz, document.body);
+    if(dec.fixas && dec.fixas.length){
+      const c = document.createElement('div'); c.id = 'decorFixas';
+      c.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:44;';
+      _decorRenderFixas(c, dec.fixas, 'decor-fixa', !!window.__PREVIEW, 'cardapio');
+      document.body.appendChild(c);
+    }
+  }
+  function aplicarDecorIntro(config, arrastavel){
+    const ov = document.getElementById('introOverlay'); if(!ov) return;
+    ['introDecorQueda','introDecorLuzes','introDecorFixas'].forEach(function(id){ const e = document.getElementById(id); if(e) e.remove(); });
+    const dec = config && config.decor; if(!dec || !dec.tema || dec.tema === 'nenhum') return;
+    const T = TEMAS_DECOR[dec.tema]; if(!T) return;
+    const di = dec.intro || {};
+    if(di.queda) _decorQueda('introDecorQueda', T.queda, ov);
+    if(di.luzes) _decorLuzes('introDecorLuzes', T.luz, ov);
+    if(di.fixas && di.fixas.length){
+      const c = document.createElement('div'); c.id = 'introDecorFixas';
+      c.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:3;';
+      _decorRenderFixas(c, di.fixas, 'idecor-fixa', !!arrastavel, 'intro');
+      ov.appendChild(c);
+    }
+  }
 
   // ==========================================================
   //  CARTÃO DE FIDELIDADE
