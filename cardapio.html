@@ -968,17 +968,17 @@
   @keyframes szCair{ 0%{ transform:translateY(-12vh) rotate(0deg); } 100%{ transform:translateY(115vh) rotate(360deg); } }
 
   /* ===== Decorações por época (novo sistema) ===== */
-  #decorQueda{ position:fixed; inset:0; pointer-events:none; z-index:46; overflow:hidden; }
-  #introDecorQueda{ position:absolute; inset:0; pointer-events:none; z-index:2; overflow:hidden; }
+  #decorQueda{ position:fixed; inset:0; pointer-events:none; z-index:390; overflow:hidden; }
+  #introDecorQueda{ position:absolute; inset:0; pointer-events:none; z-index:30; overflow:hidden; }
   .dq-item{ position:absolute; top:-8%; will-change:transform; animation:szCair linear infinite; }
-  #decorLuzes{ position:fixed; top:0; left:0; right:0; height:24px; pointer-events:none; z-index:47; display:flex; justify-content:space-around; align-items:flex-start; }
-  #introDecorLuzes{ position:absolute; top:0; left:0; right:0; height:24px; pointer-events:none; z-index:4; display:flex; justify-content:space-around; align-items:flex-start; }
+  #decorLuzes{ position:fixed; top:0; left:0; right:0; height:24px; pointer-events:none; z-index:392; display:flex; justify-content:space-around; align-items:flex-start; }
+  #introDecorLuzes{ position:absolute; top:0; left:0; right:0; height:24px; pointer-events:none; z-index:33; display:flex; justify-content:space-around; align-items:flex-start; }
   #decorLuzes::before, #introDecorLuzes::before{ content:''; position:absolute; top:2px; left:0; right:0; height:2px; background:rgba(0,0,0,.28); border-radius:2px; }
   .luz{ position:relative; width:9px; height:13px; margin-top:5px; border-radius:50%; background:currentColor; box-shadow:0 0 8px 2px currentColor; animation:luzPisca 1.4s ease-in-out infinite; }
   .luz::before{ content:''; position:absolute; top:-5px; left:50%; width:1px; height:5px; background:rgba(0,0,0,.4); transform:translateX(-50%); }
   @keyframes luzPisca{ 0%,100%{ opacity:1; } 50%{ opacity:.32; } }
-  .decor-fixa{ position:fixed; z-index:44; pointer-events:none; user-select:none; line-height:1; text-shadow:0 2px 6px rgba(0,0,0,.35); transform:translate(-50%,-50%); }
-  .idecor-fixa{ position:absolute; z-index:3; pointer-events:none; user-select:none; line-height:1; text-shadow:0 2px 6px rgba(0,0,0,.4); transform:translate(-50%,-50%); }
+  .decor-fixa{ position:fixed; z-index:391; pointer-events:none; user-select:none; line-height:1; text-shadow:0 2px 6px rgba(0,0,0,.35); transform:translate(-50%,-50%); }
+  .idecor-fixa{ position:absolute; z-index:32; pointer-events:none; user-select:none; line-height:1; text-shadow:0 2px 6px rgba(0,0,0,.4); transform:translate(-50%,-50%); }
 
   /* ===== Grelha de jogos (quadrados com ícones) ===== */
   .jogos-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; padding:8px 4px 4px; }
@@ -3204,7 +3204,7 @@
     if(dec.luzes) _decorLuzes('decorLuzes', T.luz, document.body);
     if(dec.fixas && dec.fixas.length){
       const c = document.createElement('div'); c.id = 'decorFixas';
-      c.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:44;';
+      c.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:391;';
       _decorRenderFixas(c, dec.fixas, 'decor-fixa', !!window.__PREVIEW, 'cardapio');
       document.body.appendChild(c);
     }
@@ -3219,7 +3219,7 @@
     if(di.luzes) _decorLuzes('introDecorLuzes', T.luz, ov);
     if(di.fixas && di.fixas.length){
       const c = document.createElement('div'); c.id = 'introDecorFixas';
-      c.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:3;';
+      c.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:32;';
       _decorRenderFixas(c, di.fixas, 'idecor-fixa', !!arrastavel, 'intro');
       ov.appendChild(c);
     }
