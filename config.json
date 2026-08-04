@@ -367,6 +367,17 @@
     "duracao": 5
   },
   "sazonal": false,
+  "decor": {
+    "tema": "nenhum",
+    "queda": false,
+    "luzes": false,
+    "fixas": [],
+    "intro": {
+      "queda": false,
+      "luzes": false,
+      "fixas": []
+    }
+  },
   "fidelidade": {
     "ativo": false,
     "codigo": "",
@@ -424,8 +435,8 @@
         "estilo": {
           "fonte": "chewy",
           "tamanho": 0.9,
-          "cor": "#ffffff",
-          "negrito": true,
+          "cor": "#c0bfbf",
+          "negrito": false,
           "italico": false,
           "sombra": false,
           "contorno": false,
@@ -506,26 +517,26 @@
     "opacidadeSub": 100,
     "posNomeX": -47,
     "posNomeY": -190,
-    "posSubX": -6,
-    "posSubY": 300,
-    "posBotaoX": 81,
-    "posBotaoY": -160,
+    "posSubX": -4,
+    "posSubY": 295,
+    "posBotaoX": -2,
+    "posBotaoY": 270,
     "estiloBotao": {
       "fonte": "auto",
-      "tamanho": null,
+      "tamanho": 1,
       "cor": "#ffffff",
-      "negrito": true,
+      "negrito": false,
       "italico": false,
       "sombra": false,
       "contorno": false,
       "contornoCor": "#000000",
       "tridi": false,
-      "tridiProf": 6,
+      "tridiProf": 4,
       "tridiCor": "#4a3416",
       "tridiRedondo": false
     },
     "rotacaoBotao": 0,
-    "opacidadeBotao": 100,
+    "opacidadeBotao": 77,
     "corBotaoFundo": "",
     "tamanho": 2,
     "subTamanho": 0.85,
