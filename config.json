@@ -477,7 +477,7 @@
         },
         "rotacao": 0,
         "opacidade": 100,
-        "anim": "fade",
+        "anim": "zoom",
         "x": 82,
         "y": -298
       }
