@@ -3158,16 +3158,29 @@
     }
     (dentro || document.body).appendChild(g); return g;
   }
-  function _decorRenderFixas(container, arr, cls, arrastavel, ctx){
+  const DECOR_TEXTO = {
+    natal:     { fonte:"'Chewy',cursive",   cor:'#ffffff', sombra:'0 0 7px #ffd76a, 0 2px 0 #b3402f, 0 4px 9px rgba(0,0,0,.4)', pre:'❄️', pos:'❄️' },
+    halloween: { fonte:"'Chewy',cursive",   cor:'#ff8c1a', sombra:'0 0 9px #ff6d00, 0 2px 0 #4a1d6a, 0 4px 9px rgba(0,0,0,.5)', pre:'🎃', pos:'🦇' },
+    pascoa:    { fonte:"'Baloo 2',cursive", cor:'#ff7aa8', sombra:'0 2px 0 #ffffff, 0 0 9px #ffd1e6',                          pre:'🌷', pos:'🐣' },
+    verao:     { fonte:"'Baloo 2',cursive", cor:'#ff9e00', sombra:'0 0 9px #ffd166, 0 2px 0 #fb8500',                         pre:'☀️', pos:'🌴' },
+    namorados: { fonte:"'Chewy',cursive",   cor:'#ff3d6e', sombra:'0 0 9px #ff8fa3, 0 2px 0 #c9184a',                         pre:'❤️', pos:'❤️' },
+    santos:    { fonte:"'Baloo 2',cursive", cor:'#ffd166', sombra:'0 0 9px #ef476f, 0 2px 0 #e5533c',                         pre:'🎈', pos:'🎉' },
+    anonovo:   { fonte:"'Chewy',cursive",   cor:'#ffe08a', sombra:'0 0 11px #ffd700, 0 2px 0 #333333',                        pre:'🎆', pos:'🥂' }
+  };
+  function _decorRenderFixas(container, arr, cls, arrastavel, ctx, tema){
+    const dt = DECOR_TEXTO[tema] || null;
     (arr || []).forEach(function(it, i){
       const el = document.createElement('div'); el.className = cls;
       el.style.left = (it.x != null ? it.x : 50) + '%';
       el.style.top  = (it.y != null ? it.y : 50) + '%';
       if(it.txt != null){
-        el.textContent = it.txt || '';
-        el.style.fontSize = ((it.tam || 1) * 26) + 'px';
-        el.style.fontFamily = "'Fredoka',sans-serif"; el.style.fontWeight = '700';
-        if(it.cor) el.style.color = it.cor;
+        const txt = it.txt || '';
+        el.textContent = dt ? (dt.pre + ' ' + txt + ' ' + dt.pos) : txt;
+        el.style.fontSize = ((it.tam || 1) * 28) + 'px';
+        el.style.fontFamily = dt ? dt.fonte : "'Fredoka',sans-serif";
+        el.style.fontWeight = '700';
+        el.style.color = it.cor || (dt ? dt.cor : '#ffffff');
+        if(dt) el.style.textShadow = dt.sombra;
         el.style.whiteSpace = 'pre';
       } else {
         el.textContent = it.simb || '⭐';
@@ -3205,7 +3218,7 @@
     if(dec.fixas && dec.fixas.length){
       const c = document.createElement('div'); c.id = 'decorFixas';
       c.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:391;';
-      _decorRenderFixas(c, dec.fixas, 'decor-fixa', !!window.__PREVIEW, 'cardapio');
+      _decorRenderFixas(c, dec.fixas, 'decor-fixa', !!window.__PREVIEW, 'cardapio', dec.tema);
       document.body.appendChild(c);
     }
   }
@@ -3220,7 +3233,7 @@
     if(di.fixas && di.fixas.length){
       const c = document.createElement('div'); c.id = 'introDecorFixas';
       c.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:32;';
-      _decorRenderFixas(c, di.fixas, 'idecor-fixa', !!arrastavel, 'intro');
+      _decorRenderFixas(c, di.fixas, 'idecor-fixa', !!arrastavel, 'intro', dec.tema);
       ov.appendChild(c);
     }
   }
