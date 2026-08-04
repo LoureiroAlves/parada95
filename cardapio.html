@@ -3024,10 +3024,14 @@
     if(!el) return;
     el.style.cursor = 'move'; el.style.touchAction = 'none';
     let sx=0, sy=0, bx=0, by=0, drag=false;
+    let moveu = false;
     el.onclick = function(ev){ ev.stopPropagation(); ev.preventDefault(); };
-    el.onpointerdown = function(ev){ ev.preventDefault(); ev.stopPropagation(); drag=true; sx=ev.clientX; sy=ev.clientY; bx=parseFloat(el.style.getPropertyValue(xvar))||0; by=parseFloat(el.style.getPropertyValue(yvar))||0; try{ el.setPointerCapture(ev.pointerId); }catch(e){} };
-    el.onpointermove = function(ev){ if(!drag) return; el.style.setProperty(xvar, (bx+(ev.clientX-sx))+'px'); el.style.setProperty(yvar, (by+(ev.clientY-sy))+'px'); };
-    el.onpointerup = function(ev){ if(!drag) return; drag=false; const nx=Math.round(parseFloat(el.style.getPropertyValue(xvar))||0), ny=Math.round(parseFloat(el.style.getPropertyValue(yvar))||0); try{ parent.postMessage({ type:'preview-intro-pos', alvo:alvo, x:nx, y:ny }, '*'); }catch(e){} };
+    el.onpointerdown = function(ev){ ev.preventDefault(); ev.stopPropagation(); drag=true; moveu=false; sx=ev.clientX; sy=ev.clientY; bx=parseFloat(el.style.getPropertyValue(xvar))||0; by=parseFloat(el.style.getPropertyValue(yvar))||0; try{ el.setPointerCapture(ev.pointerId); }catch(e){} };
+    el.onpointermove = function(ev){ if(!drag) return; if(Math.abs(ev.clientX-sx)>4 || Math.abs(ev.clientY-sy)>4) moveu=true; el.style.setProperty(xvar, (bx+(ev.clientX-sx))+'px'); el.style.setProperty(yvar, (by+(ev.clientY-sy))+'px'); };
+    el.onpointerup = function(ev){ if(!drag) return; drag=false;
+      if(moveu){ const nx=Math.round(parseFloat(el.style.getPropertyValue(xvar))||0), ny=Math.round(parseFloat(el.style.getPropertyValue(yvar))||0); try{ parent.postMessage({ type:'preview-intro-pos', alvo:alvo, x:nx, y:ny }, '*'); }catch(e){} }
+      else { try{ parent.postMessage({ type:'editar-ir', alvo:alvo }, '*'); }catch(e){} }
+    };
   }
 
   window.__mostrarIntroPreview = false;
@@ -3063,7 +3067,7 @@
     ov.style.display = 'flex';
     ov.classList.remove('sair'); ov.style.transform = '';   // evita ficar preso fora do ecrã
     ov.classList.remove('animar'); void ov.offsetWidth; ov.classList.add('animar');
-    ov.onclick = function(){ window.__mostrarIntroPreview = false; ov.onclick=null; ov.classList.remove('animar'); ov.style.display='none'; try{ parent.postMessage({ type:'preview-intro-fechada' }, '*'); }catch(e){} };
+    ov.onclick = function(){ try{ parent.postMessage({ type:'editar-ir', alvo:'ifundo' }, '*'); }catch(e){} };
   };
 
   if(window.__PREVIEW){
@@ -3087,6 +3091,16 @@
       else if(ov){ ov.onclick=null; ov.classList.remove('animar'); ov.style.display = 'none'; }
     });
     try{ parent.postMessage({ type:'cardapio-preview-ready' }, '*'); }catch(err){}
+    // Clicar num elemento salta para o seu controlo no editor
+    document.addEventListener('click', function(e){
+      if(window.__mostrarIntroPreview) return; // a abertura tem o seu próprio clique
+      const t = e.target; let alvo = null;
+      if(t.closest('header .brand-mark')) alvo = 'htitulo';
+      else if(t.closest('header .brand-sub')) alvo = 'hsub';
+      else if(t.closest('#headerFotos')) alvo = 'hfoto';
+      else if(t.closest('header') && !t.closest('button') && !t.closest('a')) alvo = 'hfoto';
+      if(alvo){ try{ parent.postMessage({ type:'editar-ir', alvo:alvo }, '*'); }catch(err){} }
+    }, false);
   }
 
   // Decoração sazonal automática (por data)
