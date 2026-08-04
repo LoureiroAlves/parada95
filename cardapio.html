@@ -23,11 +23,11 @@
   #introStripes .stripe{ position:absolute; top:0; height:100%; background-repeat:no-repeat; will-change:transform; }
   #introContent{ position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:12px; }
   #introNome{ font-family:var(--fonte-titulo); color:#fff; font-size:2.7rem; font-weight:700; letter-spacing:1px; line-height:1.1; text-shadow:0 3px 16px rgba(0,0,0,.55); transform:translate(var(--posNX,0px),var(--posNY,0px)) rotate(var(--rotN,0deg)); opacity:var(--opacN,1); }
-  #introNome .letra{ display:inline-block; opacity:0; will-change:transform; }
+  #introNome .letra{ display:inline-block; opacity:0; will-change:transform; white-space:pre; }
   #introOverlay.animar #introNome .letra{ animation:letraIn .6s cubic-bezier(.2,.8,.3,1.5) forwards; }
   #introOverlay.animar #introNome{ animation:nomeFloat 3.2s ease-in-out 1.8s infinite; }
-  #introSub{ font-family:var(--fonte-texto); color:#f7eeda; font-size:1.08rem; font-style:italic; text-shadow:0 1px 8px rgba(0,0,0,.5); opacity:0; transform:translate(var(--posSX,0px),var(--posSY,0px)) rotate(var(--rotS,0deg)); }
-  #introOverlay.animar #introSub{ animation:introSubIn 1s cubic-bezier(.2,.8,.3,1.4) 1.2s forwards; }
+  #introSub{ font-family:var(--fonte-texto); color:#f7eeda; font-size:1.08rem; font-style:italic; text-shadow:0 1px 8px rgba(0,0,0,.5); opacity:var(--opacS,1); transform:translate(var(--posSX,0px),var(--posSY,0px)) rotate(var(--rotS,0deg)); }
+  /* o subtítulo é revelado pelo invólucro .ent (animação escolhida no editar) */
   #introBtn{ margin-top:20px; background:var(--dourado,#a8712f); color:#fff; border:none; border-radius:24px; padding:10px 24px; font-family:var(--fonte-titulo); font-size:0.86rem; font-weight:600; cursor:pointer; box-shadow:0 6px 16px rgba(0,0,0,.35); opacity:0; transform:translate(var(--posBX,0px),var(--posBY,0px)) rotate(var(--rotB,0deg)); }
   #introOverlay.animar #introBtn{ animation:introBtnIn .6s ease 2.1s forwards, introPulse 1.6s ease-in-out 2.8s infinite; }
   .intro-botao-livre{ display:inline-block; margin-top:12px; background:var(--dourado,#a8712f); color:#fff; text-decoration:none; border-radius:24px; padding:10px 24px; font-family:var(--fonte-titulo); font-weight:600; font-size:0.86rem; box-shadow:0 6px 16px rgba(0,0,0,.35); cursor:pointer; }
@@ -36,6 +36,26 @@
   @keyframes introSubIn{ 0%{ opacity:0; transform:translate(var(--posSX,0px),calc(var(--posSY,0px) + 14px)) rotate(var(--rotS,0deg)); } 100%{ opacity:var(--opacS,1); transform:translate(var(--posSX,0px),var(--posSY,0px)) rotate(var(--rotS,0deg)); } }
   @keyframes introBtnIn{ 0%{ opacity:0; transform:translate(var(--posBX,0px),var(--posBY,0px)) rotate(var(--rotB,0deg)) scale(.8); } 100%{ opacity:var(--opacB,1); transform:translate(var(--posBX,0px),var(--posBY,0px)) rotate(var(--rotB,0deg)) scale(1); } }
   @keyframes introPulse{ 0%,100%{ transform:translate(var(--posBX,0px),var(--posBY,0px)) rotate(var(--rotB,0deg)) scale(1); } 50%{ transform:translate(var(--posBX,0px),var(--posBY,0px)) rotate(var(--rotB,0deg)) scale(1.06); } }
+  /* ===== Animações de entrada (invólucro .ent à volta de cada elemento da abertura) ===== */
+  .ent{ display:inline-block; }
+  #introNome.nletras .letra{ animation:none !important; opacity:1 !important; }
+  #introOverlay.animar .ent{ animation-duration:.75s; animation-timing-function:cubic-bezier(.2,.85,.3,1.15); animation-fill-mode:both; }
+  #introOverlay.animar .ent-fade{ animation-name:eFade; }
+  #introOverlay.animar .ent-subir{ animation-name:eSubir; }
+  #introOverlay.animar .ent-descer{ animation-name:eDescer; }
+  #introOverlay.animar .ent-esq{ animation-name:eEsq; }
+  #introOverlay.animar .ent-dir{ animation-name:eDir; }
+  #introOverlay.animar .ent-zoom{ animation-name:eZoom; }
+  #introOverlay.animar .ent-rodar{ animation-name:eRodar; }
+  #introOverlay.animar .ent-saltar{ animation-name:eSaltar; animation-timing-function:cubic-bezier(.28,1.6,.4,1); }
+  @keyframes eFade{ from{ opacity:0; } to{ opacity:1; } }
+  @keyframes eSubir{ from{ opacity:0; transform:translateY(36px); } to{ opacity:1; transform:translateY(0); } }
+  @keyframes eDescer{ from{ opacity:0; transform:translateY(-36px); } to{ opacity:1; transform:translateY(0); } }
+  @keyframes eEsq{ from{ opacity:0; transform:translateX(-46px); } to{ opacity:1; transform:translateX(0); } }
+  @keyframes eDir{ from{ opacity:0; transform:translateX(46px); } to{ opacity:1; transform:translateX(0); } }
+  @keyframes eZoom{ from{ opacity:0; transform:scale(.5); } to{ opacity:1; transform:scale(1); } }
+  @keyframes eRodar{ from{ opacity:0; transform:rotate(-16deg) scale(.8); } to{ opacity:1; transform:rotate(0) scale(1); } }
+  @keyframes eSaltar{ 0%{ opacity:0; transform:translateY(-44px); } 60%{ opacity:1; transform:translateY(9px); } 100%{ transform:translateY(0); } }
 </style>
 <script>
   // A cortina de abertura cobre o ecrã enquanto os dados carregam (evita o flash de conteúdo).
@@ -2450,23 +2470,40 @@
     }
   }
 
+  // Envolve um elemento num invólucro .ent para lhe dar a animação de entrada escolhida.
+  function envolverAnim(el, tipo, delay){
+    if(!el) return;
+    let w = el.parentElement;
+    if(!w || !w.classList.contains('ent')){
+      w = document.createElement('div'); w.className = 'ent';
+      el.parentNode.insertBefore(w, el); w.appendChild(el);
+    }
+    const anim = (tipo && tipo !== 'letras' && tipo !== 'nenhuma') ? (' ent-' + tipo) : '';
+    w.className = 'ent' + anim;
+    w.style.animationDelay = (delay || 0) + 's';
+  }
+
   // Textos livres da abertura (quantos o utilizador quiser), cada um com estilo próprio.
   function renderIntroTextosLivres(config, arrastavel){
     const cont = document.getElementById('introContent');
     if(!cont) return;
-    cont.querySelectorAll('.intro-livre').forEach(function(e){ e.remove(); });
+    cont.querySelectorAll('.intro-livre-wrap').forEach(function(e){ e.remove(); });
     const arr = (config && config.intro && config.intro.textos) || [];
     arr.forEach(function(t, i){
+      const w = document.createElement('div');
+      w.className = 'ent intro-livre-wrap' + ((t.anim && t.anim !== 'nenhuma') ? ' ent-' + t.anim : '');
+      w.style.animationDelay = (0.6 + i*0.15) + 's';
+      w.style.marginTop = '12px';
       const el = document.createElement('div');
       el.className = 'intro-livre';
       el.textContent = t.texto || '';
-      el.style.marginTop = '12px';
       if(typeof aplicarEstiloTexto === 'function') aplicarEstiloTexto([el], t.estilo || {});
       el.style.setProperty('--tx', ((t.x)||0) + 'px');
       el.style.setProperty('--ty', ((t.y)||0) + 'px');
       el.style.transform = 'translate(var(--tx,0px),var(--ty,0px)) rotate(' + ((t.rotacao)||0) + 'deg)';
       el.style.opacity = (t.opacidade != null ? (t.opacidade/100) : 1);
-      cont.appendChild(el);
+      w.appendChild(el);
+      cont.appendChild(w);
       if(arrastavel && typeof _introArrastavel === 'function') _introArrastavel(el, '--tx', '--ty', 'texto:' + i);
     });
   }
@@ -2711,6 +2748,8 @@
             if(intro.cor){ if(nEl) nEl.style.color = intro.cor; if(sEl) sEl.style.color = intro.cor; }
           }
           aplicarPosOpacIntro(nEl, sEl, intro);
+          if(nEl){ nEl.classList.toggle('nletras', (intro.animNome||'letras')!=='letras'); envolverAnim(nEl, intro.animNome||'letras', 0.2); }
+          if(sEl) envolverAnim(sEl, intro.animSub||'subir', 0.5);
           renderIntroTextosLivres(config, false);
           renderIntroBotoesLivres(config, false);
           const fotos = (config.header && config.header.fotos) || [];
@@ -3012,6 +3051,8 @@
     _introArrastavel(nEl, '--posNX', '--posNY', 'nome');
     _introArrastavel(sEl, '--posSX', '--posSY', 'sub');
     if(btn) _introArrastavel(btn, '--posBX', '--posBY', 'botao');
+    if(nEl){ nEl.classList.toggle('nletras', (intro.animNome||'letras')!=='letras'); envolverAnim(nEl, intro.animNome||'letras', 0.2); }
+    if(sEl) envolverAnim(sEl, intro.animSub||'subir', 0.5);
     renderIntroTextosLivres(config, true);
     renderIntroBotoesLivres(config, true);
     const fotos = (config.header && config.header.fotos) || [];
