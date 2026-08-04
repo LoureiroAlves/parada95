@@ -742,9 +742,39 @@
         <label for="jogosAtivo" style="margin:0; font-weight:700; color:var(--dourado-escuro); display:inline;">Mostrar a secção de Jogos no cardápio</label>
       </div>
 
-      <div class="lembrar" style="margin-top:18px;">
-        <input type="checkbox" id="sazonalAtivo" checked>
-        <label for="sazonalAtivo" style="margin:0; font-weight:700; color:var(--dourado-escuro); display:inline;">Decoração sazonal automática (neve no Natal, etc.)</label>
+      <div style="margin-top:18px; padding:12px; background:var(--bege); border-radius:12px;">
+        <div style="font-weight:700; color:var(--dourado-escuro); margin-bottom:4px;">🎨 Decorações por época</div>
+        <div style="font-size:0.8rem; color:var(--castanho-suave); margin-bottom:8px;">Escolhe um tema e adiciona enfeites. Cada enfeite pode ser <strong>arrastado na pré-visualização</strong> para o pores onde quiseres.</div>
+        <label for="decorTema" style="margin-top:2px;">Tema</label>
+        <select id="decorTema" style="width:100%; padding:9px; border-radius:8px; border:1.5px solid var(--linha); font-family:inherit;">
+          <option value="nenhum">Nenhum (sem decoração)</option>
+          <option value="natal">🎄 Natal</option>
+          <option value="halloween">🎃 Halloween / Outono</option>
+          <option value="pascoa">🐣 Páscoa / Primavera</option>
+          <option value="verao">☀️ Verão</option>
+          <option value="namorados">❤️ Dia dos Namorados</option>
+          <option value="santos">🎈 Santos Populares</option>
+          <option value="anonovo">🎆 Ano Novo</option>
+        </select>
+
+        <div id="decorOpcoes" style="display:none; margin-top:12px;">
+          <div style="font-weight:600; color:var(--castanho); margin:4px 0 6px;">No cardápio</div>
+          <div class="lembrar"><input type="checkbox" id="decorQueda"><label for="decorQueda" style="margin:0; display:inline;">Partículas a cair (neve, folhas, corações…)</label></div>
+          <div class="lembrar" style="margin-top:6px;"><input type="checkbox" id="decorLuzes"><label for="decorLuzes" style="margin:0; display:inline;">Grinalda de luzes no topo</label></div>
+          <div style="font-size:0.78rem; color:var(--castanho-suave); margin:8px 0 3px;">Toca num enfeite para o adicionar:</div>
+          <div id="decorPaleta" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+          <button type="button" id="btnDecorTexto" style="margin-top:6px; background:var(--castanho); color:#fff; border:none; border-radius:8px; padding:6px 12px; cursor:pointer; font-family:inherit; font-size:0.85rem;">＋ Palavra decorada</button>
+          <div id="decorLista" style="margin-top:6px;"></div>
+
+          <div style="font-weight:600; color:var(--castanho); margin:14px 0 6px;">Na abertura (intro)</div>
+          <div class="lembrar"><input type="checkbox" id="idecorQueda"><label for="idecorQueda" style="margin:0; display:inline;">Partículas a cair</label></div>
+          <div class="lembrar" style="margin-top:6px;"><input type="checkbox" id="idecorLuzes"><label for="idecorLuzes" style="margin:0; display:inline;">Grinalda de luzes</label></div>
+          <div style="font-size:0.78rem; color:var(--castanho-suave); margin:8px 0 3px;">Toca num enfeite para o adicionar à abertura:</div>
+          <div id="idecorPaleta" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+          <button type="button" id="btnIdecorTexto" style="margin-top:6px; background:var(--castanho); color:#fff; border:none; border-radius:8px; padding:6px 12px; cursor:pointer; font-family:inherit; font-size:0.85rem;">＋ Palavra decorada</button>
+          <div id="idecorLista" style="margin-top:6px;"></div>
+          <div style="font-size:0.76rem; color:var(--castanho-suave); margin-top:8px;">Para posicionar os enfeites da abertura, ativa primeiro <em>«👁 Ver abertura na pré-visualização»</em> e arrasta-os lá.</div>
+        </div>
       </div>
 
       <div class="lembrar" style="margin-top:18px;">
@@ -875,6 +905,7 @@
     footer: { nome:'', morada:'', telefone:'', cor:'#ffffff', fotosAtivas:false, fotos:[], fotoZoom:100, fotoPanX:0, fotoPanY:0, textoX:50, textoY:50 },
     adJogos: { ativo:false, foto:'', fotoZoom:100, fotoPanX:0, fotoPanY:0, texto:'', textoX:50, textoY:80, cor:'#ffffff', duracao:5 },
     sazonal: true,
+    decor: { tema:'nenhum', queda:false, luzes:false, fixas:[], intro:{ queda:false, luzes:false, fixas:[] } },
     fidelidade: { ativo:false, codigo:'', total:8, premio:'' },
     layout: '1',
     modelo: 'lista',
@@ -1111,6 +1142,10 @@
         config.footer = Object.assign({ nome:'', morada:'', telefone:'', cor:'#ffffff', fotosAtivas:false, fotos:[], fotoZoom:100, fotoPanX:0, fotoPanY:0, textoX:50, textoY:50 }, parsed.footer || {});
         config.adJogos = Object.assign({ ativo:false, foto:'', fotoZoom:100, fotoPanX:0, fotoPanY:0, texto:'', textoX:50, textoY:80, cor:'#ffffff', duracao:5 }, parsed.adJogos || {});
         config.sazonal = parsed.sazonal !== false;
+        config.decor = Object.assign({ tema:'nenhum', queda:false, luzes:false, fixas:[], intro:{ queda:false, luzes:false, fixas:[] } }, parsed.decor || {});
+        if(!config.decor.intro || typeof config.decor.intro !== 'object') config.decor.intro = { queda:false, luzes:false, fixas:[] };
+        if(!Array.isArray(config.decor.fixas)) config.decor.fixas = [];
+        if(!Array.isArray(config.decor.intro.fixas)) config.decor.intro.fixas = [];
         config.fidelidade = Object.assign({ ativo:false, codigo:'', total:8, premio:'' }, parsed.fidelidade || {});
         config.layout = parsed.layout || '1';
         layoutSelecionado = config.layout;
@@ -1269,7 +1304,11 @@
     document.getElementById('corAdjVal').textContent = ca;
     document.getElementById('ajZoom').value = aj.fotoZoom || 100;
     // Extras
-    document.getElementById('sazonalAtivo').checked = config.sazonal !== false;
+    decorState = config.decor ? JSON.parse(JSON.stringify(config.decor)) : { tema:'nenhum', queda:false, luzes:false, fixas:[], intro:{ queda:false, luzes:false, fixas:[] } };
+    if(!decorState.intro) decorState.intro = { queda:false, luzes:false, fixas:[] };
+    if(!Array.isArray(decorState.fixas)) decorState.fixas = [];
+    if(!Array.isArray(decorState.intro.fixas)) decorState.intro.fixas = [];
+    aplicarDecorUI();
     document.getElementById('jogosAtivo').checked = config.jogos !== false;
     document.getElementById('modeloSel').value = config.modelo || 'lista';
     document.getElementById('cadernoBox').style.display = (config.modelo === 'caderno') ? 'block' : 'none';
@@ -1619,7 +1658,15 @@
         cor: document.getElementById('corAdj').value,
         duracao: parseInt(document.getElementById('adjDuracao').value, 10) || 5
       };
-      config.sazonal = document.getElementById('sazonalAtivo').checked;
+      if(document.getElementById('decorTema')){
+        decorState.tema = document.getElementById('decorTema').value;
+        decorState.queda = document.getElementById('decorQueda').checked;
+        decorState.luzes = document.getElementById('decorLuzes').checked;
+        if(!decorState.intro) decorState.intro = { queda:false, luzes:false, fixas:[] };
+        decorState.intro.queda = document.getElementById('idecorQueda').checked;
+        decorState.intro.luzes = document.getElementById('idecorLuzes').checked;
+        config.decor = JSON.parse(JSON.stringify(decorState));
+      }
       config.jogos = document.getElementById('jogosAtivo').checked;
       config.modelo = document.getElementById('modeloSel').value;
       config.caderno = {
@@ -1946,6 +1993,94 @@
     renderIntroBotoes();
     document.dispatchEvent(new Event('change'));
   });
+
+  // ---- Decorações por época ----
+  const TEMAS_DECOR_ED = {
+    natal:['🎄','⛄','🎁','⭐','🦌','🔔','🕯️','🧦','🎅'],
+    halloween:['🎃','🦇','👻','🕷️','🕸️','🍂','💀','🧙'],
+    pascoa:['🥚','🐰','🌷','🐣','🌸','🦋','🐥','🌼'],
+    verao:['☀️','🌴','⛱️','🍹','🏖️','🌺','🍦','🩴'],
+    namorados:['❤️','💘','🌹','💝','😍','💌','🥰'],
+    santos:['🎈','🪴','🌻','🎉','🎊','🥁','🌶️','🍺'],
+    anonovo:['🎆','🥂','🎇','✨','🕛','🎊','🍾']
+  };
+  let decorState = { tema:'nenhum', queda:false, luzes:false, fixas:[], intro:{ queda:false, luzes:false, fixas:[] } };
+  function _decorPreview(){ if(window.__agendarPreview) window.__agendarPreview(); }
+  function _decorArr(alvo){ return alvo === 'intro' ? decorState.intro.fixas : decorState.fixas; }
+  function _decorAddFixa(alvo, item){ _decorArr(alvo).push(item); renderDecorListas(); _decorPreview(); }
+  function renderDecorPaletas(){
+    const sug = TEMAS_DECOR_ED[decorState.tema] || [];
+    [['decorPaleta','fixas'],['idecorPaleta','intro']].forEach(function(pair){
+      const p = document.getElementById(pair[0]); if(!p) return; p.innerHTML = '';
+      sug.forEach(function(sy){
+        const b = document.createElement('button'); b.type = 'button'; b.textContent = sy;
+        b.style.cssText = 'font-size:1.4rem; background:#fff; border:1.5px solid var(--linha); border-radius:8px; padding:2px 7px; cursor:pointer; line-height:1.3;';
+        b.onclick = function(){ _decorAddFixa(pair[1], { simb:sy, x:50, y:50, tam:1 }); };
+        p.appendChild(b);
+      });
+    });
+  }
+  function renderDecorListas(){
+    [['decorLista','fixas'],['idecorLista','intro']].forEach(function(pair){
+      const box = document.getElementById(pair[0]); if(!box) return; box.innerHTML = '';
+      const arr = _decorArr(pair[1]);
+      arr.forEach(function(it, i){
+        const row = document.createElement('div');
+        row.style.cssText = 'display:flex; align-items:center; gap:6px; margin:5px 0; background:#fff; border:1px solid var(--linha); border-radius:8px; padding:5px 8px;';
+        let html = '';
+        if(it.txt != null){
+          html += '<input type="text" data-k="txt" value="' + String(it.txt||'').replace(/"/g,'&quot;') + '" style="flex:1; min-width:60px; padding:5px; border:1px solid var(--linha); border-radius:6px; font-family:inherit;">';
+          html += '<input type="color" data-k="cor" value="' + (it.cor||'#e63946') + '" style="width:30px; height:26px; border:none; background:none; padding:0;">';
+        } else {
+          html += '<span style="font-size:1.4rem; flex:0 0 auto;">' + (it.simb||'⭐') + '</span><span style="flex:1;"></span>';
+        }
+        html += '<span style="font-size:0.72rem; color:var(--castanho-suave);">Tam</span><input type="range" data-k="tam" min="0.5" max="3" step="0.1" value="' + (it.tam||1) + '" style="width:70px;">';
+        html += '<button type="button" data-k="rm" style="background:var(--vermelho); color:#fff; border:none; border-radius:6px; width:26px; height:26px; cursor:pointer; flex:0 0 auto;">✕</button>';
+        row.innerHTML = html;
+        row.querySelectorAll('[data-k]').forEach(function(inp){
+          const k = inp.getAttribute('data-k');
+          if(k === 'rm') inp.onclick = function(){ arr.splice(i,1); renderDecorListas(); _decorPreview(); };
+          else if(k === 'txt') inp.oninput = function(){ it.txt = inp.value; _decorPreview(); };
+          else if(k === 'cor') inp.oninput = function(){ it.cor = inp.value; _decorPreview(); };
+          else if(k === 'tam') inp.oninput = function(){ it.tam = parseFloat(inp.value); _decorPreview(); };
+        });
+        box.appendChild(row);
+      });
+    });
+  }
+  function aplicarDecorUI(){
+    if(!decorState.intro) decorState.intro = { queda:false, luzes:false, fixas:[] };
+    const st = document.getElementById('decorTema'); if(!st) return;
+    st.value = decorState.tema || 'nenhum';
+    document.getElementById('decorQueda').checked = !!decorState.queda;
+    document.getElementById('decorLuzes').checked = !!decorState.luzes;
+    document.getElementById('idecorQueda').checked = !!decorState.intro.queda;
+    document.getElementById('idecorLuzes').checked = !!decorState.intro.luzes;
+    document.getElementById('decorOpcoes').style.display = (decorState.tema && decorState.tema !== 'nenhum') ? 'block' : 'none';
+    renderDecorPaletas(); renderDecorListas();
+  }
+  (function(){
+    const sel = document.getElementById('decorTema');
+    if(sel) sel.addEventListener('change', function(){
+      decorState.tema = sel.value;
+      document.getElementById('decorOpcoes').style.display = (sel.value !== 'nenhum') ? 'block' : 'none';
+      renderDecorPaletas(); _decorPreview();
+    });
+    ['decorQueda','decorLuzes','idecorQueda','idecorLuzes'].forEach(function(id){
+      const el = document.getElementById(id); if(!el) return;
+      el.addEventListener('change', function(){
+        decorState.queda = document.getElementById('decorQueda').checked;
+        decorState.luzes = document.getElementById('decorLuzes').checked;
+        decorState.intro.queda = document.getElementById('idecorQueda').checked;
+        decorState.intro.luzes = document.getElementById('idecorLuzes').checked;
+        _decorPreview();
+      });
+    });
+    const bt = document.getElementById('btnDecorTexto');
+    if(bt) bt.onclick = function(){ _decorAddFixa('fixas', { txt:'Boas Festas!', cor:'#e63946', x:50, y:20, tam:1 }); };
+    const bti = document.getElementById('btnIdecorTexto');
+    if(bti) bti.onclick = function(){ _decorAddFixa('intro', { txt:'Boas Festas!', cor:'#ffffff', x:50, y:18, tam:1 }); };
+  })();
 
   // ---- Escolher a letra por onde o efeito "zoom" fura ----
   let zoomLetraSel = null; // null = automático (letra do meio)
@@ -2772,9 +2907,14 @@
       frame.contentWindow.postMessage(msg, '*');
     }
     function agendarEnvio(){ clearTimeout(temporizador); temporizador = setTimeout(enviar, 400); }
+    window.__agendarPreview = agendarEnvio;
     window.addEventListener('message', function(e){
       const d = e.data || {};
       if(d.type === 'cardapio-preview-ready'){ pronto = true; ajustarEscalaPreview(); enviar(); }
+      else if(d.type === 'decor-pos'){
+        const arr = (d.ctx === 'intro') ? (decorState.intro && decorState.intro.fixas) : decorState.fixas;
+        if(arr && arr[d.i]){ arr[d.i].x = d.x; arr[d.i].y = d.y; }
+      }
       else if(d.type === 'preview-pos' && d.target === 'textoLivre'){
         const ex = document.getElementById('tlX'), ey = document.getElementById('tlY');
         if(ex && d.x!=null){ ex.value = d.x; const v=document.getElementById('tlXVal'); if(v) v.textContent = d.x; }
