@@ -355,16 +355,16 @@
     ]
   },
   "adJogos": {
-    "ativo": false,
-    "foto": "",
-    "fotoZoom": 100,
+    "ativo": true,
+    "foto": "imagens/1785881641921-gemini-generated-image-.png",
+    "fotoZoom": 147,
     "fotoPanX": 0,
     "fotoPanY": 0,
-    "texto": "",
-    "textoX": 50,
-    "textoY": 80,
+    "texto": "compra connosco!!",
+    "textoX": 50.8154296875,
+    "textoY": 84.77633530478091,
     "cor": "#ffffff",
-    "duracao": 5
+    "duracao": 3
   },
   "sazonal": false,
   "decor": {
