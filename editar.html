@@ -442,9 +442,17 @@
         <label for="introTitulo">Título da abertura</label>
         <input type="text" id="introTitulo" placeholder="(vazio = usa o nome do restaurante)">
         <div id="estiloITit"></div>
+        <label for="introAnimNome" style="margin-top:6px;">Animação do nome</label>
+        <select id="introAnimNome" style="width:100%; padding:9px; border-radius:8px; border:1.5px solid var(--linha); background:var(--branco); font-family:inherit; color:var(--castanho);">
+          <option value="letras">Letra a letra</option><option value="nenhuma">Nenhuma</option><option value="fade">Aparecer</option><option value="subir">Subir</option><option value="descer">Descer</option><option value="esq">Da esquerda</option><option value="dir">Da direita</option><option value="zoom">Zoom</option><option value="rodar">Rodar</option><option value="saltar">Saltar</option>
+        </select>
         <label for="introSubtitulo">Subtítulo da abertura</label>
         <input type="text" id="introSubtitulo" placeholder="(vazio = usa o subtítulo do cabeçalho)">
         <div id="estiloISub"></div>
+        <label for="introAnimSub" style="margin-top:6px;">Animação do subtítulo</label>
+        <select id="introAnimSub" style="width:100%; padding:9px; border-radius:8px; border:1.5px solid var(--linha); background:var(--branco); font-family:inherit; color:var(--castanho);">
+          <option value="nenhuma">Nenhuma</option><option value="fade">Aparecer</option><option value="subir">Subir</option><option value="descer">Descer</option><option value="esq">Da esquerda</option><option value="dir">Da direita</option><option value="zoom">Zoom</option><option value="rodar">Rodar</option><option value="saltar">Saltar</option>
+        </select>
         <label for="introBotao">Texto do botão</label>
         <input type="text" id="introBotao" placeholder="Ver menu ▸">
         <div id="estiloIBtn"></div>
@@ -1151,6 +1159,8 @@
     const _ic = (config.intro && config.intro.cor) || '#ffffff';
     preencherEstilo('iTit', (config.intro && config.intro.estiloTitulo) || { tamanho:(config.intro && config.intro.tamanho) || 2.7, cor:_ic, negrito:true });
     preencherEstilo('iSub', (config.intro && config.intro.estiloSub) || { tamanho:(config.intro && config.intro.subTamanho) || 1.08, cor:_ic, italico:true });
+    document.getElementById('introAnimNome').value = (config.intro && config.intro.animNome) || 'letras';
+    document.getElementById('introAnimSub').value = (config.intro && config.intro.animSub) || 'subir';
     { const _rn=(config.intro && config.intro.rotacaoNome) || 0, _rs=(config.intro && config.intro.rotacaoSub) || 0;
       document.getElementById('introRotNome').value = _rn; document.getElementById('introRotNomeVal').textContent = _rn + '°';
       document.getElementById('introRotSub').value = _rs; document.getElementById('introRotSubVal').textContent = _rs + '°'; }
@@ -1652,6 +1662,8 @@
         subtitulo: document.getElementById('introSubtitulo').value.trim(),
         estiloTitulo: _eiTit,
         estiloSub: _eiSub,
+        animNome: document.getElementById('introAnimNome').value,
+        animSub: document.getElementById('introAnimSub').value,
         rotacaoNome: parseInt(document.getElementById('introRotNome').value, 10) || 0,
         rotacaoSub: parseInt(document.getElementById('introRotSub').value, 10) || 0,
         opacidadeNome: parseInt(document.getElementById('introOpacNome').value, 10),
@@ -1831,6 +1843,7 @@
         estilo: lerEstilo('itx'+i),
         rotacao: parseInt(document.getElementById('itxRot'+i).value, 10) || 0,
         opacidade: parseInt(document.getElementById('itxOpac'+i).value, 10),
+        anim: document.getElementById('itxAnim'+i).value,
         x: item.x || 0, y: item.y || 0
       };
     });
@@ -1851,13 +1864,17 @@
         '<div style="display:flex; gap:10px; align-items:center; margin-top:4px; flex-wrap:wrap;">' +
           '<span style="font-size:0.82rem; color:var(--castanho-suave);">Rodar</span><input type="range" id="itxRot'+i+'" min="-90" max="90" step="1" value="0" oninput="this.nextElementSibling.textContent=this.value+String.fromCharCode(176)"><span style="font-size:0.78rem; font-family:monospace; color:var(--castanho-suave);">0°</span>' +
           '<span style="font-size:0.82rem; color:var(--castanho-suave);">Transp</span><input type="range" id="itxOpac'+i+'" min="0" max="100" step="1" value="100" oninput="this.nextElementSibling.textContent=this.value+String.fromCharCode(37)"><span style="font-size:0.78rem; font-family:monospace; color:var(--castanho-suave);">100%</span>' +
-        '</div>';
+        '</div>' +
+        '<div style="margin-top:4px;"><label style="font-size:0.82rem; color:var(--castanho-suave);">Animação de entrada</label><select id="itxAnim'+i+'" style="width:100%; padding:7px; border-radius:8px; border:1.5px solid var(--linha); font-family:inherit;">' +
+          ['nenhuma','fade','subir','descer','esq','dir','zoom','rodar','saltar'].map(function(a){ return '<option value="'+a+'">'+({nenhuma:'Nenhuma',fade:'Aparecer',subir:'Subir',descer:'Descer',esq:'Da esquerda',dir:'Da direita',zoom:'Zoom',rodar:'Rodar',saltar:'Saltar'}[a])+'</option>'; }).join('') +
+        '</select></div>';
       cont.appendChild(d);
       document.getElementById('itxEstilo'+i).appendChild(criarToolbarEstilo('itx'+i));
       document.getElementById('itxTexto'+i).value = item.texto || '';
       preencherEstilo('itx'+i, item.estilo || {});
       const rr = document.getElementById('itxRot'+i); rr.value = item.rotacao || 0; rr.nextElementSibling.textContent = (item.rotacao||0) + '°';
       const oo = document.getElementById('itxOpac'+i); const ov = (item.opacidade != null ? item.opacidade : 100); oo.value = ov; oo.nextElementSibling.textContent = ov + '%';
+      document.getElementById('itxAnim'+i).value = item.anim || 'fade';
     });
     cont.querySelectorAll('[data-rem]').forEach(function(b){
       b.addEventListener('click', function(){ capturarIntroTextos(); introTextos.splice(parseInt(b.dataset.rem,10),1); renderIntroTextos(); document.dispatchEvent(new Event('change')); });
@@ -1866,7 +1883,7 @@
   window.__setIntroTextoPos = function(i, x, y){ if(introTextos[i]){ introTextos[i].x = x; introTextos[i].y = y; } };
   document.getElementById('btnAddIntroTexto').addEventListener('click', function(){
     capturarIntroTextos();
-    introTextos.push({ texto:'Novo texto', estilo:{ cor:'#ffffff', negrito:true, tamanho:1.6 }, rotacao:0, opacidade:100, x:0, y:0 });
+    introTextos.push({ texto:'Novo texto', estilo:{ cor:'#ffffff', negrito:true, tamanho:1.6 }, rotacao:0, opacidade:100, anim:'fade', x:0, y:0 });
     renderIntroTextos();
     document.dispatchEvent(new Event('change'));
   });
