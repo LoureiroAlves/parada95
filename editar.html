@@ -2008,6 +2008,7 @@
   function _decorPreview(){ if(window.__agendarPreview) window.__agendarPreview(); }
   function _decorArr(alvo){ return alvo === 'intro' ? decorState.intro.fixas : decorState.fixas; }
   function _decorAddFixa(alvo, item){ _decorArr(alvo).push(item); renderDecorListas(); _decorPreview(); }
+  const ESP_NOME = { arvore:'🎄 Árvore com neve', grinalda:'✨ Grinalda de luzes' };
   function renderDecorPaletas(){
     const sug = TEMAS_DECOR_ED[decorState.tema] || [];
     [['decorPaleta','fixas'],['idecorPaleta','intro']].forEach(function(pair){
@@ -2016,6 +2017,15 @@
         const b = document.createElement('button'); b.type = 'button'; b.textContent = sy;
         b.style.cssText = 'font-size:1.4rem; background:#fff; border:1.5px solid var(--linha); border-radius:8px; padding:2px 7px; cursor:pointer; line-height:1.3;';
         b.onclick = function(){ _decorAddFixa(pair[1], { simb:sy, x:50, y:50, tam:1 }); };
+        p.appendChild(b);
+      });
+      // Adereços especiais (animados, arrastáveis)
+      const specs = [{ esp:'grinalda', item:{ esp:'grinalda', x:50, y:14, tam:1 } }];
+      if(decorState.tema === 'natal') specs.unshift({ esp:'arvore', item:{ esp:'arvore', x:78, y:66, tam:1.4 } });
+      specs.forEach(function(sp){
+        const b = document.createElement('button'); b.type = 'button'; b.textContent = ESP_NOME[sp.esp];
+        b.style.cssText = 'font-size:0.85rem; background:#fff; border:1.5px solid var(--dourado); color:var(--dourado-escuro); border-radius:8px; padding:5px 9px; cursor:pointer; font-family:inherit;';
+        b.onclick = function(){ _decorAddFixa(pair[1], JSON.parse(JSON.stringify(sp.item))); };
         p.appendChild(b);
       });
     });
@@ -2031,6 +2041,8 @@
         if(it.txt != null){
           html += '<input type="text" data-k="txt" value="' + String(it.txt||'').replace(/"/g,'&quot;') + '" style="flex:1; min-width:60px; padding:5px; border:1px solid var(--linha); border-radius:6px; font-family:inherit;">';
           html += '<input type="color" data-k="cor" value="' + (it.cor||'#e63946') + '" style="width:30px; height:26px; border:none; background:none; padding:0;">';
+        } else if(it.esp){
+          html += '<span style="font-size:0.9rem; flex:1; color:var(--dourado-escuro); font-weight:600;">' + (ESP_NOME[it.esp]||'Adereço') + '</span>';
         } else {
           html += '<span style="font-size:1.4rem; flex:0 0 auto;">' + (it.simb||'⭐') + '</span><span style="flex:1;"></span>';
         }
