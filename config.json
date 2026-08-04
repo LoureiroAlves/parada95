@@ -369,8 +369,8 @@
   "sazonal": false,
   "decor": {
     "tema": "natal",
-    "queda": true,
-    "luzes": true,
+    "queda": false,
+    "luzes": false,
     "fixas": [
       {
         "esp": "arvore",
@@ -380,7 +380,7 @@
       }
     ],
     "intro": {
-      "queda": true,
+      "queda": false,
       "luzes": false,
       "fixas": []
     }
