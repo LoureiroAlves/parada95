@@ -380,7 +380,7 @@
       }
     ],
     "intro": {
-      "queda": false,
+      "queda": true,
       "luzes": false,
       "fixas": []
     }
@@ -456,8 +456,8 @@
         "rotacao": 0,
         "opacidade": 100,
         "anim": "fade",
-        "x": 21,
-        "y": -312
+        "x": 37,
+        "y": -271
       },
       {
         "texto": "Somersbee",
@@ -478,8 +478,8 @@
         "rotacao": 0,
         "opacidade": 100,
         "anim": "fade",
-        "x": 87,
-        "y": -342
+        "x": 82,
+        "y": -298
       }
     ],
     "botoes": [],
@@ -490,7 +490,7 @@
     "subtitulo": "",
     "estiloTitulo": {
       "fonte": "chewy",
-      "tamanho": 2,
+      "tamanho": 2.85,
       "cor": "#c0bfbf",
       "negrito": true,
       "italico": false,
@@ -522,8 +522,8 @@
     "rotacaoSub": 0,
     "opacidadeNome": 100,
     "opacidadeSub": 100,
-    "posNomeX": -47,
-    "posNomeY": -190,
+    "posNomeX": -38,
+    "posNomeY": -148,
     "posSubX": -4,
     "posSubY": 295,
     "posBotaoX": -2,
@@ -545,7 +545,7 @@
     "rotacaoBotao": 0,
     "opacidadeBotao": 77,
     "corBotaoFundo": "",
-    "tamanho": 2,
+    "tamanho": 2.85,
     "subTamanho": 0.85,
     "cor": "#c0bfbf",
     "botao": "Menu",
