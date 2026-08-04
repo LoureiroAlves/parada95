@@ -369,14 +369,14 @@
   "sazonal": false,
   "decor": {
     "tema": "natal",
-    "queda": false,
+    "queda": true,
     "luzes": true,
     "fixas": [
       {
-        "simb": "🎄",
+        "esp": "arvore",
         "x": 83,
-        "y": 79,
-        "tam": 3
+        "y": 84,
+        "tam": 1.4
       }
     ],
     "intro": {
