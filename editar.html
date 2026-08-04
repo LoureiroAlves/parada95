@@ -865,9 +865,58 @@
     const linkEl = document.getElementById('linkCardapio');
     if(linkEl) linkEl.value = CARDAPIO_URL;
     const qrBox = document.getElementById('qrCardapio');
-    if(qrBox && window.QRCode){
-      try{ new QRCode(qrBox, { text: CARDAPIO_URL, width: 200, height: 200, colorDark: '#4a3820', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M }); }catch(e){}
+    let qrCanvas = null;
+    const QR_LADO = 260, QR_COR = '#4a3820';
+    function _roundRect(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+    function _wrapLines(ctx, text, maxW){
+      const words = String(text).split(/\s+/); const lines = []; let cur = '';
+      words.forEach(function(w){ const t = cur ? cur + ' ' + w : w; if(ctx.measureText(t).width <= maxW || !cur){ cur = t; } else { lines.push(cur); cur = w; } });
+      if(cur) lines.push(cur); return lines;
     }
+    function _desenharNome(ctx, texto, cx, cy, maxW, maxH){
+      let size = 24, lines = [texto], lh = size * 1.15;
+      for(; size >= 9; size--){
+        ctx.font = '700 ' + size + "px 'Fredoka','Poppins',sans-serif";
+        lines = _wrapLines(ctx, texto, maxW);
+        if(lines.length > 2) continue;
+        lh = size * 1.16;
+        const widest = Math.max.apply(null, lines.map(function(l){ return ctx.measureText(l).width; }));
+        if(widest <= maxW && lines.length * lh <= maxH) break;
+      }
+      ctx.font = '700 ' + size + "px 'Fredoka','Poppins',sans-serif";
+      ctx.fillStyle = QR_COR; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      let y = cy - (lines.length * lh) / 2 + lh / 2;
+      lines.forEach(function(l){ ctx.fillText(l, cx, y); y += lh; });
+    }
+    function renderQR(){
+      if(!qrBox || !window.QRCode) return;
+      const nome = (document.getElementById('titulo') ? document.getElementById('titulo').value : '').trim();
+      const tmp = document.createElement('div');
+      try{ new QRCode(tmp, { text: CARDAPIO_URL, width: QR_LADO, height: QR_LADO, colorDark: QR_COR, colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H }); }catch(e){ return; }
+      setTimeout(function(){
+        const src = tmp.querySelector('canvas') || tmp.querySelector('img');
+        if(!src) return;
+        const pintar = function(imgEl){
+          const S = QR_LADO;
+          const cv = document.createElement('canvas'); cv.width = S; cv.height = S;
+          const ctx = cv.getContext('2d');
+          ctx.drawImage(imgEl, 0, 0, S, S);
+          if(nome){
+            const bw = S * 0.46, bh = S * 0.22, bx = (S - bw) / 2, by = (S - bh) / 2;
+            _roundRect(ctx, bx, by, bw, bh, 12); ctx.fillStyle = '#ffffff'; ctx.fill();
+            ctx.lineWidth = 3; ctx.strokeStyle = QR_COR; ctx.stroke();
+            _desenharNome(ctx, nome, S / 2, S / 2, bw - 16, bh - 10);
+          }
+          cv.style.width = '200px'; cv.style.height = '200px';
+          qrBox.innerHTML = ''; qrBox.appendChild(cv); qrCanvas = cv;
+        };
+        if(src.tagName === 'CANVAS'){ pintar(src); }
+        else { const im = new Image(); im.onload = function(){ pintar(im); }; im.src = src.src; }
+      }, 70);
+    }
+    renderQR();
+    const _tit = document.getElementById('titulo');
+    if(_tit){ let _qt; _tit.addEventListener('input', function(){ clearTimeout(_qt); _qt = setTimeout(renderQR, 400); }); }
     const btnCopiar = document.getElementById('btnCopiarLink');
     if(btnCopiar) btnCopiar.addEventListener('click', function(){
       const ok = function(){ btnCopiar.textContent = 'Copiado!'; setTimeout(function(){ btnCopiar.textContent = 'Copiar'; }, 1500); };
@@ -878,7 +927,7 @@
     if(btnAbrir) btnAbrir.addEventListener('click', function(){ window.open(CARDAPIO_URL, '_blank'); });
     const btnQR = document.getElementById('btnDescarregarQR');
     if(btnQR) btnQR.addEventListener('click', function(){
-      const cv = qrBox.querySelector('canvas');
+      const cv = qrCanvas || qrBox.querySelector('canvas');
       const img = qrBox.querySelector('img');
       let dataUrl = '';
       if(cv){ try{ dataUrl = cv.toDataURL('image/png'); }catch(e){} }
