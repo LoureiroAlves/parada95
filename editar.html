@@ -2804,6 +2804,15 @@
         if(introVisivel) dock.classList.remove('min');
       });
     }
+    function irParaEditor(id){
+      const el = document.getElementById(id); if(!el) return;
+      let p = el.parentElement;
+      while(p){ if(p.tagName === 'DETAILS') p.open = true; p = p.parentElement; }
+      try{ el.scrollIntoView({ behavior:'smooth', block:'center' }); }catch(e){ el.scrollIntoView(); }
+      const oldOut = el.style.outline, oldOff = el.style.outlineOffset;
+      el.style.outline = '3px solid #a8712f'; el.style.outlineOffset = '3px';
+      setTimeout(function(){ el.style.outline = oldOut; el.style.outlineOffset = oldOff; }, 1700);
+    }
     window.addEventListener('message', function(e){
       const d = e.data || {};
       if(d.type === 'preview-intro-fechada'){ introVisivel = false; marcarBtnIntro(); }
@@ -2813,6 +2822,11 @@
         else if(d.alvo === 'botao'){ document.getElementById('introPosBotaoX').value = d.x; document.getElementById('introPosBotaoY').value = d.y; }
         else if(typeof d.alvo === 'string' && d.alvo.indexOf('texto:') === 0 && window.__setIntroTextoPos){ window.__setIntroTextoPos(parseInt(d.alvo.slice(6), 10), d.x, d.y); }
         else if(typeof d.alvo === 'string' && d.alvo.indexOf('botaolivre:') === 0 && window.__setIntroBotaoLivrePos){ window.__setIntroBotaoLivrePos(parseInt(d.alvo.slice(11), 10), d.x, d.y); }
+      }
+      else if(d.type === 'editar-ir'){
+        const map = { htitulo:'titulo', hsub:'subtitulo', hfoto:'novaFotoHeader', fundo:'fundoTipoSel', ifundo:'introFundo', nome:'introTitulo', sub:'introSubtitulo', botao:'introBotao', inome:'introTitulo', isub:'introSubtitulo', ibotao:'introBotao' };
+        if(typeof d.alvo === 'string' && d.alvo.indexOf('texto:') === 0){ irParaEditor('itxTexto' + d.alvo.slice(6)); }
+        else if(map[d.alvo]) irParaEditor(map[d.alvo]);
       }
     });
     const btnRepor = document.getElementById('btnReporPosIntro');
