@@ -494,10 +494,10 @@
       "cor": "#c0bfbf",
       "negrito": true,
       "italico": false,
-      "sombra": true,
+      "sombra": false,
       "contorno": true,
       "contornoCor": "#000000",
-      "tridi": true,
+      "tridi": false,
       "tridiProf": 6,
       "tridiCor": "#4a3416",
       "tridiRedondo": false
