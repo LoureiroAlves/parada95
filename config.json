@@ -386,7 +386,7 @@
     "premio": ""
   },
   "layout": "12",
-  "modelo": "caderno",
+  "modelo": "ardosia",
   "abrirEfeito": "zoom",
   "fonte": "fredoka",
   "fonteTexto": "auto",
@@ -397,7 +397,7 @@
     "bege": "#f0f0f0"
   },
   "fundo": {
-    "tipo": "textura",
+    "tipo": "liso",
     "imagem": "",
     "textura": "grelha"
   },
