@@ -386,7 +386,7 @@
     "premio": ""
   },
   "layout": "12",
-  "modelo": "azulejo",
+  "modelo": "caderno",
   "abrirEfeito": "zoom",
   "fonte": "fredoka",
   "fonteTexto": "auto",
@@ -547,8 +547,8 @@
     "foto": ""
   },
   "caderno": {
-    "folha": "quadriculado",
-    "corLetra": "#edebe8",
+    "folha": "azulejo-floral",
+    "corLetra": "#212121",
     "corFolha": "#725b2c",
     "corLinha": "#d0b058"
   }
