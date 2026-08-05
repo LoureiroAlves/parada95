@@ -306,6 +306,51 @@
   body.modelo-caderno.folha-linhas{ background-image:linear-gradient(var(--cad-linha,#d9d2bf) 1px, transparent 1px); background-size:100% 30px; background-attachment:scroll; }
   body.modelo-caderno.folha-linhas .categoria-painel{ background-image:linear-gradient(var(--cad-linha,#d9d2bf) 1px, transparent 1px); background-size:100% 30px; background-attachment:local; }
   body.modelo-caderno.folha-liso, body.modelo-caderno.folha-liso .categoria-painel{ background-image:none; }
+  /* Folhas de azulejo português (padrões em azul sobre branco) */
+  body.modelo-caderno.folha-azulejo-classico,
+  body.modelo-caderno.folha-azulejo-classico .categoria-painel{
+    background-color:#f6f9fe;
+    background-image:
+      radial-gradient(circle at 50% 50%, rgba(42,90,168,.42) 0 5px, transparent 6px),
+      radial-gradient(circle at 50% 0, transparent 5px, rgba(42,90,168,.36) 5px 7px, transparent 8px),
+      radial-gradient(circle at 50% 100%, transparent 5px, rgba(42,90,168,.36) 5px 7px, transparent 8px),
+      radial-gradient(circle at 0 50%, transparent 5px, rgba(42,90,168,.36) 5px 7px, transparent 8px),
+      radial-gradient(circle at 100% 50%, transparent 5px, rgba(42,90,168,.36) 5px 7px, transparent 8px),
+      linear-gradient(90deg, rgba(42,90,168,.20) 1px, transparent 1px),
+      linear-gradient(rgba(42,90,168,.20) 1px, transparent 1px);
+    background-size:58px 58px;
+  }
+  body.modelo-caderno.folha-azulejo-classico{ background-attachment:scroll; }
+  body.modelo-caderno.folha-azulejo-classico .categoria-painel{ background-attachment:local; }
+  body.modelo-caderno.folha-azulejo-floral,
+  body.modelo-caderno.folha-azulejo-floral .categoria-painel{
+    background-color:#f6f9fe;
+    background-image:
+      radial-gradient(circle at 50% 50%, rgba(42,90,168,.5) 0 4px, transparent 5px),
+      radial-gradient(circle at 50% 27%, rgba(42,90,168,.3) 0 5px, transparent 7px),
+      radial-gradient(circle at 50% 73%, rgba(42,90,168,.3) 0 5px, transparent 7px),
+      radial-gradient(circle at 27% 50%, rgba(42,90,168,.3) 0 5px, transparent 7px),
+      radial-gradient(circle at 73% 50%, rgba(42,90,168,.3) 0 5px, transparent 7px),
+      radial-gradient(circle at 31% 31%, rgba(74,127,201,.32) 0 3px, transparent 5px),
+      radial-gradient(circle at 69% 31%, rgba(74,127,201,.32) 0 3px, transparent 5px),
+      radial-gradient(circle at 31% 69%, rgba(74,127,201,.32) 0 3px, transparent 5px),
+      radial-gradient(circle at 69% 69%, rgba(74,127,201,.32) 0 3px, transparent 5px);
+    background-size:60px 60px;
+  }
+  body.modelo-caderno.folha-azulejo-floral{ background-attachment:scroll; }
+  body.modelo-caderno.folha-azulejo-floral .categoria-painel{ background-attachment:local; }
+  body.modelo-caderno.folha-azulejo-geometrico,
+  body.modelo-caderno.folha-azulejo-geometrico .categoria-painel{
+    background-color:#f6f9fe;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(42,90,168,.22) 0 2px, transparent 2px 22px),
+      repeating-linear-gradient(-45deg, rgba(42,90,168,.22) 0 2px, transparent 2px 22px),
+      repeating-linear-gradient(45deg, rgba(74,127,201,.14) 0 1px, transparent 1px 11px),
+      repeating-linear-gradient(-45deg, rgba(74,127,201,.14) 0 1px, transparent 1px 11px);
+    background-size:44px 44px;
+  }
+  body.modelo-caderno.folha-azulejo-geometrico{ background-attachment:scroll; }
+  body.modelo-caderno.folha-azulejo-geometrico .categoria-painel{ background-attachment:local; }
   /* Lista de separadores escrita à mão */
   body.modelo-caderno .categoria-grid{ background:transparent; border:none; display:block; padding:18px 22px 26px; }
   body.modelo-caderno .tile{ background:none !important; box-shadow:none !important; min-height:0; width:100%; display:block; text-align:left; border-radius:0; padding:3px 0; }
@@ -2630,7 +2675,7 @@
       document.body.classList.toggle('modelo-elegante', (config.modelo || 'lista') === 'elegante');
       document.body.classList.toggle('modelo-azulejo', (config.modelo || 'lista') === 'azulejo');
       // Opções do modelo caderno: tipo de folha + cores
-      document.body.classList.remove('folha-quadriculado','folha-liso','folha-linhas');
+      document.body.classList.remove('folha-quadriculado','folha-liso','folha-linhas','folha-azulejo-classico','folha-azulejo-floral','folha-azulejo-geometrico');
       if((config.modelo || 'lista') === 'caderno'){
         const cad = config.caderno || {};
         document.body.classList.add('folha-' + (cad.folha || 'quadriculado'));
