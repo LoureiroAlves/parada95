@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -344,6 +343,61 @@
   body.modelo-caderno .categoria-painel-conteudo .preco-dose{
     background:transparent !important; border:none !important; box-shadow:none !important; border-radius:0 !important;
   }
+
+  /* ===== Modelo "Ardósia" (quadro de giz) ===== */
+  body.modelo-ardosia{ background-color:#2b322c; background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px); background-size:6px 6px; }
+  body.modelo-ardosia .categoria-grid{ background:transparent; border:none; }
+  body.modelo-ardosia .tile{ background:rgba(255,255,255,.05) !important; border:1px solid rgba(255,255,255,.20) !important; box-shadow:none !important; }
+  body.modelo-ardosia .tile .tile-label{ font-family:'Caveat', cursive; font-weight:700; font-size:1.5rem; color:#f6f2e6 !important; text-shadow:0 1px 0 rgba(0,0,0,.45); letter-spacing:.4px; }
+  body.modelo-ardosia .categoria-painel{ background-color:#2b322c; background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px); background-size:6px 6px; }
+  body.modelo-ardosia .categoria-painel-header{ background:rgba(18,22,18,.72); border-bottom:1px solid rgba(255,255,255,.16); }
+  body.modelo-ardosia .categoria-painel-header .voltar{ color:#f3efe2 !important; }
+  body.modelo-ardosia #painelTitulo{ font-family:'Caveat', cursive; color:#fff; font-size:2.3rem; text-shadow:0 1px 2px rgba(0,0,0,.5); }
+  body.modelo-ardosia section.categoria h2, body.modelo-ardosia .grupo-prato > summary, body.modelo-ardosia .grupo-vinho > summary{ color:#f6f2e6 !important; background:transparent !important; }
+  body.modelo-ardosia .categoria-painel-conteudo .item{ border-bottom:1px dashed rgba(255,255,255,.18) !important; }
+  body.modelo-ardosia .item .nome{ font-family:'Caveat', cursive; font-size:1.5rem; font-weight:700; color:#f4f0e4 !important; }
+  body.modelo-ardosia .item .desc{ color:#cbc8ba !important; font-size:1rem; }
+  body.modelo-ardosia .item .preco{ font-family:'Caveat', cursive; font-size:1.5rem; color:#f2d492 !important; }
+  body.modelo-ardosia .tabela-doses .preco-dose{ color:#f2d492 !important; }
+
+  /* ===== Modelo "Elegante" (fine dining) ===== */
+  body.modelo-elegante{ background-color:#faf7f1; }
+  body.modelo-elegante .categoria-grid{ background:transparent; border:none; }
+  body.modelo-elegante .tile{ background:#ffffff !important; border:1px solid #e7e0d3 !important; box-shadow:none !important; border-radius:3px; }
+  body.modelo-elegante .tile .tile-emoji{ display:none; }
+  body.modelo-elegante .tile .tile-label{ font-family:'Playfair Display', serif; font-weight:600; letter-spacing:.6px; color:#2a2620 !important; text-shadow:none !important; }
+  body.modelo-elegante .categoria-painel{ background:#faf7f1; }
+  body.modelo-elegante .categoria-painel-header{ background:#faf7f1; border-bottom:1px solid #e7e0d3; }
+  body.modelo-elegante .categoria-painel-header .voltar{ color:#6b5d45 !important; font-family:'Playfair Display', serif; }
+  body.modelo-elegante #painelTitulo{ font-family:'Playfair Display', serif; color:#2a2620; font-weight:700; letter-spacing:1px; }
+  body.modelo-elegante section.categoria h2, body.modelo-elegante .grupo-prato > summary, body.modelo-elegante .grupo-vinho > summary{ font-family:'Playfair Display', serif; color:#2a2620 !important; letter-spacing:2px; background:transparent !important; }
+  body.modelo-elegante section.categoria h2{ border-bottom:1px solid #d8cdb8; padding-bottom:7px; }
+  body.modelo-elegante .categoria-painel-conteudo .item{ padding:15px 14px; border-bottom:1px solid #ece5d8 !important; }
+  body.modelo-elegante .item .nome{ font-family:'Playfair Display', serif; font-weight:600; color:#2a2620 !important; font-size:1.02rem; }
+  body.modelo-elegante .item .desc{ font-family:Georgia, 'Times New Roman', serif; font-style:italic; color:#8a7d66 !important; }
+  body.modelo-elegante .item .preco{ font-family:'Playfair Display', serif; color:#9a7b3f !important; font-weight:600; }
+  body.modelo-elegante .tabela-doses .preco-dose{ color:#9a7b3f !important; font-family:'Playfair Display', serif; }
+
+  /* ===== Modelo "Azulejo português" ===== */
+  body.modelo-azulejo{ background-color:#eef3fa; }
+  body.modelo-azulejo .categoria-grid{ background:transparent; border:none; }
+  body.modelo-azulejo .tile{ background:#ffffff !important; border:2px solid #2a5aa8 !important; box-shadow:none !important; border-radius:4px; position:relative; overflow:hidden; }
+  body.modelo-azulejo .tile::before{ content:''; position:absolute; inset:0; opacity:.13; pointer-events:none;
+    background-image:radial-gradient(circle at 50% 50%, #2a5aa8 0 3px, transparent 4px), radial-gradient(circle at 0 0, #2a5aa8 0 3px, transparent 4px), radial-gradient(circle at 100% 100%, #2a5aa8 0 3px, transparent 4px);
+    background-size:22px 22px; }
+  body.modelo-azulejo .tile .tile-emoji{ position:relative; }
+  body.modelo-azulejo .tile .tile-label{ position:relative; color:#1c3f7a !important; font-family:'Poppins', sans-serif; font-weight:600; text-shadow:none !important; }
+  body.modelo-azulejo .categoria-painel{ background:#eef3fa; }
+  body.modelo-azulejo .categoria-painel-header{ background:#2a5aa8; border-bottom:none; }
+  body.modelo-azulejo .categoria-painel-header .voltar{ color:#ffffff !important; }
+  body.modelo-azulejo #painelTitulo{ color:#ffffff; }
+  body.modelo-azulejo section.categoria h2, body.modelo-azulejo .grupo-prato > summary, body.modelo-azulejo .grupo-vinho > summary{ color:#1c3f7a !important; background:transparent !important; }
+  body.modelo-azulejo section.categoria h2{ border-bottom:3px solid; border-image:repeating-linear-gradient(90deg, #2a5aa8 0 9px, transparent 9px 18px) 3; padding-bottom:6px; }
+  body.modelo-azulejo .categoria-painel-conteudo .item{ border-bottom:1px solid #d5e0f0 !important; }
+  body.modelo-azulejo .item .nome{ color:#22314a !important; }
+  body.modelo-azulejo .item .desc{ color:#6d7d95 !important; }
+  body.modelo-azulejo .item .preco{ color:#2a5aa8 !important; font-weight:700; }
+  body.modelo-azulejo .tabela-doses .preco-dose{ color:#2a5aa8 !important; }
 
   /* Texturas de fundo (usam as cores do tema; com luz+sombra para efeito 3D) */
   body[class*="textura-"]{ background-attachment:fixed; }
@@ -2572,6 +2626,9 @@
       if(config.fonteTexto && FONTES_TITULO[config.fonteTexto]) document.documentElement.style.setProperty('--fonte-texto', FONTES_TITULO[config.fonteTexto]);
       document.body.classList.toggle('modelo-grelha', (config.modelo || 'lista') === 'grelha');
       document.body.classList.toggle('modelo-caderno', (config.modelo || 'lista') === 'caderno');
+      document.body.classList.toggle('modelo-ardosia', (config.modelo || 'lista') === 'ardosia');
+      document.body.classList.toggle('modelo-elegante', (config.modelo || 'lista') === 'elegante');
+      document.body.classList.toggle('modelo-azulejo', (config.modelo || 'lista') === 'azulejo');
       // Opções do modelo caderno: tipo de folha + cores
       document.body.classList.remove('folha-quadriculado','folha-liso','folha-linhas');
       if((config.modelo || 'lista') === 'caderno'){
@@ -2593,8 +2650,9 @@
       document.body.classList.remove('textura-pontos','textura-grelha','textura-diagonal','textura-linho','textura-xadrez','textura-favo','textura-relevo','textura-almofada');
       const _tipoFundo = (config.fundo && config.fundo.tipo) || 'liso';
       const _isCaderno = (config.modelo || 'lista') === 'caderno';
-      document.body.classList.toggle('fundo-visivel', _tipoFundo !== 'liso' && !_isCaderno);
-      if(_isCaderno){ document.body.style.background = ''; document.body.style.backgroundColor = ''; }
+      const _fundoProprio = ['caderno','ardosia','elegante','azulejo'].indexOf(config.modelo || 'lista') >= 0;
+      document.body.classList.toggle('fundo-visivel', _tipoFundo !== 'liso' && !_fundoProprio);
+      if(_fundoProprio){ document.body.style.background = ''; document.body.style.backgroundColor = ''; }
       else if(config.fundo && config.fundo.tipo){
         const cs = getComputedStyle(document.documentElement);
         const bgClaro = (cs.getPropertyValue('--bege-claro')||'#fbf8f2').trim();
@@ -4879,7 +4937,7 @@
     function comporMoldura(dataUrl){
       const img = new Image();
       img.onload = () => {
-        const maxLado = 1200;
+        const maxLado = 1080;
         let w = img.width, h = img.height;
         if(Math.max(w,h) > maxLado){ const s = maxLado/Math.max(w,h); w = Math.round(w*s); h = Math.round(h*s); }
         const canvas = document.createElement('canvas');
@@ -4924,30 +4982,42 @@
     }
 
     function mostrarResultado(canvas){
-      const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+      const _nomeFich = (typeof NOME === 'string' && NOME ? NOME.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') : 'foto') + '.jpg';
+      function _blobJpeg(){ return new Promise(function(res){ if(canvas.toBlob){ canvas.toBlob(function(b){ res(b); }, 'image/jpeg', 0.85); } else { res(null); } }); }
+      async function guardarFoto(){
+        const ehMovel = /iphone|ipad|ipod|android/i.test(navigator.userAgent);
+        let blob = await _blobJpeg();
+        if(blob && ehMovel && navigator.canShare){
+          try{
+            const file = new File([blob], _nomeFich, { type:'image/jpeg' });
+            if(navigator.canShare({ files:[file] })){ await navigator.share({ files:[file] }); return; }
+          }catch(e){ if(e && e.name === 'AbortError') return; }
+        }
+        const url = blob ? URL.createObjectURL(blob) : dataUrl;
+        const a = document.createElement('a'); a.href = url; a.download = _nomeFich;
+        document.body.appendChild(a); a.click(); a.remove();
+        if(blob) setTimeout(function(){ URL.revokeObjectURL(url); }, 5000);
+      }
       const p = document.getElementById('camPainel');
       p.innerHTML =
         '<h3>A tua foto 📸</h3>' +
         '<img class="preview" src="' + dataUrl + '" alt="Foto com moldura">' +
         '<div class="cam-acoes">' +
-        '<button class="cam-guardar" id="camGuardar">⬇️ Guardar foto</button>' +
+        '<button class="cam-guardar" id="camGuardar">⬇️ Guardar na galeria</button>' +
         (navigator.share ? '<button class="cam-partilhar" id="camPartilhar">Partilhar…</button>' : '') +
         '<button class="cam-repetir" id="camRepetir">Tirar outra</button>' +
         '<button class="cam-fechar" id="camFechar">Fechar</button>' +
         '</div>' +
-        '<p class="cam-dica">Guarda a foto e publica marcando-nos! 💛</p>';
+        '<p class="cam-dica">No telemóvel, toca em "Guardar na galeria" e escolhe <strong>Guardar Imagem</strong>. 💛</p>';
 
-      document.getElementById('camGuardar').onclick = () => {
-        const a = document.createElement('a');
-        a.href = dataUrl; a.download = 'parque-sao-caetano.jpg';
-        document.body.appendChild(a); a.click(); a.remove();
-      };
+      document.getElementById('camGuardar').onclick = () => { guardarFoto(); };
       const sp = document.getElementById('camPartilhar');
       if(sp) sp.onclick = async () => {
         try{
-          const blob = await (await fetch(dataUrl)).blob();
-          const file = new File([blob], 'parque-sao-caetano.jpg', { type:'image/jpeg' });
-          if(navigator.canShare && navigator.canShare({ files:[file] })) await navigator.share({ files:[file] });
+          const blob = await _blobJpeg();
+          const file = blob ? new File([blob], _nomeFich, { type:'image/jpeg' }) : null;
+          if(file && navigator.canShare && navigator.canShare({ files:[file] })) await navigator.share({ files:[file] });
           else await navigator.share({ url:(window.__redes && window.__redes.instagram) || location.href });
         }catch(e){}
       };
