@@ -361,7 +361,14 @@
       <input type="text" id="subtitulo" placeholder="Tradição, sabor e conforto à mesa">
       <div id="estiloHSub"></div>
 
-
+      <label for="headerPadrao" style="margin-top:12px;">Base do cabeçalho (padrão)</label>
+      <select id="headerPadrao" style="width:100%; padding:10px 12px; border-radius:10px; border:1.5px solid var(--linha); background:var(--branco); font-family:inherit; color:var(--castanho); font-size:0.95rem;">
+        <option value="nenhum">Cor sólida (atual)</option>
+        <option value="azulejo-classico">Azulejo clássico</option>
+        <option value="azulejo-floral">Azulejo floral</option>
+        <option value="azulejo-geometrico">Azulejo geométrico</option>
+      </select>
+      <div class="subtitulo" style="margin-top:2px;">Com um azulejo, o texto do cabeçalho fica azul-escuro para se ler bem (o padrão não se vê se tiveres foto no cabeçalho).</div>
 
 
       <div class="lembrar" style="margin-top:16px;">
@@ -557,6 +564,15 @@
       <label for="linha4">Linha 4</label>
       <input type="text" id="linha4" placeholder="Ex: Avenida de São Caetano, nº17">
       <div id="estiloLinha4"></div>
+
+      <label for="barraPadrao" style="margin-top:12px;">Base da barra fixa (padrão)</label>
+      <select id="barraPadrao" style="width:100%; padding:10px 12px; border-radius:10px; border:1.5px solid var(--linha); background:var(--branco); font-family:inherit; color:var(--castanho); font-size:0.95rem;">
+        <option value="nenhum">Cor sólida (atual)</option>
+        <option value="azulejo-classico">Azulejo clássico</option>
+        <option value="azulejo-floral">Azulejo floral</option>
+        <option value="azulejo-geometrico">Azulejo geométrico</option>
+      </select>
+      <div class="subtitulo" style="margin-top:2px;">Com um azulejo, o texto da barra fica azul-escuro (não se vê se tiveres fotos na barra fixa).</div>
 
       <div class="lembrar" style="margin-top:18px;">
         <input type="checkbox" id="especialAtivo">
@@ -1237,6 +1253,7 @@
 
   function preencherFormulario(){
     document.getElementById('titulo').value = config.header.titulo || '';
+    { const _hp = document.getElementById('headerPadrao'); if(_hp) _hp.value = config.header.padrao || 'nenhum'; }
     document.getElementById('subtitulo').value = config.header.subtitulo || '';
     document.getElementById('introAtivo').checked = !!(config.intro && config.intro.ativo);
     document.getElementById('introDuracao').value = (config.intro && config.intro.duracao) || 7;
@@ -1282,6 +1299,7 @@
     renderIntroBotoes();
     document.getElementById('blocoIntro').style.display = (config.intro && config.intro.ativo) ? 'block' : 'none';
     document.getElementById('linha1').value = config.rodape.linha1 || '';
+    { const _bp = document.getElementById('barraPadrao'); if(_bp) _bp.value = config.rodape.padrao || 'nenhum'; }
     document.getElementById('linha2').value = config.rodape.linha2 || '';
     document.getElementById('linha3').value = config.rodape.linha3 || '';
     document.getElementById('linha4').value = config.rodape.linha4 || '';
@@ -1638,11 +1656,13 @@
   // Lê todos os campos do formulário para o objeto config (sem gravar) — usado ao guardar e na pré-visualização
   function lerFormularioConfig(){
       config.header.titulo = document.getElementById('titulo').value.trim();
+      { const _hp = document.getElementById('headerPadrao'); if(_hp) config.header.padrao = _hp.value; }
       config.header.subtitulo = document.getElementById('subtitulo').value.trim();
       { const _et = lerEstilo('hTit'), _es = lerEstilo('hSub');
         if(_et.tamanho) config.header.tituloTamanho = _et.tamanho;
         if(_es.tamanho) config.header.subtituloTamanho = _es.tamanho; }
       config.rodape.linha1 = document.getElementById('linha1').value.trim();
+      { const _bp = document.getElementById('barraPadrao'); if(_bp) config.rodape.padrao = _bp.value; }
       config.rodape.linha2 = document.getElementById('linha2').value.trim();
       config.rodape.linha3 = document.getElementById('linha3').value.trim();
       config.rodape.linha4 = document.getElementById('linha4').value.trim();
