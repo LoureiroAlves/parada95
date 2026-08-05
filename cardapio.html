@@ -444,6 +444,47 @@
   body.modelo-azulejo .item .preco{ color:#22314a !important; font-weight:700; }
   body.modelo-azulejo .tabela-doses .preco-dose{ color:#2a5aa8 !important; }
 
+  /* ===== Bases de azulejo para o cabeçalho e a barra fixa ===== */
+  .azbg-classico{ background-color:#f6f9fe !important;
+    background-image:
+      radial-gradient(circle at 50% 50%, rgba(42,90,168,.42) 0 5px, transparent 6px),
+      radial-gradient(circle at 50% 0, transparent 5px, rgba(42,90,168,.36) 5px 7px, transparent 8px),
+      radial-gradient(circle at 50% 100%, transparent 5px, rgba(42,90,168,.36) 5px 7px, transparent 8px),
+      radial-gradient(circle at 0 50%, transparent 5px, rgba(42,90,168,.36) 5px 7px, transparent 8px),
+      radial-gradient(circle at 100% 50%, transparent 5px, rgba(42,90,168,.36) 5px 7px, transparent 8px),
+      linear-gradient(90deg, rgba(42,90,168,.20) 1px, transparent 1px),
+      linear-gradient(rgba(42,90,168,.20) 1px, transparent 1px) !important;
+    background-size:52px 52px !important; }
+  .azbg-floral{ background-color:#f6f9fe !important;
+    background-image:
+      radial-gradient(circle at 50% 50%, rgba(42,90,168,.5) 0 4px, transparent 5px),
+      radial-gradient(circle at 50% 27%, rgba(42,90,168,.3) 0 5px, transparent 7px),
+      radial-gradient(circle at 50% 73%, rgba(42,90,168,.3) 0 5px, transparent 7px),
+      radial-gradient(circle at 27% 50%, rgba(42,90,168,.3) 0 5px, transparent 7px),
+      radial-gradient(circle at 73% 50%, rgba(42,90,168,.3) 0 5px, transparent 7px),
+      radial-gradient(circle at 31% 31%, rgba(74,127,201,.32) 0 3px, transparent 5px),
+      radial-gradient(circle at 69% 31%, rgba(74,127,201,.32) 0 3px, transparent 5px),
+      radial-gradient(circle at 31% 69%, rgba(74,127,201,.32) 0 3px, transparent 5px),
+      radial-gradient(circle at 69% 69%, rgba(74,127,201,.32) 0 3px, transparent 5px) !important;
+    background-size:56px 56px !important; }
+  .azbg-geometrico{ background-color:#f6f9fe !important;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(42,90,168,.22) 0 2px, transparent 2px 22px),
+      repeating-linear-gradient(-45deg, rgba(42,90,168,.22) 0 2px, transparent 2px 22px),
+      repeating-linear-gradient(45deg, rgba(74,127,201,.14) 0 1px, transparent 1px 11px),
+      repeating-linear-gradient(-45deg, rgba(74,127,201,.14) 0 1px, transparent 1px 11px) !important;
+    background-size:40px 40px !important; }
+  /* Texto legível sobre as bases de azulejo (cabeçalho e barra) */
+  header.azbg-classico, header.azbg-floral, header.azbg-geometrico{ border-bottom:1px solid #cdd9ee; }
+  header.azbg-classico .brand-mark, header.azbg-floral .brand-mark, header.azbg-geometrico .brand-mark,
+  header.azbg-classico .brand-sub, header.azbg-floral .brand-sub, header.azbg-geometrico .brand-sub{ color:#1c3f7a !important; text-shadow:0 1px 0 rgba(255,255,255,.65) !important; }
+  header.azbg-classico .header-icons, header.azbg-floral .header-icons, header.azbg-geometrico .header-icons,
+  header.azbg-classico .header-icons *, header.azbg-floral .header-icons *, header.azbg-geometrico .header-icons *{ color:#1c3f7a !important; }
+  .info-fixa.azbg-classico, .info-fixa.azbg-floral, .info-fixa.azbg-geometrico{ border-top:1px solid #cdd9ee; }
+  .info-fixa.azbg-classico .info-fixa-texto, .info-fixa.azbg-floral .info-fixa-texto, .info-fixa.azbg-geometrico .info-fixa-texto,
+  .info-fixa.azbg-classico .linha, .info-fixa.azbg-floral .linha, .info-fixa.azbg-geometrico .linha,
+  .info-fixa.azbg-classico .linha-negrito, .info-fixa.azbg-floral .linha-negrito, .info-fixa.azbg-geometrico .linha-negrito{ color:#1c3f7a !important; text-shadow:0 1px 0 rgba(255,255,255,.6) !important; }
+
   /* Texturas de fundo (usam as cores do tema; com luz+sombra para efeito 3D) */
   body[class*="textura-"]{ background-attachment:fixed; }
   body.textura-pontos{ background-image:
@@ -2674,6 +2715,21 @@
       document.body.classList.toggle('modelo-ardosia', (config.modelo || 'lista') === 'ardosia');
       document.body.classList.toggle('modelo-elegante', (config.modelo || 'lista') === 'elegante');
       document.body.classList.toggle('modelo-azulejo', (config.modelo || 'lista') === 'azulejo');
+      // Base (padrão de azulejo) do cabeçalho e da barra fixa
+      (function(){
+        const AZ = ['azulejo-classico','azulejo-floral','azulejo-geometrico'];
+        const cls = ['azbg-classico','azbg-floral','azbg-geometrico'];
+        const aplicarBase = function(el, padrao){
+          if(!el) return;
+          el.classList.remove('azbg-classico','azbg-floral','azbg-geometrico');
+          const i = AZ.indexOf(padrao || 'nenhum');
+          if(i >= 0) el.classList.add(cls[i]);
+        };
+        const hdrTemFoto = !!(config.header && config.header.fotosAtivas !== false && Array.isArray(config.header.fotos) && config.header.fotos.length);
+        const barTemFoto = !!(config.rodape && config.rodape.fotosAtivas !== false && Array.isArray(config.rodape.fotos) && config.rodape.fotos.length);
+        aplicarBase(document.querySelector('header'), hdrTemFoto ? 'nenhum' : (config.header && config.header.padrao));
+        aplicarBase(document.querySelector('.info-fixa'), barTemFoto ? 'nenhum' : (config.rodape && config.rodape.padrao));
+      })();
       // Opções do modelo caderno: tipo de folha + cores
       document.body.classList.remove('folha-quadriculado','folha-liso','folha-linhas','folha-azulejo-classico','folha-azulejo-floral','folha-azulejo-geometrico');
       if((config.modelo || 'lista') === 'caderno'){
