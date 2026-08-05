@@ -2,7 +2,7 @@
   "header": {
     "titulo": "Parada95",
     "subtitulo": "A tua frase de motivação",
-    "cor": "#cccccc",
+    "cor": "#2c30ba",
     "realce": false,
     "fotosAtivas": true,
     "fotos": [
@@ -22,16 +22,16 @@
       "contornoCor": "#000000"
     },
     "estiloTitulo": {
-      "fonte": "auto",
+      "fonte": "quicksand",
       "tamanho": 2.8,
-      "cor": "#cccccc",
+      "cor": "#2c30ba",
       "negrito": false,
       "italico": false,
-      "sombra": true,
-      "contorno": true,
+      "sombra": false,
+      "contorno": false,
       "contornoCor": "#000000",
       "tridi": false,
-      "tridiProf": 6,
+      "tridiProf": 1,
       "tridiCor": "#4a3416",
       "tridiRedondo": false
     },
@@ -394,7 +394,7 @@
   "cores": {
     "castanho": "#9caaec",
     "dourado": "#c4cbed",
-    "bege": "#f0f0f0"
+    "bege": "#1c1c1c"
   },
   "fundo": {
     "tipo": "textura",
