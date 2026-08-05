@@ -386,7 +386,7 @@
     "premio": ""
   },
   "layout": "12",
-  "modelo": "ardosia",
+  "modelo": "azulejo",
   "abrirEfeito": "zoom",
   "fonte": "fredoka",
   "fonteTexto": "auto",
@@ -397,9 +397,9 @@
     "bege": "#f0f0f0"
   },
   "fundo": {
-    "tipo": "liso",
+    "tipo": "textura",
     "imagem": "",
-    "textura": "grelha"
+    "textura": "almofada"
   },
   "textoLivre": {
     "ativo": true,
