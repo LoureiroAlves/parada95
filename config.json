@@ -371,10 +371,17 @@
   },
   "sazonal": false,
   "decor": {
-    "tema": "natal",
-    "queda": false,
+    "tema": "pascoa",
+    "queda": true,
     "luzes": false,
-    "fixas": [],
+    "fixas": [
+      {
+        "simb": "🌼",
+        "x": 85,
+        "y": 90,
+        "tam": 2.9
+      }
+    ],
     "intro": {
       "queda": false,
       "luzes": false,
