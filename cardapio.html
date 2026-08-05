@@ -2644,7 +2644,7 @@
           el.style.cssText = 'position:relative; width:100%; height:' + altura + 'vh; min-height:150px; display:block;';
           el.innerHTML = '';
           const bloco = document.createElement('div');
-          bloco.style.cssText = 'position:absolute; left:' + x + '%; top:' + y + '%; transform:translate(-50%,-50%); width:max-content; max-width:92%; text-align:center; color:' + (tl.cor || '#4a3820') + ';';
+          bloco.style.cssText = 'position:absolute; left:' + x + '%; top:' + y + '%; transform:translate(-50%,-50%); width:max-content; max-width:92%; text-align:center; z-index:60; color:' + (tl.cor || '#4a3820') + ';';
           if(tl.titulo && tl.titulo.trim()){ const h = document.createElement('div'); h.textContent = tl.titulo; h.style.cssText = 'font-family:var(--fonte-titulo); font-weight:800; line-height:1.1; font-size:' + tam + 'rem;'; bloco.appendChild(h); }
           if(tl.subtitulo && tl.subtitulo.trim()){ const s = document.createElement('div'); s.textContent = tl.subtitulo; s.style.cssText = 'margin-top:8px; font-size:' + (tam*0.42) + 'rem; opacity:.9;'; bloco.appendChild(s); }
           el.appendChild(bloco);
@@ -2660,7 +2660,7 @@
               const px = ev.touches ? ev.touches[0].clientX : ev.clientX;
               const py = ev.touches ? ev.touches[0].clientY : ev.clientY;
               const nx = Math.max(0, Math.min(100, ((px - rect.left) / rect.width) * 100));
-              const ny = Math.max(0, Math.min(100, ((py - rect.top) / rect.height) * 100));
+              const ny = Math.max(-120, Math.min(140, ((py - rect.top) / rect.height) * 100));
               bloco.style.left = nx + '%'; bloco.style.top = ny + '%';
               bloco._nx = Math.round(nx); bloco._ny = Math.round(ny);
               if(ev.cancelable) ev.preventDefault();
