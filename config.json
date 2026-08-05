@@ -238,9 +238,9 @@
     },
     "linhaEstilos": [
       {
-        "fonte": "auto",
+        "fonte": "quicksand",
         "tamanho": 2,
-        "cor": "#c9c5c5",
+        "cor": "#2c30ba",
         "negrito": true,
         "italico": false,
         "sombra": false,
@@ -254,7 +254,7 @@
       {
         "fonte": "auto",
         "tamanho": null,
-        "cor": "#c9c5c5",
+        "cor": "#2c30ba",
         "negrito": false,
         "italico": false,
         "sombra": false,
@@ -268,7 +268,7 @@
       {
         "fonte": "auto",
         "tamanho": null,
-        "cor": "#c9c5c5",
+        "cor": "#2c30ba",
         "negrito": false,
         "italico": false,
         "sombra": false,
@@ -392,8 +392,8 @@
   "fonteTexto": "auto",
   "tileTamanho": "normal",
   "cores": {
-    "castanho": "#85810f",
-    "dourado": "#c1c2bd",
+    "castanho": "#9caaec",
+    "dourado": "#c4cbed",
     "bege": "#f0f0f0"
   },
   "fundo": {
