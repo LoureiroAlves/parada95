@@ -663,6 +663,10 @@
       <div id="estiloFTel"></div>
       <div class="subtitulo" style="margin-top:2px;">O estilo (letra, tamanho, cor, negrito, itálico, sombra, contorno) é por linha, no "Aa estilo" de cada uma.</div>
 
+      <label for="footerLink" style="margin-top:14px;">Link do patrocinador (opcional)</label>
+      <input type="text" id="footerLink" placeholder="https://... — ao clicar no rodapé abre este endereço">
+      <div class="subtitulo" style="margin-top:2px;">Se preencheres, o rodapé fica clicável e abre este link (site ou rede social do patrocinador). Deixa em branco para não ser clicável.</div>
+
       <div class="lembrar" style="margin-top:16px;">
         <input type="checkbox" id="fotosFooterAtivas">
         <label for="fotosFooterAtivas" style="margin:0; font-weight:700; color:var(--dourado-escuro); display:inline;">Mostrar foto no rodapé (cantos arredondados, texto por cima)</label>
@@ -951,7 +955,7 @@
         { titulo:'Na Brasa', linhas:[], ocultarDomingo:false },
         { titulo:'Sugestão', linhas:[], ocultarDomingo:false }
       ], dias:{} } },
-    footer: { nome:'', morada:'', telefone:'', cor:'#ffffff', fotosAtivas:false, fotos:[], fotoZoom:100, fotoPanX:0, fotoPanY:0, textoX:50, textoY:50 },
+    footer: { nome:'', morada:'', telefone:'', link:'', cor:'#ffffff', fotosAtivas:false, fotos:[], fotoZoom:100, fotoPanX:0, fotoPanY:0, textoX:50, textoY:50 },
     adJogos: { ativo:false, foto:'', fotoZoom:100, fotoPanX:0, fotoPanY:0, texto:'', textoX:50, textoY:80, cor:'#ffffff', duracao:5 },
     sazonal: true,
     decor: { tema:'nenhum', queda:false, luzes:false, fixas:[], intro:{ queda:false, luzes:false, fixas:[] } },
@@ -1188,7 +1192,7 @@
         ] };
         const carGuardado = (parsed.rodape && parsed.rodape.carrossel) || {};
         config.rodape.carrossel = { ativo: !!carGuardado.ativo, modo: carGuardado.modo || 'fixo', intervalo: carGuardado.intervalo || 5, inicio: carGuardado.inicio || '', fim: carGuardado.fim || '', slides: (Array.isArray(carGuardado.slides) && carGuardado.slides.length) ? carGuardado.slides : carDef.slides, dias: (carGuardado.dias && typeof carGuardado.dias === 'object') ? carGuardado.dias : {} };
-        config.footer = Object.assign({ nome:'', morada:'', telefone:'', cor:'#ffffff', fotosAtivas:false, fotos:[], fotoZoom:100, fotoPanX:0, fotoPanY:0, textoX:50, textoY:50 }, parsed.footer || {});
+        config.footer = Object.assign({ nome:'', morada:'', telefone:'', link:'', cor:'#ffffff', fotosAtivas:false, fotos:[], fotoZoom:100, fotoPanX:0, fotoPanY:0, textoX:50, textoY:50 }, parsed.footer || {});
         config.adJogos = Object.assign({ ativo:false, foto:'', fotoZoom:100, fotoPanX:0, fotoPanY:0, texto:'', textoX:50, textoY:80, cor:'#ffffff', duracao:5 }, parsed.adJogos || {});
         config.sazonal = parsed.sazonal !== false;
         config.decor = Object.assign({ tema:'nenhum', queda:false, luzes:false, fixas:[], intro:{ queda:false, luzes:false, fixas:[] } }, parsed.decor || {});
@@ -1341,6 +1345,7 @@
     document.getElementById('footerNome').value = config.footer.nome || '';
     document.getElementById('footerMorada').value = config.footer.morada || '';
     document.getElementById('footerTelefone').value = config.footer.telefone || '';
+    document.getElementById('footerLink').value = config.footer.link || '';
     document.getElementById('fotosFooterAtivas').checked = config.footer.fotosAtivas === true;
     document.getElementById('fpZoom').value = config.footer.fotoZoom || 100;
     // Publicidade dos jogos
@@ -1684,6 +1689,7 @@
         nome: document.getElementById('footerNome').value.trim(),
         morada: document.getElementById('footerMorada').value.trim(),
         telefone: document.getElementById('footerTelefone').value.trim(),
+        link: document.getElementById('footerLink').value.trim(),
         cor: (document.getElementById('fNomCor') ? document.getElementById('fNomCor').value : (config.footer.cor || '#ffffff')),
         fotosAtivas: document.getElementById('fotosFooterAtivas').checked,
         fotos: config.footer.fotos,
