@@ -372,13 +372,13 @@
   "sazonal": false,
   "decor": {
     "tema": "pascoa",
-    "queda": true,
+    "queda": false,
     "luzes": false,
     "fixas": [
       {
         "simb": "🌼",
-        "x": 88,
-        "y": 92,
+        "x": 86,
+        "y": 90,
         "tam": 2.3
       }
     ],
