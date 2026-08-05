@@ -536,19 +536,19 @@
       "tridiRedondo": false
     },
     "rotacaoBotao": 0,
-    "opacidadeBotao": 77,
+    "opacidadeBotao": 84,
     "corBotaoFundo": "",
     "tamanho": 2.85,
     "subTamanho": 0.85,
     "cor": "#c0bfbf",
     "botao": "Menu",
-    "reveal": "cubos",
+    "reveal": "slide",
     "foto": ""
   },
   "caderno": {
     "folha": "quadriculado",
     "corLetra": "#edebe8",
-    "corFolha": "#836934",
+    "corFolha": "#725b2c",
     "corLinha": "#d0b058"
   }
 }
