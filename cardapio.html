@@ -3006,6 +3006,23 @@
           ft.style.width = 'max-content';
           ft.style.maxWidth = '90%';
         }
+
+        // Link do patrocinador — rodapé clicável abre o link
+        const _rodape = document.getElementById('rodapeFinal');
+        if(_rodape){
+          _rodape.onclick = null; _rodape.style.cursor = ''; _rodape.classList.remove('tem-link');
+          let _lk = config.footer.link && String(config.footer.link).trim();
+          if(_lk){
+            if(!/^(https?:|tel:|mailto:|wa\.me|\/)/i.test(_lk) && !/^www\./i.test(_lk)) _lk = 'https://' + _lk;
+            else if(/^www\./i.test(_lk)) _lk = 'https://' + _lk;
+            _rodape.style.cursor = 'pointer';
+            _rodape.classList.add('tem-link');
+            _rodape.onclick = function(){
+              if(window.__PREVIEW) return;
+              window.open(_lk, '_blank', 'noopener');
+            };
+          }
+        }
       }
 
       // Publicidade nos jogos
