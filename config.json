@@ -296,19 +296,19 @@
     ]
   },
   "footer": {
-    "nome": "Parada95",
-    "morada": "agfgafgafg",
-    "telefone": "fgbfbsfbgbs",
+    "nome": "",
+    "morada": "",
+    "telefone": "",
     "cor": "#ffffff",
-    "fotosAtivas": true,
+    "fotosAtivas": false,
     "fotos": [
       "imagens/1785159763443-gemini-generated-image-h2pookh2pookh2po.png"
     ],
     "fotoZoom": 137,
     "fotoPanX": -1.513671875,
     "fotoPanY": 11.733470052917808,
-    "textoX": 20.711669921875,
-    "textoY": 85.35055755955543,
+    "textoX": 20.841064453125,
+    "textoY": 83.64766630655706,
     "linhaEstilos": [
       {
         "fonte": "auto",
@@ -401,14 +401,14 @@
     "textura": "grelha"
   },
   "textoLivre": {
-    "ativo": false,
+    "ativo": true,
     "titulo": "",
     "subtitulo": "",
     "cor": "#4a3820",
     "tamanho": 2.4,
     "altura": 42,
-    "x": 47,
-    "y": 21,
+    "x": 52,
+    "y": 73,
     "estilo": {
       "fonte": "auto",
       "tamanho": null,
