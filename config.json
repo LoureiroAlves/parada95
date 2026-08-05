@@ -4,7 +4,7 @@
     "subtitulo": "A tua frase de motivação",
     "cor": "#8491c9",
     "realce": false,
-    "fotosAtivas": true,
+    "fotosAtivas": false,
     "fotos": [
       "imagens/1785159850508-img-1573.jpg"
     ],
@@ -48,7 +48,8 @@
       "tridiProf": 6,
       "tridiCor": "#4a3416",
       "tridiRedondo": false
-    }
+    },
+    "padrao": "azulejo-floral"
   },
   "rodape": {
     "linha1": "RESERVAS",
@@ -293,7 +294,8 @@
         "tridiCor": "#4a3416",
         "tridiRedondo": false
       }
-    ]
+    ],
+    "padrao": "azulejo-floral"
   },
   "footer": {
     "nome": "",
