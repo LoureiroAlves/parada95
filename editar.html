@@ -333,8 +333,17 @@
           <option value="favo">Favo</option>
           <option value="relevo">Relevo 3D (esferas)</option>
           <option value="almofada">Almofada 3D</option>
+          <option value="azulejo-classico">Azulejo clássico</option>
+          <option value="azulejo-floral">Azulejo floral</option>
+          <option value="azulejo-geometrico">Azulejo geométrico</option>
         </select>
-        <div class="subtitulo" style="margin-top:6px;">A textura usa as cores do tema, por isso combina sempre.</div>
+        <div class="subtitulo" style="margin-top:6px;">As texturas normais usam as cores do tema. Os azulejos usam a cor escolhida abaixo.</div>
+      </div>
+
+      <label for="azulejoCor" style="margin-top:14px;">Cor dos azulejos</label>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <input type="color" id="azulejoCor" value="#2a5aa8" style="width:52px; height:36px; padding:0; border:none; background:none; cursor:pointer;">
+        <span class="subtitulo" style="margin:0;">Usada em todos os azulejos: folhas, cabeçalho, barra fixa e fundo da página.</span>
       </div>
       <div id="fundoImagemBox" style="display:none; margin-top:10px;">
         <div class="subtitulo">Escolhe uma imagem de fundo (fica esbatida por trás dos pratos).</div>
@@ -1413,6 +1422,7 @@
     document.getElementById('fundoImagemBox').style.display = (fundo.tipo === 'imagem') ? 'block' : 'none';
     document.getElementById('fundoTexturaBox').style.display = (fundo.tipo === 'textura') ? 'block' : 'none';
     document.getElementById('fundoTexturaSel').value = fundo.textura || 'pontos';
+    { const _ac = document.getElementById('azulejoCor'); if(_ac) _ac.value = config.azulejoCor || '#2a5aa8'; }
     document.getElementById('fundoImagemAtual').textContent = fundo.imagem ? ('Imagem atual: ' + fundo.imagem) : 'Sem imagem escolhida.';
     document.getElementById('redeInstagram').value = (config.redes && config.redes.instagram) || '';
     document.getElementById('redeFacebook').value = (config.redes && config.redes.facebook) || '';
@@ -1774,6 +1784,7 @@
         imagem: (config.fundo && config.fundo.imagem) || '',
         textura: document.getElementById('fundoTexturaSel').value
       };
+      { const _ac = document.getElementById('azulejoCor'); if(_ac) config.azulejoCor = _ac.value; }
       config.redes = {
         instagram: document.getElementById('redeInstagram').value.trim(),
         facebook: document.getElementById('redeFacebook').value.trim()
