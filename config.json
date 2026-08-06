@@ -374,14 +374,7 @@
     "tema": "natal",
     "queda": false,
     "luzes": true,
-    "fixas": [
-      {
-        "esp": "arvore",
-        "x": 78,
-        "y": 66,
-        "tam": 1.4
-      }
-    ],
+    "fixas": [],
     "intro": {
       "queda": false,
       "luzes": false,
