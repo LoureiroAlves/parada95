@@ -480,6 +480,9 @@
       repeating-linear-gradient(-45deg, var(--az-a14) 0 1px, transparent 1px 11px) !important;
     background-size:40px 40px !important; }
   /* Texto legível sobre as bases de azulejo (cabeçalho e barra) */
+  /* O azulejo tapa a foto do cabeçalho/barra (esconde a camada de fotos) */
+  header.azbg-classico #headerFotos, header.azbg-floral #headerFotos, header.azbg-geometrico #headerFotos{ display:none !important; }
+  .info-fixa.azbg-classico .info-fixa-fotos, .info-fixa.azbg-floral .info-fixa-fotos, .info-fixa.azbg-geometrico .info-fixa-fotos{ display:none !important; }
   header.azbg-classico, header.azbg-floral, header.azbg-geometrico{ border-bottom:1px solid var(--az-borda); }
   header.azbg-classico .brand-mark, header.azbg-floral .brand-mark, header.azbg-geometrico .brand-mark,
   header.azbg-classico .brand-sub, header.azbg-floral .brand-sub, header.azbg-geometrico .brand-sub{ color:var(--az-texto) !important; text-shadow:0 1px 0 rgba(255,255,255,.65) !important; }
@@ -2774,10 +2777,8 @@
           const i = AZ.indexOf(padrao || 'nenhum');
           if(i >= 0) el.classList.add(cls[i]);
         };
-        const hdrTemFoto = !!(config.header && config.header.fotosAtivas !== false && Array.isArray(config.header.fotos) && config.header.fotos.length);
-        const barTemFoto = !!(config.rodape && config.rodape.fotosAtivas !== false && Array.isArray(config.rodape.fotos) && config.rodape.fotos.length);
-        aplicarBase(document.querySelector('header'), hdrTemFoto ? 'nenhum' : (config.header && config.header.padrao));
-        aplicarBase(document.querySelector('.info-fixa'), barTemFoto ? 'nenhum' : (config.rodape && config.rodape.padrao));
+        aplicarBase(document.querySelector('header'), config.header && config.header.padrao);
+        aplicarBase(document.querySelector('.info-fixa'), config.rodape && config.rodape.padrao);
       })();
       // Opções do modelo caderno: tipo de folha + cores
       document.body.classList.remove('folha-quadriculado','folha-liso','folha-linhas','folha-azulejo-classico','folha-azulejo-floral','folha-azulejo-geometrico');
