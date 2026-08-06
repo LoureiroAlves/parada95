@@ -306,47 +306,53 @@
   body.modelo-caderno.folha-linhas{ background-image:linear-gradient(var(--cad-linha,#d9d2bf) 1px, transparent 1px); background-size:100% 30px; background-attachment:scroll; }
   body.modelo-caderno.folha-linhas .categoria-painel{ background-image:linear-gradient(var(--cad-linha,#d9d2bf) 1px, transparent 1px); background-size:100% 30px; background-attachment:local; }
   body.modelo-caderno.folha-liso, body.modelo-caderno.folha-liso .categoria-painel{ background-image:none; }
-  /* Folhas de azulejo português (padrões em azul sobre branco) */
+  /* Cor dos azulejos personalizável; o JS recalcula estas variáveis */
+  :root{
+    --az-a50:rgba(42 90 168 / .50); --az-a42:rgba(42 90 168 / .42); --az-a36:rgba(42 90 168 / .36);
+    --az-a30:rgba(42 90 168 / .30); --az-a22:rgba(42 90 168 / .22); --az-a20:rgba(42 90 168 / .20);
+    --az-a14:rgba(42 90 168 / .14); --az-bg:#f2f6fd; --az-borda:#cdd9ee; --az-texto:#183a6b;
+  }
+  /* Folhas de azulejo português (padrões sobre fundo claro) */
   body.modelo-caderno.folha-azulejo-classico,
   body.modelo-caderno.folha-azulejo-classico .categoria-painel{
-    background-color:#f6f9fe;
+    background-color:var(--az-bg);
     background-image:
-      radial-gradient(circle at 50% 50%, rgba(42,90,168,.42) 0 5px, transparent 6px),
-      radial-gradient(circle at 50% 0, transparent 5px, rgba(42,90,168,.36) 5px 7px, transparent 8px),
-      radial-gradient(circle at 50% 100%, transparent 5px, rgba(42,90,168,.36) 5px 7px, transparent 8px),
-      radial-gradient(circle at 0 50%, transparent 5px, rgba(42,90,168,.36) 5px 7px, transparent 8px),
-      radial-gradient(circle at 100% 50%, transparent 5px, rgba(42,90,168,.36) 5px 7px, transparent 8px),
-      linear-gradient(90deg, rgba(42,90,168,.20) 1px, transparent 1px),
-      linear-gradient(rgba(42,90,168,.20) 1px, transparent 1px);
+      radial-gradient(circle at 50% 50%, var(--az-a42) 0 5px, transparent 6px),
+      radial-gradient(circle at 50% 0, transparent 5px, var(--az-a36) 5px 7px, transparent 8px),
+      radial-gradient(circle at 50% 100%, transparent 5px, var(--az-a36) 5px 7px, transparent 8px),
+      radial-gradient(circle at 0 50%, transparent 5px, var(--az-a36) 5px 7px, transparent 8px),
+      radial-gradient(circle at 100% 50%, transparent 5px, var(--az-a36) 5px 7px, transparent 8px),
+      linear-gradient(90deg, var(--az-a20) 1px, transparent 1px),
+      linear-gradient(var(--az-a20) 1px, transparent 1px);
     background-size:58px 58px;
   }
   body.modelo-caderno.folha-azulejo-classico{ background-attachment:scroll; }
   body.modelo-caderno.folha-azulejo-classico .categoria-painel{ background-attachment:local; }
   body.modelo-caderno.folha-azulejo-floral,
   body.modelo-caderno.folha-azulejo-floral .categoria-painel{
-    background-color:#f6f9fe;
+    background-color:var(--az-bg);
     background-image:
-      radial-gradient(circle at 50% 50%, rgba(42,90,168,.5) 0 4px, transparent 5px),
-      radial-gradient(circle at 50% 27%, rgba(42,90,168,.3) 0 5px, transparent 7px),
-      radial-gradient(circle at 50% 73%, rgba(42,90,168,.3) 0 5px, transparent 7px),
-      radial-gradient(circle at 27% 50%, rgba(42,90,168,.3) 0 5px, transparent 7px),
-      radial-gradient(circle at 73% 50%, rgba(42,90,168,.3) 0 5px, transparent 7px),
-      radial-gradient(circle at 31% 31%, rgba(74,127,201,.32) 0 3px, transparent 5px),
-      radial-gradient(circle at 69% 31%, rgba(74,127,201,.32) 0 3px, transparent 5px),
-      radial-gradient(circle at 31% 69%, rgba(74,127,201,.32) 0 3px, transparent 5px),
-      radial-gradient(circle at 69% 69%, rgba(74,127,201,.32) 0 3px, transparent 5px);
+      radial-gradient(circle at 50% 50%, var(--az-a50) 0 4px, transparent 5px),
+      radial-gradient(circle at 50% 27%, var(--az-a30) 0 5px, transparent 7px),
+      radial-gradient(circle at 50% 73%, var(--az-a30) 0 5px, transparent 7px),
+      radial-gradient(circle at 27% 50%, var(--az-a30) 0 5px, transparent 7px),
+      radial-gradient(circle at 73% 50%, var(--az-a30) 0 5px, transparent 7px),
+      radial-gradient(circle at 31% 31%, var(--az-a30) 0 3px, transparent 5px),
+      radial-gradient(circle at 69% 31%, var(--az-a30) 0 3px, transparent 5px),
+      radial-gradient(circle at 31% 69%, var(--az-a30) 0 3px, transparent 5px),
+      radial-gradient(circle at 69% 69%, var(--az-a30) 0 3px, transparent 5px);
     background-size:60px 60px;
   }
   body.modelo-caderno.folha-azulejo-floral{ background-attachment:scroll; }
   body.modelo-caderno.folha-azulejo-floral .categoria-painel{ background-attachment:local; }
   body.modelo-caderno.folha-azulejo-geometrico,
   body.modelo-caderno.folha-azulejo-geometrico .categoria-painel{
-    background-color:#f6f9fe;
+    background-color:var(--az-bg);
     background-image:
-      repeating-linear-gradient(45deg, rgba(42,90,168,.22) 0 2px, transparent 2px 22px),
-      repeating-linear-gradient(-45deg, rgba(42,90,168,.22) 0 2px, transparent 2px 22px),
-      repeating-linear-gradient(45deg, rgba(74,127,201,.14) 0 1px, transparent 1px 11px),
-      repeating-linear-gradient(-45deg, rgba(74,127,201,.14) 0 1px, transparent 1px 11px);
+      repeating-linear-gradient(45deg, var(--az-a22) 0 2px, transparent 2px 22px),
+      repeating-linear-gradient(-45deg, var(--az-a22) 0 2px, transparent 2px 22px),
+      repeating-linear-gradient(45deg, var(--az-a14) 0 1px, transparent 1px 11px),
+      repeating-linear-gradient(-45deg, var(--az-a14) 0 1px, transparent 1px 11px);
     background-size:44px 44px;
   }
   body.modelo-caderno.folha-azulejo-geometrico{ background-attachment:scroll; }
@@ -445,48 +451,78 @@
   body.modelo-azulejo .tabela-doses .preco-dose{ color:#2a5aa8 !important; }
 
   /* ===== Bases de azulejo para o cabeçalho e a barra fixa ===== */
-  .azbg-classico{ background-color:#f6f9fe !important;
+  .azbg-classico{ background-color:var(--az-bg) !important;
     background-image:
-      radial-gradient(circle at 50% 50%, rgba(42,90,168,.42) 0 5px, transparent 6px),
-      radial-gradient(circle at 50% 0, transparent 5px, rgba(42,90,168,.36) 5px 7px, transparent 8px),
-      radial-gradient(circle at 50% 100%, transparent 5px, rgba(42,90,168,.36) 5px 7px, transparent 8px),
-      radial-gradient(circle at 0 50%, transparent 5px, rgba(42,90,168,.36) 5px 7px, transparent 8px),
-      radial-gradient(circle at 100% 50%, transparent 5px, rgba(42,90,168,.36) 5px 7px, transparent 8px),
-      linear-gradient(90deg, rgba(42,90,168,.20) 1px, transparent 1px),
-      linear-gradient(rgba(42,90,168,.20) 1px, transparent 1px) !important;
+      radial-gradient(circle at 50% 50%, var(--az-a42) 0 5px, transparent 6px),
+      radial-gradient(circle at 50% 0, transparent 5px, var(--az-a36) 5px 7px, transparent 8px),
+      radial-gradient(circle at 50% 100%, transparent 5px, var(--az-a36) 5px 7px, transparent 8px),
+      radial-gradient(circle at 0 50%, transparent 5px, var(--az-a36) 5px 7px, transparent 8px),
+      radial-gradient(circle at 100% 50%, transparent 5px, var(--az-a36) 5px 7px, transparent 8px),
+      linear-gradient(90deg, var(--az-a20) 1px, transparent 1px),
+      linear-gradient(var(--az-a20) 1px, transparent 1px) !important;
     background-size:52px 52px !important; }
-  .azbg-floral{ background-color:#f6f9fe !important;
+  .azbg-floral{ background-color:var(--az-bg) !important;
     background-image:
-      radial-gradient(circle at 50% 50%, rgba(42,90,168,.5) 0 4px, transparent 5px),
-      radial-gradient(circle at 50% 27%, rgba(42,90,168,.3) 0 5px, transparent 7px),
-      radial-gradient(circle at 50% 73%, rgba(42,90,168,.3) 0 5px, transparent 7px),
-      radial-gradient(circle at 27% 50%, rgba(42,90,168,.3) 0 5px, transparent 7px),
-      radial-gradient(circle at 73% 50%, rgba(42,90,168,.3) 0 5px, transparent 7px),
-      radial-gradient(circle at 31% 31%, rgba(74,127,201,.32) 0 3px, transparent 5px),
-      radial-gradient(circle at 69% 31%, rgba(74,127,201,.32) 0 3px, transparent 5px),
-      radial-gradient(circle at 31% 69%, rgba(74,127,201,.32) 0 3px, transparent 5px),
-      radial-gradient(circle at 69% 69%, rgba(74,127,201,.32) 0 3px, transparent 5px) !important;
+      radial-gradient(circle at 50% 50%, var(--az-a50) 0 4px, transparent 5px),
+      radial-gradient(circle at 50% 27%, var(--az-a30) 0 5px, transparent 7px),
+      radial-gradient(circle at 50% 73%, var(--az-a30) 0 5px, transparent 7px),
+      radial-gradient(circle at 27% 50%, var(--az-a30) 0 5px, transparent 7px),
+      radial-gradient(circle at 73% 50%, var(--az-a30) 0 5px, transparent 7px),
+      radial-gradient(circle at 31% 31%, var(--az-a30) 0 3px, transparent 5px),
+      radial-gradient(circle at 69% 31%, var(--az-a30) 0 3px, transparent 5px),
+      radial-gradient(circle at 31% 69%, var(--az-a30) 0 3px, transparent 5px),
+      radial-gradient(circle at 69% 69%, var(--az-a30) 0 3px, transparent 5px) !important;
     background-size:56px 56px !important; }
-  .azbg-geometrico{ background-color:#f6f9fe !important;
+  .azbg-geometrico{ background-color:var(--az-bg) !important;
     background-image:
-      repeating-linear-gradient(45deg, rgba(42,90,168,.22) 0 2px, transparent 2px 22px),
-      repeating-linear-gradient(-45deg, rgba(42,90,168,.22) 0 2px, transparent 2px 22px),
-      repeating-linear-gradient(45deg, rgba(74,127,201,.14) 0 1px, transparent 1px 11px),
-      repeating-linear-gradient(-45deg, rgba(74,127,201,.14) 0 1px, transparent 1px 11px) !important;
+      repeating-linear-gradient(45deg, var(--az-a22) 0 2px, transparent 2px 22px),
+      repeating-linear-gradient(-45deg, var(--az-a22) 0 2px, transparent 2px 22px),
+      repeating-linear-gradient(45deg, var(--az-a14) 0 1px, transparent 1px 11px),
+      repeating-linear-gradient(-45deg, var(--az-a14) 0 1px, transparent 1px 11px) !important;
     background-size:40px 40px !important; }
   /* Texto legível sobre as bases de azulejo (cabeçalho e barra) */
-  header.azbg-classico, header.azbg-floral, header.azbg-geometrico{ border-bottom:1px solid #cdd9ee; }
+  header.azbg-classico, header.azbg-floral, header.azbg-geometrico{ border-bottom:1px solid var(--az-borda); }
   header.azbg-classico .brand-mark, header.azbg-floral .brand-mark, header.azbg-geometrico .brand-mark,
-  header.azbg-classico .brand-sub, header.azbg-floral .brand-sub, header.azbg-geometrico .brand-sub{ color:#1c3f7a !important; text-shadow:0 1px 0 rgba(255,255,255,.65) !important; }
+  header.azbg-classico .brand-sub, header.azbg-floral .brand-sub, header.azbg-geometrico .brand-sub{ color:var(--az-texto) !important; text-shadow:0 1px 0 rgba(255,255,255,.65) !important; }
   header.azbg-classico .header-icons, header.azbg-floral .header-icons, header.azbg-geometrico .header-icons,
-  header.azbg-classico .header-icons *, header.azbg-floral .header-icons *, header.azbg-geometrico .header-icons *{ color:#1c3f7a !important; }
-  .info-fixa.azbg-classico, .info-fixa.azbg-floral, .info-fixa.azbg-geometrico{ border-top:1px solid #cdd9ee; }
+  header.azbg-classico .header-icons *, header.azbg-floral .header-icons *, header.azbg-geometrico .header-icons *{ color:var(--az-texto) !important; }
+  .info-fixa.azbg-classico, .info-fixa.azbg-floral, .info-fixa.azbg-geometrico{ border-top:1px solid var(--az-borda); }
   .info-fixa.azbg-classico .info-fixa-texto, .info-fixa.azbg-floral .info-fixa-texto, .info-fixa.azbg-geometrico .info-fixa-texto,
   .info-fixa.azbg-classico .linha, .info-fixa.azbg-floral .linha, .info-fixa.azbg-geometrico .linha,
-  .info-fixa.azbg-classico .linha-negrito, .info-fixa.azbg-floral .linha-negrito, .info-fixa.azbg-geometrico .linha-negrito{ color:#1c3f7a !important; text-shadow:0 1px 0 rgba(255,255,255,.6) !important; }
+  .info-fixa.azbg-classico .linha-negrito, .info-fixa.azbg-floral .linha-negrito, .info-fixa.azbg-geometrico .linha-negrito{ color:var(--az-texto) !important; text-shadow:0 1px 0 rgba(255,255,255,.6) !important; }
 
   /* Texturas de fundo (usam as cores do tema; com luz+sombra para efeito 3D) */
   body[class*="textura-"]{ background-attachment:fixed; }
+  /* Azulejo como fundo geral da página (usa a cor personalizável) */
+  body.textura-azulejo-classico{ background-color:var(--az-bg);
+    background-image:
+      radial-gradient(circle at 50% 50%, var(--az-a42) 0 5px, transparent 6px),
+      radial-gradient(circle at 50% 0, transparent 5px, var(--az-a36) 5px 7px, transparent 8px),
+      radial-gradient(circle at 50% 100%, transparent 5px, var(--az-a36) 5px 7px, transparent 8px),
+      radial-gradient(circle at 0 50%, transparent 5px, var(--az-a36) 5px 7px, transparent 8px),
+      radial-gradient(circle at 100% 50%, transparent 5px, var(--az-a36) 5px 7px, transparent 8px),
+      linear-gradient(90deg, var(--az-a20) 1px, transparent 1px),
+      linear-gradient(var(--az-a20) 1px, transparent 1px);
+    background-size:56px 56px; }
+  body.textura-azulejo-floral{ background-color:var(--az-bg);
+    background-image:
+      radial-gradient(circle at 50% 50%, var(--az-a50) 0 4px, transparent 5px),
+      radial-gradient(circle at 50% 27%, var(--az-a30) 0 5px, transparent 7px),
+      radial-gradient(circle at 50% 73%, var(--az-a30) 0 5px, transparent 7px),
+      radial-gradient(circle at 27% 50%, var(--az-a30) 0 5px, transparent 7px),
+      radial-gradient(circle at 73% 50%, var(--az-a30) 0 5px, transparent 7px),
+      radial-gradient(circle at 31% 31%, var(--az-a30) 0 3px, transparent 5px),
+      radial-gradient(circle at 69% 31%, var(--az-a30) 0 3px, transparent 5px),
+      radial-gradient(circle at 31% 69%, var(--az-a30) 0 3px, transparent 5px),
+      radial-gradient(circle at 69% 69%, var(--az-a30) 0 3px, transparent 5px);
+    background-size:60px 60px; }
+  body.textura-azulejo-geometrico{ background-color:var(--az-bg);
+    background-image:
+      repeating-linear-gradient(45deg, var(--az-a22) 0 2px, transparent 2px 22px),
+      repeating-linear-gradient(-45deg, var(--az-a22) 0 2px, transparent 2px 22px),
+      repeating-linear-gradient(45deg, var(--az-a14) 0 1px, transparent 1px 11px),
+      repeating-linear-gradient(-45deg, var(--az-a14) 0 1px, transparent 1px 11px);
+    background-size:44px 44px; }
   body.textura-pontos{ background-image:
     radial-gradient(circle at 38% 38%, rgba(255,255,255,.6) 0 1px, transparent 2px),
     radial-gradient(circle at 62% 64%, rgba(0,0,0,.12) 0 1.6px, transparent 2.4px),
@@ -2715,6 +2751,20 @@
       document.body.classList.toggle('modelo-ardosia', (config.modelo || 'lista') === 'ardosia');
       document.body.classList.toggle('modelo-elegante', (config.modelo || 'lista') === 'elegante');
       document.body.classList.toggle('modelo-azulejo', (config.modelo || 'lista') === 'azulejo');
+      // Cor dos azulejos (personalizável) — recalcula as variáveis CSS
+      (function(){
+        let hex = (config.azulejoCor || '#2a5aa8').replace('#','');
+        if(!/^[0-9a-fA-F]{6}$/.test(hex)) hex = '2a5aa8';
+        const r = parseInt(hex.slice(0,2),16), g = parseInt(hex.slice(2,4),16), b = parseInt(hex.slice(4,6),16);
+        const rs = document.documentElement.style;
+        const A = function(a){ return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')'; };
+        rs.setProperty('--az-a50', A(.5)); rs.setProperty('--az-a42', A(.42)); rs.setProperty('--az-a36', A(.36));
+        rs.setProperty('--az-a30', A(.3)); rs.setProperty('--az-a22', A(.22)); rs.setProperty('--az-a20', A(.2)); rs.setProperty('--az-a14', A(.14));
+        const mix = function(c, p){ return Math.round(c * p + 255 * (1 - p)); };
+        rs.setProperty('--az-bg', 'rgb(' + mix(r,.06) + ',' + mix(g,.06) + ',' + mix(b,.06) + ')');
+        rs.setProperty('--az-borda', 'rgb(' + mix(r,.30) + ',' + mix(g,.30) + ',' + mix(b,.30) + ')');
+        rs.setProperty('--az-texto', 'rgb(' + Math.round(r*.55) + ',' + Math.round(g*.55) + ',' + Math.round(b*.55) + ')');
+      })();
       // Base (padrão de azulejo) do cabeçalho e da barra fixa
       (function(){
         const AZ = ['azulejo-classico','azulejo-floral','azulejo-geometrico'];
@@ -2748,7 +2798,7 @@
       if(config.tileTamanho === 'pequeno') document.body.classList.add('tiles-pequeno');
       else if(config.tileTamanho === 'grande') document.body.classList.add('tiles-grande');
       // Fundo do cardápio (liso / gradiente / imagem / textura)
-      document.body.classList.remove('textura-pontos','textura-grelha','textura-diagonal','textura-linho','textura-xadrez','textura-favo','textura-relevo','textura-almofada');
+      document.body.classList.remove('textura-pontos','textura-grelha','textura-diagonal','textura-linho','textura-xadrez','textura-favo','textura-relevo','textura-almofada','textura-azulejo-classico','textura-azulejo-floral','textura-azulejo-geometrico');
       const _tipoFundo = (config.fundo && config.fundo.tipo) || 'liso';
       const _isCaderno = (config.modelo || 'lista') === 'caderno';
       const _fundoProprio = ['caderno','ardosia','elegante','azulejo'].indexOf(config.modelo || 'lista') >= 0;
@@ -2765,8 +2815,9 @@
           document.body.style.background = "linear-gradient(rgba(255,255,255,0.82),rgba(255,255,255,0.82)), url('" + RAW_BASE + config.fundo.imagem + "') center/cover fixed";
         } else if(config.fundo.tipo === 'textura'){
           document.body.style.background = '';
-          document.body.style.backgroundColor = bgClaro;
-          document.body.classList.add('textura-' + (config.fundo.textura || 'pontos'));
+          const _tex = config.fundo.textura || 'pontos';
+          document.body.style.backgroundColor = (_tex.indexOf('azulejo') === 0) ? 'var(--az-bg)' : bgClaro;
+          document.body.classList.add('textura-' + _tex);
         } else {
           document.body.style.background = bgClaro;
         }
