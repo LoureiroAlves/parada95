@@ -373,7 +373,7 @@
   "decor": {
     "tema": "natal",
     "queda": false,
-    "luzes": false,
+    "luzes": true,
     "fixas": [],
     "intro": {
       "queda": false,
