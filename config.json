@@ -372,16 +372,9 @@
   "sazonal": false,
   "decor": {
     "tema": "natal",
-    "queda": true,
+    "queda": false,
     "luzes": false,
-    "fixas": [
-      {
-        "esp": "arvore",
-        "x": 83,
-        "y": 82,
-        "tam": 1.4
-      }
-    ],
+    "fixas": [],
     "intro": {
       "queda": false,
       "luzes": false,
@@ -560,5 +553,6 @@
     "corLetra": "#212121",
     "corFolha": "#725b2c",
     "corLinha": "#d0b058"
-  }
+  },
+  "azulejoCor": "#2a5aa8"
 }
